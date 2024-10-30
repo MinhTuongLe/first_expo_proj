@@ -4,7 +4,7 @@
  * @Date create: 22/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   TouchableOpacity,
@@ -12,18 +12,18 @@ import {
   Modal,
   Dimensions,
   StatusBar,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //import firebase from 'react-native-firebase';
 /** COMPONENT */
-import CText from '../CText';
+import CText from "../CText";
 /** COMMON **/
-import Helper from '../../helpers';
-import {CONFIG} from '../../config';
-import Services from '../../services';
-import Errors from '../../config/errors';
+import Helper from "../../helpers";
+import { CONFIG } from "../../config";
+import Services from "../../services";
+import Errors from "../../config/errors";
 /** STYLE **/
-import styles from './style';
+import styles from "./style";
 
 /** DECLARE CLASS */
 class CConfirm extends React.PureComponent {
@@ -42,7 +42,7 @@ class CConfirm extends React.PureComponent {
           this._uploadImage(result);
         }
       } catch (e) {
-        console.log('Error: ', e);
+        console.log("Error: ", e);
       }
     }
   };
@@ -57,12 +57,12 @@ class CConfirm extends React.PureComponent {
           this._uploadImage(result);
         }
       } catch (e) {
-        console.log('Error: ', e);
+        console.log("Error: ", e);
       }
     }
   };
 
-  _uploadImage = value => {
+  _uploadImage = (value) => {
     if (value) {
       this.props.receive(value);
     }
@@ -77,7 +77,7 @@ class CConfirm extends React.PureComponent {
     };
     let resp = await Services.Logout.fetchUserLogout(params);
     if (resp) {
-      if (resp.code === 'USER_ERR_ID_REQUIRED') {
+      if (resp.code === "USER_ERR_ID_REQUIRED") {
       } else if (resp.code === Errors.USER_ERR_NOT_FOUND.code) {
       } else if (resp.code == 200) {
         /* Set default */
@@ -86,20 +86,20 @@ class CConfirm extends React.PureComponent {
         //firebase.notifications().setBadge(0);
 
         /* Set default */
-        CONFIG.USER_TYPE = '';
-        CONFIG.JWT_TOKEN = '';
+        CONFIG.USER_TYPE = "";
+        CONFIG.JWT_TOKEN = "";
         CONFIG.settingLocal = null;
 
         /* Set default */
-        await AsyncStorage.setItem('userInfo', '');
-        await AsyncStorage.setItem('reLoginWith', '');
-        await AsyncStorage.setItem('JWT', '');
-        await Helper.setAsyStrClassChoosed('');
-        await Helper.setAsyStrStudentChoosed('');
-        await Helper.setAsyncStorageSettings('');
+        await AsyncStorage.setItem("userInfo", "");
+        await AsyncStorage.setItem("reLoginWith", "");
+        await AsyncStorage.setItem("JWT", "");
+        await Helper.setAsyStrClassChoosed("");
+        await Helper.setAsyStrStudentChoosed("");
+        await Helper.setAsyncStorageSettings("");
 
-        Helper.resetNavigation(this.props.navigation, 'Login', {
-          type: 'Logout',
+        Helper.resetNavigation(this.props.navigation, "Login", {
+          type: "Logout",
         });
       }
     }
@@ -112,27 +112,27 @@ class CConfirm extends React.PureComponent {
 
     let resp = await Services.DeleteAccount.deleteAccount(params);
     if (resp) {
-      if (resp.code == 'OK') {
+      if (resp.code == "OK") {
         /* Set default */
         this.props.loginActions.logOutUser();
         this.props.notificationActions.setNotRead(0);
-        firebase.notifications().setBadge(0);
+        // firebase.notifications().setBadge(0);
 
         /* Set default */
-        CONFIG.USER_TYPE = '';
-        CONFIG.JWT_TOKEN = '';
+        CONFIG.USER_TYPE = "";
+        CONFIG.JWT_TOKEN = "";
         CONFIG.settingLocal = null;
 
         /* Set default */
-        await AsyncStorage.setItem('reLoginWith', '');
-        await AsyncStorage.setItem('userInfo', '');
-        await AsyncStorage.setItem('JWT', '');
-        await Helper.setAsyStrClassChoosed('');
-        await Helper.setAsyStrStudentChoosed('');
-        await Helper.setAsyncStorageSettings('');
+        await AsyncStorage.setItem("reLoginWith", "");
+        await AsyncStorage.setItem("userInfo", "");
+        await AsyncStorage.setItem("JWT", "");
+        await Helper.setAsyStrClassChoosed("");
+        await Helper.setAsyStrStudentChoosed("");
+        await Helper.setAsyncStorageSettings("");
 
-        Helper.resetNavigation(this.props.navigation, 'Login', {
-          type: 'Logout',
+        Helper.resetNavigation(this.props.navigation, "Login", {
+          type: "Logout",
         });
       }
     }
@@ -140,78 +140,89 @@ class CConfirm extends React.PureComponent {
 
   /** LIFE CYCLE */
   UNSAFE_componentWillMount() {
-    let tmpScr = Dimensions.get('screen').height;
-    let tmpWin = Dimensions.get('window').height;
+    let tmpScr = Dimensions.get("screen").height;
+    let tmpWin = Dimensions.get("window").height;
     this._bottom = tmpScr - tmpWin - StatusBar.currentHeight + 50;
   }
 
   /** RENDER */
   render() {
-    let {closeModal, type, show} = this.props;
+    let { closeModal, type, show } = this.props;
 
     return (
       <Modal
         visible={show}
-        animationType={'fade'}
+        animationType={"fade"}
         transparent
-        onRequestClose={() => {}}>
+        onRequestClose={() => {}}
+      >
         <TouchableOpacity
           style={styles.content}
           onPress={closeModal}
-          activeOpacity={1}>
+          activeOpacity={1}
+        >
           <View
-            style={{position: 'absolute', bottom: this._bottom, width: '100%'}}>
+            style={{
+              position: "absolute",
+              bottom: this._bottom,
+              width: "100%",
+            }}
+          >
             <View style={styles.methodGroupBtn}>
-              {type == 'logout' && (
+              {type == "logout" && (
                 <View>
                   <View style={styles.itemBtn}>
                     <CText
                       style={styles.txtBtnTitle}
-                      i18nKey={'txtConfirmLogout'}
+                      i18nKey={"txtConfirmLogout"}
                     />
                   </View>
                   <TouchableOpacity
-                    style={[styles.itemBtn, {borderBottomWidth: 0}]}
-                    onPress={this._logOutHandler}>
-                    <CText style={styles.txtBtnAgree} i18nKey={'txtLogout'} />
+                    style={[styles.itemBtn, { borderBottomWidth: 0 }]}
+                    onPress={this._logOutHandler}
+                  >
+                    <CText style={styles.txtBtnAgree} i18nKey={"txtLogout"} />
                   </TouchableOpacity>
                 </View>
               )}
 
-              {type == 'deleteAccount' && (
+              {type == "deleteAccount" && (
                 <View>
                   <View style={styles.text}>
                     <CText
                       a
                       numberOfLines={4}
-                      style={{...styles.text, textAlign: 'center'}}
-                      i18nKey={'txtConfirmDeleteAccount'}
+                      style={{ ...styles.text, textAlign: "center" }}
+                      i18nKey={"txtConfirmDeleteAccount"}
                     />
                   </View>
                   <TouchableOpacity
-                    style={[styles.itemBtn, {borderBottomWidth: 0}]}
-                    onPress={this._deleteAccountHandler}>
-                    <CText style={styles.txtBtnAgree} i18nKey={'txtDelete'} />
+                    style={[styles.itemBtn, { borderBottomWidth: 0 }]}
+                    onPress={this._deleteAccountHandler}
+                  >
+                    <CText style={styles.txtBtnAgree} i18nKey={"txtDelete"} />
                   </TouchableOpacity>
                 </View>
               )}
 
-              {type == 'upload' && (
+              {type == "upload" && (
                 <View>
                   <TouchableOpacity
                     style={styles.itemBtn}
-                    onPress={this._onPressCamera}>
+                    onPress={this._onPressCamera}
+                  >
                     <CText
                       style={styles.txtBtnUpload}
-                      i18nKey={'txtTakePhoto'}
+                      i18nKey={"txtTakePhoto"}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={[styles.itemBtn, {borderBottomWidth: 0}]}
-                    onPress={this._onPressGalary}>
+                    style={[styles.itemBtn, { borderBottomWidth: 0 }]}
+                    onPress={this._onPressGalary}
+                  >
                     <CText
                       style={styles.txtBtnUpload}
-                      i18nKey={'txtChooseFromPhoto'}
+                      i18nKey={"txtChooseFromPhoto"}
                     />
                   </TouchableOpacity>
                 </View>
@@ -220,9 +231,10 @@ class CConfirm extends React.PureComponent {
 
             <View style={styles.cancelBtn}>
               <TouchableOpacity
-                style={[styles.itemBtn, {borderBottomWidth: 0}]}
-                onPress={closeModal}>
-                <CText style={styles.txtBtnClose} i18nKey={'txtClose'} />
+                style={[styles.itemBtn, { borderBottomWidth: 0 }]}
+                onPress={closeModal}
+              >
+                <CText style={styles.txtBtnClose} i18nKey={"txtClose"} />
               </TouchableOpacity>
             </View>
           </View>

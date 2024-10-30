@@ -5,30 +5,30 @@
  * @Date create: 18/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Linking, Keyboard, Platform} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import DeviceInfo from 'react-native-device-info';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Linking, Keyboard, Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DeviceInfo from "react-native-device-info";
 // import firebase from 'react-native-firebase'
 /** COMMON **/
-import Helpers from '../../helpers';
-import {LANG, CONFIG, KEY, ASSETS, COLOR} from '../../config';
-import Services from '../../services';
-import Modules from '../../config/modules';
+import Helpers from "../../helpers";
+import { LANG, CONFIG, KEY, ASSETS, COLOR } from "../../config";
+import Services from "../../services";
+import Modules from "../../config/modules";
 /** COMPONENTS **/
-import ViewLogin from './render';
+import ViewLogin from "./render";
 /** STYLES **/
-import styles from './style';
+import styles from "./style";
 /** REDUX */
-import * as loginActions from '../../redux/actions/login';
-import * as loadingActions from '../../redux/actions/loading';
-import * as notificationActions from '../../redux/actions/notification';
-import * as languageActions from '../../redux/actions/language';
-import * as settingActions from '../../redux/actions/setting';
-import * as schoolActions from '../../redux/actions/school';
-import messaging from '@react-native-firebase/messaging';
+import * as loginActions from "../../redux/actions/login";
+import * as loadingActions from "../../redux/actions/loading";
+import * as notificationActions from "../../redux/actions/notification";
+import * as languageActions from "../../redux/actions/language";
+import * as settingActions from "../../redux/actions/setting";
+import * as schoolActions from "../../redux/actions/school";
+// import messaging from '@react-native-firebase/messaging';
 
 // const Analytics = firebase.analytics();
 
@@ -41,9 +41,9 @@ class LoginScreen extends React.Component {
       _session: false,
       _showReLogin: false,
       _getSetting: true,
-      _errorText: '',
+      _errorText: "",
       _typeUser: KEY.PARENT,
-      _typeNav: props.route.params?.type ?? '',
+      _typeNav: props.route.params?.type ?? "",
       _acceptTerm: true,
     };
     this._arrRadioButtonItem = [
@@ -72,49 +72,49 @@ class LoginScreen extends React.Component {
     this._emailRef = null;
     this._passRef = null;
     this._infoUser = null;
-    this._fcmToken = '';
-    this._platform = '';
-    this._deviceName = '';
+    this._fcmToken = "";
+    this._platform = "";
+    this._deviceName = "";
   }
 
   /** FUNCTIONS */
   _handlerSavePassword = () =>
-    this.setState({_isSavePassword: !this.state._isSavePassword});
+    this.setState({ _isSavePassword: !this.state._isSavePassword });
 
-  _handlerGoForgetPass = () => this.props.navigation.navigate('ForgetPass');
+  _handlerGoForgetPass = () => this.props.navigation.navigate("ForgetPass");
 
   _handlerCall = () =>
-    Linking.openURL('tel:' + LANG[CONFIG.lang].txtPhoneNumber).catch(error =>
-      console.log('Error call', error),
+    Linking.openURL("tel:" + LANG[CONFIG.lang].txtPhoneNumber).catch((error) =>
+      console.log("Error call", error)
     );
 
-  _onPressTypeUser = value => this.setState({_typeUser: value});
+  _onPressTypeUser = (value) => this.setState({ _typeUser: value });
 
-  _handlerLogin = isContinue => {
-    this.setState({_errorText: ''});
+  _handlerLogin = (isContinue) => {
+    this.setState({ _errorText: "" });
     Keyboard.dismiss();
     let emailRef =
-      typeof isContinue == 'boolean' && isContinue && this._infoUser
+      typeof isContinue == "boolean" && isContinue && this._infoUser
         ? this._infoUser.userName
         : this.refs.viewLogin.refs.email;
 
     let passRef =
-      typeof isContinue == 'boolean' && isContinue && this._infoUser
+      typeof isContinue == "boolean" && isContinue && this._infoUser
         ? this.refs.viewLogin.refs.passContinue
         : this.refs.viewLogin.refs.password;
 
-    let tmp = typeof emailRef == 'object';
+    let tmp = typeof emailRef == "object";
 
     if (
       tmp
-        ? emailRef.value == '' || passRef.value == ''
-        : emailRef == '' || passRef.value == ''
+        ? emailRef.value == "" || passRef.value == ""
+        : emailRef == "" || passRef.value == ""
     ) {
-      this.setState({_errorText: 'errUserInputRequired'});
+      this.setState({ _errorText: "errUserInputRequired" });
     } else if (!this.state._acceptTerm) {
-      this.setState({_errorText: 'errNotAcceptTerm'});
+      this.setState({ _errorText: "errNotAcceptTerm" });
     } else {
-      this.setState({_loadingLogin: true});
+      this.setState({ _loadingLogin: true });
       this.props.loadingActions.setLoading(true);
       this._emailRef = tmp ? emailRef.value : emailRef;
       this._passRef = passRef.value;
@@ -136,24 +136,24 @@ class LoginScreen extends React.Component {
   };
 
   _getLocalData = async () => {
-    let reLoginWith = await AsyncStorage.getItem('reLoginWith');
+    let reLoginWith = await AsyncStorage.getItem("reLoginWith");
     // console.log(reLoginWith);
     if (reLoginWith) {
       reLoginWith = JSON.parse(reLoginWith);
       this._infoUser = {
         userName: reLoginWith.userName,
-        userNameHide: '',
+        userNameHide: "",
       };
       this._handlerContinue(reLoginWith);
-    } else this.setState({_session: false});
+    } else this.setState({ _session: false });
   };
 
-  _handlerContinue = dataLogin => {
+  _handlerContinue = (dataLogin) => {
     /** Convert string username */
     let pos = dataLogin.userName.length;
     let str1 = dataLogin.userName.slice(0, 4);
     let str2 = dataLogin.userName.slice(-4, pos);
-    this._infoUser.userNameHide = str1 + '******' + str2;
+    this._infoUser.userNameHide = str1 + "******" + str2;
 
     this.setState({
       _session: true,
@@ -168,19 +168,19 @@ class LoginScreen extends React.Component {
     this.setState({
       _showReLogin: false,
       _session: false,
-      _errorText: '',
+      _errorText: "",
       _typeUser: KEY.PARENT,
     });
   };
 
-  _handleAcceptTerm = checked => {
+  _handleAcceptTerm = (checked) => {
     // console.log(checked);
     this.setState({
       _acceptTerm: checked,
     });
   };
 
-  _getInfoNotification = async dataLogin => {
+  _getInfoNotification = async (dataLogin) => {
     /** Check notification not read */
     let params = {
       id: dataLogin.id,
@@ -191,9 +191,9 @@ class LoginScreen extends React.Component {
 
     /** Check notification not read */
     if (CONFIG.USER_TYPE === KEY.DRIVER) {
-      Helpers.resetNavigation(this.props.navigation, 'RootDriver');
+      Helpers.resetNavigation(this.props.navigation, "RootDriver");
     } else {
-      Helpers.resetNavigation(this.props.navigation, 'RootDrawer');
+      Helpers.resetNavigation(this.props.navigation, "RootDrawer");
     }
   };
 
@@ -222,14 +222,14 @@ class LoginScreen extends React.Component {
       await messaging().requestPermission();
       this._getToken();
     } catch (error) {
-      console.log('Permission rejected');
+      console.log("Permission rejected");
     }
   };
 
-  _getSettings = async resp => {
+  _getSettings = async (resp) => {
     /** Check settings server */
     let params = {
-      key: 'app',
+      key: "app",
       school: resp.school,
     };
     let setting = await Services.Setting.get(params);
@@ -244,32 +244,32 @@ class LoginScreen extends React.Component {
       else newSetting = tmpSettings;
     } else newSetting = setting;
 
-    if (newSetting.value.hasOwnProperty('APIServer'))
+    if (newSetting.value.hasOwnProperty("APIServer"))
       CONFIG.host = newSetting.value.APIServer;
-    if (newSetting.value.hasOwnProperty('socketServer'))
+    if (newSetting.value.hasOwnProperty("socketServer"))
       CONFIG.hostSocket = newSetting.value.socketServer;
-    if (newSetting.value.hasOwnProperty('versionAPI'))
+    if (newSetting.value.hasOwnProperty("versionAPI"))
       CONFIG.versionAPI = newSetting.value.versionAPI;
-    if (newSetting.value.hasOwnProperty('dateFormat'))
+    if (newSetting.value.hasOwnProperty("dateFormat"))
       CONFIG.formatDateSetting = newSetting.value.dateFormat;
-    if (newSetting.value.hasOwnProperty('shortDateFormat'))
+    if (newSetting.value.hasOwnProperty("shortDateFormat"))
       CONFIG.shortFormatDateSetting = newSetting.value.shortDateFormat;
     // console.log('NEWLANG', newSetting);
-    if (newSetting.value.hasOwnProperty('language')) {
+    if (newSetting.value.hasOwnProperty("language")) {
       if (CONFIG.lang !== newSetting.value.language) {
         if (LANG.hasOwnProperty(newSetting.value.language)) {
           CONFIG.lang = newSetting.value.language;
           this.props.languageActions.changeLanguage(newSetting.value.language);
         } else {
-          CONFIG.lang = 'en';
-          this.props.languageActions.changeLanguage('en');
+          CONFIG.lang = "en";
+          this.props.languageActions.changeLanguage("en");
         }
       }
     }
-    if (newSetting.value.hasOwnProperty('paymentMethods')) {
+    if (newSetting.value.hasOwnProperty("paymentMethods")) {
       CONFIG.PAYMENT_METHODS = newSetting.value.paymentMethods;
     }
-    if (newSetting.value.hasOwnProperty('cashMessage')) {
+    if (newSetting.value.hasOwnProperty("cashMessage")) {
       CONFIG.CASH_MESSAGE = newSetting.value.cashMessage;
     }
 
@@ -280,22 +280,22 @@ class LoginScreen extends React.Component {
     let arrUserSetting = await Helpers.getAsyStrSettingsLocal();
     let dataUserSetting = {
       idUser: resp.id,
-      settings: {softName: 'softname_first_last'},
+      settings: { softName: "softname_first_last" },
     };
 
     if (arrUserSetting) {
       arrUserSetting = JSON.parse(arrUserSetting);
-      let find = arrUserSetting.find(f => f.idUser === resp.id);
+      let find = arrUserSetting.find((f) => f.idUser === resp.id);
       if (find) CONFIG.settingLocal = find.settings;
       else arrUserSetting.push(dataUserSetting);
     } else arrUserSetting = [dataUserSetting];
     await Helpers.setAsyStrSettingsLocal(JSON.stringify(arrUserSetting));
-    CONFIG.settingLocal = {softName: 'softname_first_last'};
+    CONFIG.settingLocal = { softName: "softname_first_last" };
 
     /** Set data school to redux */
     if (setting && setting.school) {
       this.props.schoolActions.getSchoolSuccess(setting.school);
-      if (typeof setting.school === 'object' && setting.school.activeModules) {
+      if (typeof setting.school === "object" && setting.school.activeModules) {
         let modulesSchool = setting.school.activeModules;
         Modules.feeInvoice = modulesSchool.feeInvoice;
         Modules.attendance = modulesSchool.attendance;
@@ -312,19 +312,19 @@ class LoginScreen extends React.Component {
   componentDidMount() {
     this._checkPermission();
     if (
-      this.state._typeNav == 'InvalidToken' ||
-      this.state._typeNav == 'Logout'
+      this.state._typeNav == "InvalidToken" ||
+      this.state._typeNav == "Logout"
     ) {
       this._getLocalData();
     } else {
-      this.setState({_session: false});
+      this.setState({ _session: false });
     }
   }
 
   async componentDidUpdate(prevProps, prevState) {
     if (this.props.isLoading) {
       if (!this.props.login.isFetch) {
-        if (this.props.login.message === 'success') {
+        if (this.props.login.message === "success") {
           let tmpSettings = await Helpers.getAsyncStorageSettings();
           if (tmpSettings === null) {
             this._getSettings(this.props.login.data);
@@ -341,18 +341,18 @@ class LoginScreen extends React.Component {
   }
   /** RENDER */
   render() {
-    let {_loadingLogin, _errorText, _session, _showReLogin, _acceptTerm} =
+    let { _loadingLogin, _errorText, _session, _showReLogin, _acceptTerm } =
       this.state;
-    let {setting} = this.props;
+    let { setting } = this.props;
 
     return (
       <ViewLogin
-        ref={'viewLogin'}
+        ref={"viewLogin"}
         acceptTerm={_acceptTerm}
         loadingLogin={_loadingLogin}
         hotline={
           (setting.config && setting.config.value.hotline) ||
-          '(+84) 28 2217 8804'
+          "(+84) 28 2217 8804"
         }
         arrRadioButtonItem={this._arrRadioButtonItem}
         errorText={_errorText}
@@ -371,7 +371,7 @@ class LoginScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     isLoading: state.loading.isLoading,
@@ -379,7 +379,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
     notificationActions: bindActionCreators(notificationActions, dispatch),
