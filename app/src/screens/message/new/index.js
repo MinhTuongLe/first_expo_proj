@@ -5,17 +5,18 @@
  * @Date create: 26/02/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Platform} from 'react-native';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Platform } from "react-native";
+// import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import * as MediaLibrary from "expo-media-library";
 /** COMPONENT */
-import ViewUploadImageMessage from './render';
+import ViewUploadImageMessage from "./render";
 /** COMMON */
-import Helpers from '../../../helpers';
+import Helpers from "../../../helpers";
 /** REDUX */
-import * as loadingActions from '../../../redux/actions/loading';
+import * as loadingActions from "../../../redux/actions/loading";
 
 class UploadImageMessage extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class UploadImageMessage extends React.Component {
       _classChoose: null,
       _numPhoto: 20,
       _pageNumPhoto: 1,
-      _dataPhoto: [{id: 'cameraBtn'}],
+      _dataPhoto: [{ id: "cameraBtn" }],
       _arrSelectedPhoto: null,
       _arrDataClasses: props.login.data.classes,
       _addFrom: props.route.params?.addFrom ?? null,
@@ -36,36 +37,72 @@ class UploadImageMessage extends React.Component {
   }
 
   /** FUNCTIONS */
+  // _getInfoListMedia = async () => {
+  //   let {_numPhoto, _pageNumPhoto} = this.state;
+  //   let options = {
+  //     first: _pageNumPhoto * _numPhoto,
+  //     assetType: 'Photos',
+  //   };
+  //   if (Platform.OS === 'ios') {
+  //     options.groupTypes = 'All';
+  //   }
+  //   if (Platform.OS === 'android') {
+  //     options.include = ['filename', 'imageSize'];
+  //   }
+  //   let res = await CameraRoll.getPhotos(options);
+  //   // console.log(res);
+  //   let photoArray = res.edges;
+  //   let _classChoose = await Helpers.getAsyStrClassChoosed();
+  //   if (_classChoose) {
+  //     _classChoose = JSON.parse(_classChoose);
+  //   }
+  //   if (photoArray.length < 20) {
+  //     this.onEndReachedCalledDuringMomentum = false;
+  //   }
+  //   let tmp = [{id: 'cameraBtn'}];
+  //   this.setState({
+  //     _dataPhoto: [...tmp, ...photoArray],
+  //     _classChoose: _classChoose ? _classChoose : null,
+  //     _pageNumPhoto: _pageNumPhoto + 1,
+  //     _isLoading: false,
+  //     _isLoadMore: photoArray.length === _pageNumPhoto * _numPhoto,
+  //   });
+  //   this.props.loadingActions.setLoading(false);
+  // };
+
   _getInfoListMedia = async () => {
-    let {_numPhoto, _pageNumPhoto} = this.state;
+    let { _numPhoto, _pageNumPhoto } = this.state;
     let options = {
-      first: _pageNumPhoto * _numPhoto,
-      assetType: 'Photos',
+      first: _numPhoto,
+      mediaType: "photo", // Chỉ lấy ảnh
     };
-    if (Platform.OS === 'ios') {
-      options.groupTypes = 'All';
-    }
-    if (Platform.OS === 'android') {
-      options.include = ['filename', 'imageSize'];
-    }
-    let res = await CameraRoll.getPhotos(options);
-    // console.log(res);
-    let photoArray = res.edges;
+
+    // Gọi MediaLibrary để lấy ảnh
+    let res = await MediaLibrary.getAssetsAsync(options);
+    let photoArray = res.assets; // Dữ liệu ảnh sẽ nằm ở đây
+
     let _classChoose = await Helpers.getAsyStrClassChoosed();
     if (_classChoose) {
       _classChoose = JSON.parse(_classChoose);
     }
-    if (photoArray.length < 20) {
+
+    if (photoArray.length < _numPhoto) {
       this.onEndReachedCalledDuringMomentum = false;
     }
-    let tmp = [{id: 'cameraBtn'}];
+
+    // Tạo một mảng tạm thời chứa nút camera
+    let tmp = [{ id: "cameraBtn" }];
+
+    // Cập nhật state
     this.setState({
       _dataPhoto: [...tmp, ...photoArray],
       _classChoose: _classChoose ? _classChoose : null,
       _pageNumPhoto: _pageNumPhoto + 1,
       _isLoading: false,
-      _isLoadMore: photoArray.length === _pageNumPhoto * _numPhoto,
+      _isLoadMore: photoArray.length === _numPhoto, // Kiểm tra xem có đủ ảnh để load thêm không
     });
+
+    // Tắt loading
     this.props.loadingActions.setLoading(false);
   };
 
@@ -76,7 +113,7 @@ class UploadImageMessage extends React.Component {
       if (result) {
         let arrTemp = [];
         arrTemp.push({
-          id: 'photoByCam',
+          id: "photoByCam",
           data: result,
         });
 
@@ -85,11 +122,11 @@ class UploadImageMessage extends React.Component {
           _classChoose = JSON.parse(_classChoose);
         }
 
-        let {navigation, route} = this.props;
+        let { navigation, route } = this.props;
 
         if (arrTemp) {
           let fromRoute = this.props.route.name;
-          if (fromRoute && fromRoute === 'UploadImageMessage') {
+          if (fromRoute && fromRoute === "UploadImageMessage") {
             route.params.onPrepareMedia(arrTemp);
             navigation.goBack();
           }
@@ -105,7 +142,7 @@ class UploadImageMessage extends React.Component {
         // });
       } else {
         Helpers.toast(
-          this.props.language === 'vi' ? 'Lỗi Camera' : 'Camera error',
+          this.props.language === "vi" ? "Lỗi Camera" : "Camera error"
         );
       }
     }
@@ -125,30 +162,30 @@ class UploadImageMessage extends React.Component {
   };
 
   /** HANDLE FUNCTIONS */
-  _onPressImageItem = item => {
-    if (item.id === 'cameraBtn') {
+  _onPressImageItem = (item) => {
+    if (item.id === "cameraBtn") {
       this._openCamera();
     } else {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         _arrSelectedPhoto: prevState._arrSelectedPhoto === item ? null : item,
       }));
     }
   };
 
   _onPressNext = () => {
-    let {_arrSelectedPhoto} = this.state;
-    let {navigation, route} = this.props;
+    let { _arrSelectedPhoto } = this.state;
+    let { navigation, route } = this.props;
 
     if (_arrSelectedPhoto) {
       let fromRoute = this.props.route.name;
-      if (fromRoute && fromRoute === 'UploadImageMessage') {
+      if (fromRoute && fromRoute === "UploadImageMessage") {
         route.params.onPrepareMedia(_arrSelectedPhoto);
         navigation.goBack();
       }
     }
   };
 
-  _onBack = arrSelectedPhoto => {
+  _onBack = (arrSelectedPhoto) => {
     this.setState({
       _arrSelectedPhoto: arrSelectedPhoto,
       _dataPhoto: [],
@@ -168,7 +205,7 @@ class UploadImageMessage extends React.Component {
 
   /** RENDER */
   render() {
-    let {_dataPhoto, _arrDataClasses} = this.state;
+    let { _dataPhoto, _arrDataClasses } = this.state;
 
     return (
       <ViewUploadImageMessage
@@ -189,14 +226,14 @@ class UploadImageMessage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };

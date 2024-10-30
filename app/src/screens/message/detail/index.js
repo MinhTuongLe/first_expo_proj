@@ -5,23 +5,24 @@
  * @Date create: 26/02/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import moment from 'moment';
-import DocumentPicker from 'react-native-document-picker';
-import RNFS from 'react-native-fs';
-import * as ScopedStorage from 'react-native-scoped-storage';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import moment from "moment";
+import * as DocumentPicker from "expo-document-picker";
+
+import * as FileSystem from "expo-file-system";
+import * as ScopedStorage from "react-native-scoped-storage";
 /** COMPONENT */
-import {RenderMessageDetailScreen} from './render';
+import { RenderMessageDetailScreen } from "./render";
 /** API */
-import Services from '../../../services';
-import sailsApi from '../../../config/sails.api';
-import {CONFIG, KEY, LANG, fileLastExtensions} from '../../../config';
-import * as loadingActions from '../../../redux/actions/loading';
-import Helpers from '../../../helpers';
-import {Linking, Platform} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Services from "../../../services";
+import sailsApi from "../../../config/sails.api";
+import { CONFIG, KEY, LANG, fileLastExtensions } from "../../../config";
+import * as loadingActions from "../../../redux/actions/loading";
+import Helpers from "../../../helpers";
+import { Linking, Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class MessageDetailScreen extends React.Component {
   constructor(props) {
@@ -40,8 +41,8 @@ class MessageDetailScreen extends React.Component {
 
   /** FUNCTIONS */
   _getDataFromServer = async () => {
-    let {_page, _dataMessage} = this.state;
-    let {login} = this.props;
+    let { _page, _dataMessage } = this.state;
+    let { login } = this.props;
 
     if (this._dataChoosed) {
       let params = {
@@ -74,7 +75,7 @@ class MessageDetailScreen extends React.Component {
 
   _loadMore = async () => {
     if (this.state._isLoadmore) {
-      let {_page, _dataMessage} = this.state;
+      let { _page, _dataMessage } = this.state;
       let params = {
         messageId: this._dataChoosed.id,
         page: _page,
@@ -99,9 +100,9 @@ class MessageDetailScreen extends React.Component {
     }
   };
 
-  _onPressSend = inputRef => {
-    if (inputRef.value.trim() === '') return;
-    this._storeMessageData(inputRef.value, 'text');
+  _onPressSend = (inputRef) => {
+    if (inputRef.value.trim() === "") return;
+    this._storeMessageData(inputRef.value, "text");
   };
 
   _onPressUploadImage = async () => {
@@ -109,27 +110,41 @@ class MessageDetailScreen extends React.Component {
     if (agreeP) {
       try {
         this.props.loadingActions.setLoading(true);
-        this.props.navigation.navigate('UploadImageMessage', {
+        this.props.navigation.navigate("UploadImageMessage", {
           onPrepareMedia: this._onPrepareMedia,
         });
       } catch (e) {
-        console.log('--- upload image error ---', e);
+        console.log("--- upload image error ---", e);
       }
     }
   };
 
   _onPressUploadFile = async () => {
-    const response = await DocumentPicker.pick({
-      presentationStyle: 'fullScreen',
+    // const response = await DocumentPicker.pick({
+    //   presentationStyle: 'fullScreen',
+    // });
+    // await this._onPressSendFile(response[0]);
+
+    // Sử dụng expo-document-picker để chọn tệp
+    const response = await DocumentPicker.getDocumentAsync({
+      type: "*/*", // Có thể chỉ định loại tệp nếu cần
+      presentationStyle: "fullScreen", // Chú ý là không còn tham số này trong expo-document-picker
     });
-    await this._onPressSendFile(response[0]);
+
+    // Kiểm tra nếu tệp được chọn thành công
+    if (response.type === "success") {
+      await this._onPressSendFile(response);
+    } else {
+      // Xử lý khi không có tệp nào được chọn
+      Helpers.toast(LANG[CONFIG.lang].txtNoFileSelected);
+    }
   };
 
-  _onPrepareMedia = async selectedPhoto => {
+  _onPrepareMedia = async (selectedPhoto) => {
     await this._onPressPost(selectedPhoto);
   };
 
-  _onPressPost = async selectedPhoto => {
+  _onPressPost = async (selectedPhoto) => {
     if (!selectedPhoto) {
       return Helpers.toast(LANG[CONFIG.lang].txtRequirePhoto);
     }
@@ -137,21 +152,21 @@ class MessageDetailScreen extends React.Component {
     this.props.loadingActions.setLoading(true);
     /* Start post media */
     let paramsMedia;
-    if (selectedPhoto?.[0]?.id === 'photoByCam') {
+    if (selectedPhoto?.[0]?.id === "photoByCam") {
       let fileName = selectedPhoto[0].data.path.substring(
-        selectedPhoto[0].data.path.lastIndexOf('/') + 1,
-        selectedPhoto[0].data.path.length,
+        selectedPhoto[0].data.path.lastIndexOf("/") + 1,
+        selectedPhoto[0].data.path.length
       );
 
       paramsMedia = {
-        typeChange: 'ImageMessage',
+        typeChange: "ImageMessage",
         file: [
           {
             node: {
               image: {
                 uri: selectedPhoto[0].data.path,
                 fileName,
-                typeImage: 'image/jpeg',
+                typeImage: "image/jpeg",
               },
             },
           },
@@ -163,10 +178,10 @@ class MessageDetailScreen extends React.Component {
       selectedPhoto.node.image.fileName = newPhoto.name;
       selectedPhoto.node.image.width = newPhoto.width;
       selectedPhoto.node.image.height = newPhoto.height;
-      selectedPhoto.node.image.typeImage = 'image/jpeg';
+      selectedPhoto.node.image.typeImage = "image/jpeg";
 
       paramsMedia = {
-        typeChange: 'ImageMessage',
+        typeChange: "ImageMessage",
         file: selectedPhoto,
       };
     }
@@ -174,28 +189,39 @@ class MessageDetailScreen extends React.Component {
     try {
       let resultData = await Services.Message.fileSendMessage(paramsMedia);
       if (resultData?.file) {
-        await this._storeMessageData(resultData.file, 'image');
+        await this._storeMessageData(resultData.file, "image");
       }
     } catch (error) {
-      return Helpers.toast('FILE UPLOADED IS OVERSIZE');
+      return Helpers.toast("FILE UPLOADED IS OVERSIZE");
     }
   };
 
-  _onPressSendFile = async selectedFile => {
+  _onPressSendFile = async (selectedFile) => {
+    // let paramsMedia = {
+    //   typeChange: "File",
+    //   file: selectedFile,
+    // };
+    // let resultData = await Services.Message.fileSendMessage(paramsMedia);
+    // if (resultData) {
+    //   await this._storeMessageData(resultData.file, "file");
+    // } else {
+    //   Helpers.toast(LANG[CONFIG.lang].txtUploadError);
+    // }
+
     let paramsMedia = {
-      typeChange: 'File',
+      typeChange: "File",
       file: selectedFile,
     };
     let resultData = await Services.Message.fileSendMessage(paramsMedia);
     if (resultData) {
-      await this._storeMessageData(resultData.file, 'file');
+      await this._storeMessageData(resultData.file, "file");
     } else {
       Helpers.toast(LANG[CONFIG.lang].txtUploadError);
     }
   };
 
-  _getFileType = filename => {
-    const extension = filename.split('.').pop().toLowerCase();
+  _getFileType = (filename) => {
+    const extension = filename.split(".").pop().toLowerCase();
 
     for (const fileType in fileLastExtensions) {
       if (fileLastExtensions[fileType].extension.includes(extension)) {
@@ -203,40 +229,40 @@ class MessageDetailScreen extends React.Component {
       }
     }
 
-    return '';
+    return "";
   };
 
   _storeMessageData = async (content, type) => {
-    let {login} = this.props;
+    let { login } = this.props;
     let params = {
       school: login.data.school,
       userId: this.props.login.data.id,
-      userType: CONFIG.USER_TYPE === KEY.TEACHER ? 'USER' : 'PARENT',
+      userType: CONFIG.USER_TYPE === KEY.TEACHER ? "USER" : "PARENT",
       // classId:
       txtMessage: content,
       messageId: this._dataChoosed.id,
       groupType:
         this._dataChoosed.type === KEY.PERSONAL
-          ? 'TE_PA_' + this._dataChoosed.id
-          : 'GROUP_' + this._dataChoosed.id,
-      dateUse: moment().format('YYYY-MM-DD'),
+          ? "TE_PA_" + this._dataChoosed.id
+          : "GROUP_" + this._dataChoosed.id,
+      dateUse: moment().format("YYYY-MM-DD"),
       type,
     };
 
     // console.log('params: ', params);
 
     this._socket.post(
-      '/api/v4/mobile' + sailsApi.message.storeMessageData,
-      params,
+      "/api/v4/mobile" + sailsApi.message.storeMessageData,
+      params
     );
-    inputRef.value = '';
+    inputRef.value = "";
   };
 
   _initChat = () => {
     if (this._chatId) {
-      this._socket.on(this._chatId, newMessage => {
-        let {_dataMessage} = this.state;
-        if (newMessage.hasOwnProperty('dataLogs')) {
+      this._socket.on(this._chatId, (newMessage) => {
+        let { _dataMessage } = this.state;
+        if (newMessage.hasOwnProperty("dataLogs")) {
           _dataMessage = newMessage.dataLogs;
           // _dataMessage = [..._dataMessage, newMessage.data];
         } else {
@@ -252,7 +278,7 @@ class MessageDetailScreen extends React.Component {
     }
   };
 
-  _sortData = data => {
+  _sortData = (data) => {
     data.sort(function (a, b) {
       var keyA = new Date(a.createdAt),
         keyB = new Date(b.createdAt);
@@ -267,74 +293,124 @@ class MessageDetailScreen extends React.Component {
 
   _onBack = () => {
     this.props.route.params.onRefresh();
-    this.props.navigation.navigate('RootDrawer');
+    this.props.navigation.navigate("RootDrawer");
   };
 
-  _onPreviewImage = status => {
+  _onPreviewImage = (status) => {
     this.setState({
       _isPreview: status,
     });
   };
 
+  // _onDownloadFile = async (fileUrl, fileName) => {
+  //   const basePath =
+  //     Platform.OS === "android"
+  //       ? RNFS.DownloadDirectoryPath + "/Kindie"
+  //       : RNFS.LibraryDirectoryPath;
+  //   const filePath = basePath + "/" + fileName;
+
+  //   await RNFS.exists(basePath)
+  //     .then((exists) => {
+  //       if (!exists) {
+  //         return RNFS.mkdir(basePath);
+  //       }
+  //     })
+  //     .then(() => {
+  //       return RNFS.downloadFile({
+  //         fromUrl: fileUrl,
+  //         toFile: filePath,
+  //         background: true, // Enable downloading in the background (iOS only)
+  //         discretionary: true, // Allow the OS to control the timing and speed (iOS only)
+  //         progress: (res) => {
+  //           const progress = (res.bytesWritten / res.contentLength) * 100;
+  //           console.log(`Progress: ${progress.toFixed(2)}%`);
+  //         },
+  //       }).promise;
+  //     })
+  //     .then((response) => {
+  //       Helpers.toast(LANG[CONFIG.lang].txtDownloadSuccessfully);
+  //       console.log("File downloaded!", response);
+  //     })
+  //     .catch((err) => {
+  //       Helpers.toast(LANG[CONFIG.lang].txtDownloadFailed);
+  //       console.log("Download error:", err);
+  //     });
+
+  //   await this._checkAll(this.state._dataMessage);
+  // };
+
+  // _onCheckExistedFile = async (dataMsg) => {
+  //   const basePath =
+  //     Platform.OS === "android"
+  //       ? RNFS.DownloadDirectoryPath + "/Kindie"
+  //       : RNFS.LibraryDirectoryPath;
+  //   const filePath =
+  //     basePath + "/" + dataMsg.split("/")[dataMsg.split("/").length - 1];
+
+  //   let isExisted = false;
+  //   await RNFS.exists(filePath).then((exists) => {
+  //     if (exists) {
+  //       isExisted = true;
+  //     }
+  //   });
+  //   return isExisted;
+  // };
+
   _onDownloadFile = async (fileUrl, fileName) => {
     const basePath =
-      Platform.OS === 'android'
-        ? RNFS.DownloadDirectoryPath + '/Kindie'
-        : RNFS.LibraryDirectoryPath;
-    const filePath = basePath + '/' + fileName;
+      Platform.OS === "android"
+        ? FileSystem.documentDirectory + "Kindie/"
+        : FileSystem.documentDirectory + "Kindie/"; // sử dụng documentDirectory cho cả Android và iOS
 
-    await RNFS.exists(basePath)
-      .then(exists => {
-        if (!exists) {
-          return RNFS.mkdir(basePath);
-        }
-      })
-      .then(() => {
-        return RNFS.downloadFile({
-          fromUrl: fileUrl,
-          toFile: filePath,
-          background: true, // Enable downloading in the background (iOS only)
-          discretionary: true, // Allow the OS to control the timing and speed (iOS only)
-          progress: res => {
-            const progress = (res.bytesWritten / res.contentLength) * 100;
-            console.log(`Progress: ${progress.toFixed(2)}%`);
-          },
-        }).promise;
-      })
-      .then(response => {
-        Helpers.toast(LANG[CONFIG.lang].txtDownloadSuccessfully);
-        console.log('File downloaded!', response);
-      })
-      .catch(err => {
-        Helpers.toast(LANG[CONFIG.lang].txtDownloadFailed);
-        console.log('Download error:', err);
-      });
+    const filePath = basePath + fileName;
+
+    // Kiểm tra xem thư mục đã tồn tại chưa
+    const dirInfo = await FileSystem.getInfoAsync(basePath);
+    if (!dirInfo.exists) {
+      await FileSystem.makeDirectoryAsync(basePath, { intermediates: true });
+    }
+
+    // Tải file
+    const downloadResumable = FileSystem.createDownloadResumable(
+      fileUrl,
+      filePath,
+      {},
+      (progress) => {
+        const progressPercent =
+          progress.totalBytesWritten / progress.totalBytesExpectedToWrite;
+        console.log(`Progress: ${(progressPercent * 100).toFixed(2)}%`);
+      }
+    );
+
+    try {
+      const { uri } = await downloadResumable.downloadAsync();
+      Helpers.toast(LANG[CONFIG.lang].txtDownloadSuccessfully);
+      console.log("File downloaded!", uri);
+    } catch (error) {
+      Helpers.toast(LANG[CONFIG.lang].txtDownloadFailed);
+      console.log("Download error:", error);
+    }
 
     await this._checkAll(this.state._dataMessage);
   };
 
-  _onCheckExistedFile = async dataMsg => {
+  _onCheckExistedFile = async (dataMsg) => {
     const basePath =
-      Platform.OS === 'android'
-        ? RNFS.DownloadDirectoryPath + '/Kindie'
-        : RNFS.LibraryDirectoryPath;
+      Platform.OS === "android"
+        ? FileSystem.documentDirectory + "Kindie/"
+        : FileSystem.documentDirectory + "Kindie/";
     const filePath =
-      basePath + '/' + dataMsg.split('/')[dataMsg.split('/').length - 1];
+      basePath + dataMsg.split("/")[dataMsg.split("/").length - 1];
 
-    let isExisted = false;
-    await RNFS.exists(filePath).then(exists => {
-      if (exists) {
-        isExisted = true;
-      }
-    });
-    return isExisted;
+    const fileInfo = await FileSystem.getInfoAsync(filePath);
+    return fileInfo.exists;
   };
 
-  _checkAll = async _dataMessage => {
+  _checkAll = async (_dataMessage) => {
     let curr = [];
     for (let i = 0; i < _dataMessage.length; i++) {
       const message = _dataMessage[i]?.txtMessage;
-      await this._onCheckExistedFile(message).then(check => {
+      await this._onCheckExistedFile(message).then((check) => {
         curr.push(check);
       });
     }
@@ -345,7 +421,7 @@ class MessageDetailScreen extends React.Component {
 
   _onAccessDir = async () => {
     // await AsyncStorage.removeItem('userMediaDirectory');
-    let saved_dir = await AsyncStorage.getItem('userMediaDirectory');
+    let saved_dir = await AsyncStorage.getItem("userMediaDirectory");
     saved_dir = JSON.parse(saved_dir);
     const persistedUris = await ScopedStorage.getPersistedUriPermissions();
 
@@ -355,8 +431,8 @@ class MessageDetailScreen extends React.Component {
       let dir = await ScopedStorage.openDocumentTree(true);
       if (dir.uri.includes(persistedUris[0])) {
         await AsyncStorage.setItem(
-          'userMediaDirectory',
-          JSON.stringify(persistedUris[0]),
+          "userMediaDirectory",
+          JSON.stringify(persistedUris[0])
         );
         await ScopedStorage.openDocument();
       }
@@ -375,7 +451,7 @@ class MessageDetailScreen extends React.Component {
 
   /** RENDER */
   render() {
-    let {_dataMessage, _isPreview, _isExistedData} = this.state;
+    let { _dataMessage, _isPreview, _isExistedData } = this.state;
 
     return (
       <RenderMessageDetailScreen
@@ -406,7 +482,7 @@ class MessageDetailScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLoading: state.loading.isLoading,
     login: state.login,
@@ -414,7 +490,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };
@@ -422,5 +498,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(MessageDetailScreen);

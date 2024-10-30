@@ -3,7 +3,8 @@
 /** LIBRARY */
 import { Dimensions, PixelRatio, Platform, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ImagePicker from "react-native-image-crop-picker";
+import * as ImagePicker from "expo-image-picker";
+// import ImagePicker from "react-native-image-crop-picker";
 // import Permissions, { PERMISSIONS } from "react-native-permissions";
 import { CommonActions } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
@@ -213,24 +214,61 @@ export default {
   },
   // Choose photo from canera or gallery
   choosePhotoFromCamera: async () => {
-    let result = await ImagePicker.openCamera({
-      mediaTypes: "photo",
-      cropping: false,
-      includeBase64: true,
-      includeExif: true,
+    // let result = await ImagePicker.openCamera({
+    //   mediaTypes: "photo",
+    //   cropping: false,
+    //   includeBase64: true,
+    //   includeExif: true,
+    // });
+    // return result;
+    // Yêu cầu quyền truy cập máy ảnh
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert("Permission to access camera is required!");
+      return;
+    }
+
+    // Mở máy ảnh
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      base64: true,
+      exif: true,
     });
 
-    return result;
+    if (!result.canceled) {
+      return result.assets[0];
+    }
   },
   choosePhotoFromGallery: async () => {
-    let result = await ImagePicker.openPicker({
-      mediaTypes: "photo",
-      cropping: false,
-      includeBase64: true,
-      includeExif: true,
+    // let result = await ImagePicker.openPicker({
+    //   mediaTypes: "photo",
+    //   cropping: false,
+    //   includeBase64: true,
+    //   includeExif: true,
+    // });
+    // return result;
+    // Yêu cầu quyền truy cập thư viện ảnh
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert("Permission to access media library is required!");
+      return;
+    }
+
+    // Mở thư viện ảnh
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      base64: true,
+      exif: true,
     });
 
-    return result;
+    if (!result.canceled) {
+      return result.assets[0];
+    }
   },
   /** Capitalize the first character */
   capitalizeFirstLetter: (str) => {

@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   TouchableOpacity,
   Text as NativeText,
@@ -7,12 +7,12 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import Icon from "react-native-fontawesome-pro";
 
-import {ViewPropTypes, BackgroundImage, withTheme} from '../config';
-import {renderNode} from '../helpers';
-import Text from '../text/Text';
+import { ViewPropTypes, BackgroundImage, withTheme } from "../config";
+import { renderNode } from "../helpers";
+import Text from "../text/Text";
 
 const renderText = (content, defaultProps, style) =>
   renderNode(Text, content, {
@@ -20,7 +20,7 @@ const renderText = (content, defaultProps, style) =>
     style: StyleSheet.flatten([style, defaultProps && defaultProps.style]),
   });
 
-const FeaturedTile = props => {
+const FeaturedTile = (props) => {
   const {
     title,
     icon,
@@ -36,7 +36,8 @@ const FeaturedTile = props => {
     ...attributes
   } = props;
 
-  const {width = Dimensions.get('window').width, height = width * 0.8} = props;
+  const { width = Dimensions.get("window").width, height = width * 0.8 } =
+    props;
 
   const styles = StyleSheet.create({
     container: {
@@ -44,38 +45,38 @@ const FeaturedTile = props => {
       height,
     },
     imageContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ffffff',
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#ffffff",
       width,
       height,
     },
     overlayContainer: {
       flex: 1,
-      alignItems: 'center',
-      backgroundColor: 'rgba(0,0,0,0.2)',
-      alignSelf: 'stretch',
-      justifyContent: 'center',
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.2)",
+      alignSelf: "stretch",
+      justifyContent: "center",
       paddingLeft: 25,
       paddingRight: 25,
       paddingTop: 45,
       paddingBottom: 40,
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
     },
     text: {
-      color: '#ffffff',
-      backgroundColor: 'rgba(0,0,0,0)',
+      color: "#ffffff",
+      backgroundColor: "rgba(0,0,0,0)",
       marginBottom: 15,
-      textAlign: 'center',
+      textAlign: "center",
     },
     iconContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignSelf: 'center',
+      justifyContent: "center",
+      alignItems: "center",
+      alignSelf: "center",
     },
   });
 
@@ -85,33 +86,38 @@ const FeaturedTile = props => {
       style={StyleSheet.flatten([
         styles.container,
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       <ImageComponent
         source={imageSrc}
         style={StyleSheet.flatten([
           styles.imageContainer,
           imageContainerStyle && imageContainerStyle,
         ])}
-        resizeMode="cover">
+        resizeMode="cover"
+      >
         <View
           style={StyleSheet.flatten([
             styles.overlayContainer,
             overlayContainerStyle && overlayContainerStyle,
-          ])}>
+          ])}
+        >
           <View
             style={StyleSheet.flatten([
               styles.iconContainer,
               iconContainerStyle && iconContainerStyle,
-            ])}>
+            ])}
+          >
             {icon && <Icon {...icon} />}
           </View>
           <Text
             testID="featuredTileTitle"
             h4
-            style={StyleSheet.flatten([styles.text, titleStyle && titleStyle])}>
+            style={StyleSheet.flatten([styles.text, titleStyle && titleStyle])}
+          >
             {title}
           </Text>
-          {renderText(caption, {style: captionStyle}, styles.text)}
+          {renderText(caption, { style: captionStyle }, styles.text)}
         </View>
       </ImageComponent>
     </TouchableOpacity>
@@ -122,14 +128,14 @@ FeaturedTile.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.object,
   caption: PropTypes.node,
-  imageSrc: Image.propTypes.source,
+  imageSrc: Image.propTypes?.source,
   onPress: PropTypes.func,
-  containerStyle: ViewPropTypes.style,
-  iconContainerStyle: ViewPropTypes.style,
-  imageContainerStyle: ViewPropTypes.style,
-  overlayContainerStyle: ViewPropTypes.style,
-  titleStyle: NativeText.propTypes.style,
-  captionStyle: NativeText.propTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  iconContainerStyle: ViewPropTypes?.style,
+  imageContainerStyle: ViewPropTypes?.style,
+  overlayContainerStyle: ViewPropTypes?.style,
+  titleStyle: NativeText.propTypes?.style,
+  captionStyle: NativeText.propTypes?.style,
   width: PropTypes.number,
   height: PropTypes.number,
   ImageComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
@@ -139,5 +145,5 @@ FeaturedTile.defaultProps = {
   ImageComponent: BackgroundImage,
 };
 
-export {FeaturedTile};
-export default withTheme(FeaturedTile, 'FeaturedTile');
+export { FeaturedTile };
+export default withTheme(FeaturedTile, "FeaturedTile");

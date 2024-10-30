@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from "react-native";
 
-import {withTheme} from '../config';
+import { withTheme } from "../config";
 
-import ViewPropTypes from '../config/ViewPropTypes';
+import ViewPropTypes from "../config/ViewPropTypes";
 
 const ThemedViewElement = ({
   colorSecondary,
@@ -24,7 +24,7 @@ const ThemedViewElement = ({
             ? theme.colors.bgColorSecondary
             : theme.colors.bgColor,
         },
-        isFullView && {flex: 1},
+        isFullView && { flex: 1 },
         style && style,
       ])}
     />
@@ -34,7 +34,7 @@ const ThemedViewElement = ({
 ThemedViewElement.propTypes = {
   colorSecondary: PropTypes.bool,
   isFullView: PropTypes.bool,
-  style: ViewPropTypes.style,
+  style: ViewPropTypes?.style,
 };
 
 ThemedViewElement.defaultProps = {
@@ -42,4 +42,4 @@ ThemedViewElement.defaultProps = {
   isFullView: false,
 };
 
-export default withTheme(ThemedViewElement, 'ThemedView');
+export default withTheme(ThemedViewElement, "ThemedView");

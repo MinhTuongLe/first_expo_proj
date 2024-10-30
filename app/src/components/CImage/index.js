@@ -4,10 +4,11 @@
  * @Date create: 18/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import FastImage from 'react-native-fast-image';
+import React from "react";
+// import FastImage from 'react-native-fast-image';
+import { Image } from "expo-image";
 /** COMMON */
-import {ASSETS} from '../../config';
+import { ASSETS } from "../../config";
 
 class CImage extends React.PureComponent {
   constructor(props) {
@@ -20,7 +21,7 @@ class CImage extends React.PureComponent {
 
   /* FUNCTIONS */
   _onLoad = () => {
-    this.setState({_loading: false});
+    this.setState({ _loading: false });
   };
 
   _onError = () => {
@@ -33,33 +34,51 @@ class CImage extends React.PureComponent {
   /* LIFE CYCLES */
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.src != this.props.src) {
-      this.setState({_source: this.props.src});
+      this.setState({ _source: this.props.src });
     }
   }
 
   /** RENDER */
   render() {
-    let {style, resizeMode, renderContent = null} = this.props;
-    let {_source} = this.state;
+    let { style, resizeMode, renderContent = null } = this.props;
+    let { _source } = this.state;
 
     return (
-      <FastImage
-        style={[style, {overflow: 'hidden'}]}
-        source={
-          _source.uri
-            ? {
-                uri: _source.uri,
-                priority: FastImage.priority.normal,
-              }
-            : _source
-        }
-        resizeMode={resizeMode}
-        cache={FastImage.cacheControl.immutable}
-        onLoadStart={this._onLoadStart}
-        onLoad={this._onLoad}
-        onError={this._onError}>
+      // <FastImage
+      //   style={[style, {overflow: 'hidden'}]}
+      //   source={
+      //     _source.uri
+      //       ? {
+      //           uri: _source.uri,
+      //           priority: FastImage.priority.normal,
+      //         }
+      //       : _source
+      //   }
+      //   resizeMode={resizeMode}
+      //   cache={FastImage.cacheControl.immutable}
+      //   onLoadStart={this._onLoadStart}
+      //   onLoad={this._onLoad}
+      //   onError={this._onError}>
+      //   {renderContent}
+      // </FastImage>
+      <View style={[style, { overflow: "hidden" }]}>
+        <Image
+          source={
+            _source.uri
+              ? {
+                  uri: _source.uri,
+                }
+              : _source
+          }
+          style={{ width: "100%", height: "100%" }} // Điều chỉnh kích thước theo ý muốn
+          resizeMode={resizeMode || "cover"}
+          onLoad={this._onLoad}
+          onError={this._onError}
+        />
+
+        {/* Hiển thị nội dung renderContent nếu có */}
         {renderContent}
-      </FastImage>
+      </View>
     );
   }
   // render() {

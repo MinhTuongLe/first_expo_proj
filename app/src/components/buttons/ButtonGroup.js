@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   View,
   Text as NativeText,
@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
   Platform,
   StyleSheet,
-} from 'react-native';
+} from "react-native";
 
-import {ViewPropTypes, withTheme} from '../config';
-import {normalizeText, color} from '../helpers';
+import { ViewPropTypes, withTheme } from "../config";
+import { normalizeText, color } from "../helpers";
 
-import Text from '../text/Text';
+import Text from "../text/Text";
 
-const ButtonGroup = props => {
-  const {theme, ...rest} = props;
+const ButtonGroup = (props) => {
+  const { theme, ...rest } = props;
 
   const {
     Component,
@@ -49,7 +49,7 @@ const ButtonGroup = props => {
 
   if (
     innerBorderStyle &&
-    Object.prototype.hasOwnProperty.call(innerBorderStyle, 'width')
+    Object.prototype.hasOwnProperty.call(innerBorderStyle, "width")
   ) {
     innerBorderWidth = innerBorderStyle.width;
   }
@@ -60,7 +60,8 @@ const ButtonGroup = props => {
       style={StyleSheet.flatten([
         styles.container,
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       {buttons.map((button, i) => {
         const isSelected = selectedIndex === i || selectedIndexes.includes(i);
         const isDisabled =
@@ -95,7 +96,8 @@ const ButtonGroup = props => {
                 borderTopLeftRadius: containerBorderRadius,
                 borderBottomLeftRadius: containerBorderRadius,
               },
-            ])}>
+            ])}
+          >
             <Component
               testID="buttonGroupItem"
               activeOpacity={activeOpacity}
@@ -107,7 +109,7 @@ const ButtonGroup = props => {
               onPress={() => {
                 if (selectMultiple) {
                   if (selectedIndexes.includes(i)) {
-                    onPress(selectedIndexes.filter(index => index !== i));
+                    onPress(selectedIndexes.filter((index) => index !== i));
                   } else {
                     onPress([...selectedIndexes, i]);
                   }
@@ -115,7 +117,8 @@ const ButtonGroup = props => {
                   onPress(i);
                 }
               }}
-              style={styles.button}>
+              style={styles.button}
+            >
               <View
                 style={StyleSheet.flatten([
                   styles.textContainer,
@@ -128,7 +131,8 @@ const ButtonGroup = props => {
                   isDisabled && disabledStyle,
                   isDisabled && isSelected && styles.disabledSelected(theme),
                   isDisabled && isSelected && disabledSelectedStyle,
-                ])}>
+                ])}
+              >
                 {button.element ? (
                   <button.element />
                 ) : (
@@ -137,12 +141,13 @@ const ButtonGroup = props => {
                     style={StyleSheet.flatten([
                       styles.buttonText(theme),
                       textStyle && textStyle,
-                      isSelected && {color: '#fff'},
+                      isSelected && { color: "#fff" },
                       isSelected && selectedTextStyle,
                       isDisabled && styles.disabledText(theme),
                       isDisabled && disabledTextStyle,
                       isDisabled && isSelected && disabledSelectedTextStyle,
-                    ])}>
+                    ])}
+                  >
                     {button}
                   </Text>
                 )}
@@ -161,39 +166,39 @@ const styles = {
   },
   textContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 5,
     marginTop: 5,
-    borderColor: '#e3e3e3',
+    borderColor: "#e3e3e3",
     borderWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderRadius: 3,
-    overflow: 'hidden',
-    backgroundColor: '#fff',
+    overflow: "hidden",
+    backgroundColor: "#fff",
     height: 40,
   },
-  buttonText: theme => ({
+  buttonText: (theme) => ({
     fontSize: normalizeText(13),
     color: theme.colors.grey2,
     ...Platform.select({
       android: {},
       default: {
-        fontWeight: '500',
+        fontWeight: "500",
       },
     }),
   }),
   disabled: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
-  disabledText: theme => ({
+  disabledText: (theme) => ({
     color: color(theme.colors.disabled).darken(0.3),
   }),
-  disabledSelected: theme => ({
+  disabledSelected: (theme) => ({
     backgroundColor: theme.colors.disabled,
   }),
 };
@@ -203,10 +208,10 @@ ButtonGroup.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   onPress: PropTypes.func,
   buttons: PropTypes.array,
-  containerStyle: ViewPropTypes.style,
-  textStyle: NativeText.propTypes.style,
-  selectedTextStyle: NativeText.propTypes.style,
-  selectedButtonStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  textStyle: NativeText.propTypes?.style,
+  selectedTextStyle: NativeText.propTypes?.style,
+  selectedButtonStyle: ViewPropTypes?.style,
   underlayColor: PropTypes.string,
   selectedIndex: PropTypes.number,
   selectedIndexes: PropTypes.arrayOf(PropTypes.number),
@@ -219,10 +224,10 @@ ButtonGroup.propTypes = {
     width: PropTypes.number,
   }),
   lastBorderStyle: PropTypes.oneOfType([
-    ViewPropTypes.style,
-    NativeText.propTypes.style,
+    ViewPropTypes?.style,
+    NativeText.propTypes?.style,
   ]),
-  buttonStyle: ViewPropTypes.style,
+  buttonStyle: ViewPropTypes?.style,
   containerBorderRadius: PropTypes.number,
   selectMultiple: PropTypes.bool,
   theme: PropTypes.object,
@@ -230,10 +235,10 @@ ButtonGroup.propTypes = {
     PropTypes.bool,
     PropTypes.arrayOf(PropTypes.number),
   ]),
-  disabledStyle: ViewPropTypes.style,
-  disabledTextStyle: NativeText.propTypes.style,
-  disabledSelectedStyle: ViewPropTypes.style,
-  disabledSelectedTextStyle: NativeText.propTypes.style,
+  disabledStyle: ViewPropTypes?.style,
+  disabledTextStyle: NativeText.propTypes?.style,
+  disabledSelectedStyle: ViewPropTypes?.style,
+  disabledSelectedTextStyle: NativeText.propTypes?.style,
 };
 
 ButtonGroup.defaultProps = {
@@ -248,5 +253,5 @@ ButtonGroup.defaultProps = {
   onPress: () => null,
 };
 
-export {ButtonGroup};
-export default withTheme(ButtonGroup, 'ButtonGroup');
+export { ButtonGroup };
+export default withTheme(ButtonGroup, "ButtonGroup");

@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Animated,
   Image as RNImage,
   Platform,
   StyleSheet,
   View,
-} from 'react-native';
+} from "react-native";
 
-import {nodeType} from '../helpers';
-import {ViewPropTypes, withTheme} from '../config';
+import { nodeType } from "../helpers";
+import { ViewPropTypes, withTheme } from "../config";
 
 class Image extends React.PureComponent {
   placeholderContainerOpacity = new Animated.Value(1);
@@ -27,7 +27,7 @@ class Image extends React.PureComponent {
           duration: 350,
           useNativeDriver: true,
         }).start(),
-      minimumWait + staggerNonce,
+      minimumWait + staggerNonce
     );
   };
 
@@ -58,12 +58,13 @@ class Image extends React.PureComponent {
                           inputRange: [0, 1],
                           outputRange: [
                             styles.placeholder.backgroundColor,
-                            'transparent',
+                            "transparent",
                           ],
                         }),
                     },
                     placeholderStyle,
-                  ])}>
+                  ])}
+                >
                   {PlaceholderContent}
                 </Animated.View>
               </View>
@@ -82,15 +83,17 @@ class Image extends React.PureComponent {
               <Animated.View
                 style={StyleSheet.flatten([
                   styles.placeholderContainer,
-                  {opacity: this.placeholderContainerOpacity},
-                ])}>
+                  { opacity: this.placeholderContainerOpacity },
+                ])}
+              >
                 <View
                   testID="RNE__Image__placeholder"
                   style={StyleSheet.flatten([
                     style,
                     styles.placeholder,
                     placeholderStyle,
-                  ])}>
+                  ])}
+                >
                   {PlaceholderContent}
                 </View>
               </Animated.View>
@@ -104,16 +107,16 @@ class Image extends React.PureComponent {
 
 const styles = {
   container: {
-    backgroundColor: 'transparent',
-    position: 'relative',
+    backgroundColor: "transparent",
+    position: "relative",
   },
   placeholderContainer: {
     ...StyleSheet.absoluteFillObject,
   },
   placeholder: {
-    backgroundColor: '#f9f9f9',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#f9f9f9",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
@@ -121,13 +124,13 @@ Image.propTypes = {
   ...RNImage.propTypes,
   ImageComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   PlaceholderContent: nodeType,
-  containerStyle: ViewPropTypes.style,
-  placeholderStyle: RNImage.propTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  placeholderStyle: RNImage.propTypes?.style,
 };
 
 Image.defaultProps = {
   ImageComponent: RNImage,
 };
 
-export {Image};
-export default withTheme(Image, 'Image');
+export { Image };
+export default withTheme(Image, "Image");

@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View, Platform, Image, StyleSheet} from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, Platform, Image, StyleSheet } from "react-native";
 
-import normalize from '../helpers/normalizeText';
+import normalize from "../helpers/normalizeText";
 import {
   BackgroundImage,
   fonts,
   TextPropTypes,
   ViewPropTypes,
   withTheme,
-} from '../config';
+} from "../config";
 
-import Text from '../text/Text';
-import Divider from '../divider/Divider';
+import Text from "../text/Text";
+import Divider from "../divider/Divider";
 
-const Card = props => {
+const Card = (props) => {
   const {
     children,
     containerStyle,
@@ -40,15 +40,17 @@ const Card = props => {
       {...attributes}
       style={StyleSheet.flatten([
         styles.container(theme),
-        image && {padding: 0},
+        image && { padding: 0 },
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       <View
         style={StyleSheet.flatten([
           styles.wrapper,
           wrapperStyle && wrapperStyle,
-        ])}>
-        {title === '' || React.isValidElement(title)
+        ])}
+      >
+        {title === "" || React.isValidElement(title)
           ? title
           : title &&
             title.length && (
@@ -60,7 +62,8 @@ const Card = props => {
                     image && styles.imageCardTitle,
                     titleStyle && titleStyle,
                   ])}
-                  numberOfLines={titleNumberOfLines}>
+                  numberOfLines={titleNumberOfLines}
+                >
                   {title}
                 </Text>
 
@@ -80,7 +83,8 @@ const Card = props => {
             <BackgroundImage
               style={[styles.bgImage, imageStyle && imageStyle]}
               source={image}
-              {...imageProps}>
+              {...imageProps}
+            >
               {(featuredTitle || featuredSubtitle) && (
                 <View style={styles.overlayContainer}>
                   {featuredTitle && (
@@ -88,7 +92,8 @@ const Card = props => {
                       style={StyleSheet.flatten([
                         styles.featuredTitle,
                         featuredTitleStyle && featuredTitleStyle,
-                      ])}>
+                      ])}
+                    >
                       {featuredTitle}
                     </Text>
                   )}
@@ -97,7 +102,8 @@ const Card = props => {
                       style={StyleSheet.flatten([
                         styles.featuredSubtitle,
                         featuredSubtitleStyle && featuredSubtitleStyle,
-                      ])}>
+                      ])}
+                    >
                       {featuredSubtitle}
                     </Text>
                   )}
@@ -107,9 +113,10 @@ const Card = props => {
 
             <View
               style={StyleSheet.flatten([
-                {padding: 10},
+                { padding: 10 },
                 wrapperStyle && wrapperStyle,
-              ])}>
+              ])}
+            >
               {children}
             </View>
           </View>
@@ -126,27 +133,27 @@ Card.propTypes = {
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
   ]),
-  containerStyle: ViewPropTypes.style,
-  wrapperStyle: ViewPropTypes.style,
-  overlayStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  wrapperStyle: ViewPropTypes?.style,
+  overlayStyle: ViewPropTypes?.style,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  titleStyle: TextPropTypes.style,
+  titleStyle: TextPropTypes?.style,
   featuredTitle: PropTypes.string,
-  featuredTitleStyle: TextPropTypes.style,
+  featuredTitleStyle: TextPropTypes?.style,
   featuredSubtitle: PropTypes.string,
-  featuredSubtitleStyle: TextPropTypes.style,
-  dividerStyle: ViewPropTypes.style,
-  image: Image.propTypes.source,
-  imageStyle: ViewPropTypes.style,
-  imageWrapperStyle: ViewPropTypes.style,
+  featuredSubtitleStyle: TextPropTypes?.style,
+  dividerStyle: ViewPropTypes?.style,
+  image: Image.propTypes?.source,
+  imageStyle: ViewPropTypes?.style,
+  imageWrapperStyle: ViewPropTypes?.style,
   imageProps: PropTypes.object,
   titleNumberOfLines: PropTypes.number,
   theme: PropTypes.object,
 };
 
 const styles = {
-  container: theme => ({
-    backgroundColor: '#ffffff',
+  container: (theme) => ({
+    backgroundColor: "#ffffff",
     borderWidth: 1,
     padding: 15,
     margin: 15,
@@ -157,8 +164,8 @@ const styles = {
         elevation: 1,
       },
       default: {
-        shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: {height: 0, width: 0},
+        shadowColor: "rgba(0,0,0, .2)",
+        shadowOffset: { height: 0, width: 0 },
         shadowOpacity: 1,
         shadowRadius: 1,
       },
@@ -167,26 +174,26 @@ const styles = {
   featuredTitle: {
     fontSize: normalize(18),
     marginBottom: 8,
-    color: '#ffffff',
+    color: "#ffffff",
     ...fonts.bold,
   },
   featuredSubtitle: {
     fontSize: normalize(13),
     marginBottom: 8,
-    color: '#ffffff',
+    color: "#ffffff",
     ...fonts.bold,
   },
   wrapper: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   divider: {
     marginBottom: 15,
   },
-  cardTitle: theme => ({
+  cardTitle: (theme) => ({
     fontSize: normalize(14),
     color: theme.colors.grey1,
     ...fonts.bold,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 15,
   }),
   imageCardTitle: {
@@ -194,11 +201,11 @@ const styles = {
   },
   overlayContainer: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    alignSelf: "stretch",
+    justifyContent: "center",
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -210,5 +217,5 @@ const styles = {
   },
 };
 
-export {Card};
-export default withTheme(Card, 'Card');
+export { Card };
+export default withTheme(Card, "Card");

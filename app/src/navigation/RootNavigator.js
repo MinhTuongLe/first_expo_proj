@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Image, Linking, TouchableOpacity, Platform } from "react-native";
 import firebase from "react-native-firebase";
-import { SafeAreaView } from "react-navigation";
+import { SafeAreaView } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import Modal from "react-native-modal";
 /* CONPONENT */

@@ -4,17 +4,18 @@
  * @Date create: 26/02/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Platform} from 'react-native';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Platform } from "react-native";
+// import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import * as MediaLibrary from "expo-media-library";
 /** COMPONENT */
-import ViewNewAlbumScreen from './render';
+import ViewNewAlbumScreen from "./render";
 /** COMMON */
-import Helpers from '../../../helpers';
+import Helpers from "../../../helpers";
 /** REDUX */
-import * as loadingActions from '../../../redux/actions/loading';
+import * as loadingActions from "../../../redux/actions/loading";
 
 class NewAlbumScreen extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class NewAlbumScreen extends React.Component {
       _classChoose: null,
       _numPhoto: 20,
       _pageNumPhoto: 1,
-      _dataPhoto: [{id: 'cameraBtn'}],
+      _dataPhoto: [{ id: "cameraBtn" }],
       _arrSelectedPhoto: [],
       _arrDataClasses: props.login.data.classes,
       _addFrom: props.route.params?.addFrom ?? null,
@@ -35,36 +36,75 @@ class NewAlbumScreen extends React.Component {
   }
 
   /** FUNCTIONS */
+  // _getInfoListMedia = async () => {
+  //   let {_numPhoto, _pageNumPhoto} = this.state;
+  //   let options = {
+  //     first: _pageNumPhoto * _numPhoto,
+  //     assetType: 'Photos',
+  //   };
+  //   if (Platform.OS === 'ios') {
+  //     options.groupTypes = 'All';
+  //   }
+  //   if (Platform.OS === 'android') {
+  //     options.include = ['filename', 'imageSize'];
+  //   }
+  //   let res = await CameraRoll.getPhotos(options);
+  //   // console.log(res)
+  //   let photoArray = res.edges;
+  //   let _classChoose = await Helpers.getAsyStrClassChoosed();
+  //   if (_classChoose) {
+  //     _classChoose = JSON.parse(_classChoose);
+  //   }
+  //   if (photoArray.length < 20) {
+  //     this.onEndReachedCalledDuringMomentum = false;
+  //   }
+  //   let tmp = [{id: 'cameraBtn'}];
+  //   this.setState({
+  //     _dataPhoto: [...tmp, ...photoArray],
+  //     _classChoose: _classChoose ? _classChoose : null,
+  //     _pageNumPhoto: _pageNumPhoto + 1,
+  //     _isLoading: false,
+  //     _isLoadMore: photoArray.length === _pageNumPhoto * _numPhoto,
+  //   });
+  //   this.props.loadingActions.setLoading(false);
+  // };
+
   _getInfoListMedia = async () => {
-    let {_numPhoto, _pageNumPhoto} = this.state;
-    let options = {
-      first: _pageNumPhoto * _numPhoto,
-      assetType: 'Photos',
+    let { _numPhoto, _pageNumPhoto } = this.state;
+
+    // Cập nhật tham số để lấy ảnh
+    const options = {
+      first: _numPhoto, // Số lượng ảnh tối đa muốn lấy
+      mediaType: "photo", // Chỉ lấy ảnh
     };
-    if (Platform.OS === 'ios') {
-      options.groupTypes = 'All';
-    }
-    if (Platform.OS === 'android') {
-      options.include = ['filename', 'imageSize'];
-    }
-    let res = await CameraRoll.getPhotos(options);
-    // console.log(res)
-    let photoArray = res.edges;
+
+    // Lấy ảnh từ thư viện
+    let res = await MediaLibrary.getAssetsAsync(options);
+    let photoArray = res.assets; // Dữ liệu ảnh nằm ở đây
+
     let _classChoose = await Helpers.getAsyStrClassChoosed();
     if (_classChoose) {
       _classChoose = JSON.parse(_classChoose);
     }
-    if (photoArray.length < 20) {
+
+    // Kiểm tra xem có đủ ảnh để load thêm không
+    if (photoArray.length < _numPhoto) {
       this.onEndReachedCalledDuringMomentum = false;
     }
-    let tmp = [{id: 'cameraBtn'}];
+
+    // Tạo mảng tạm chứa nút camera
+    let tmp = [{ id: "cameraBtn" }];
+
+    // Cập nhật state
     this.setState({
       _dataPhoto: [...tmp, ...photoArray],
       _classChoose: _classChoose ? _classChoose : null,
       _pageNumPhoto: _pageNumPhoto + 1,
       _isLoading: false,
-      _isLoadMore: photoArray.length === _pageNumPhoto * _numPhoto,
+      _isLoadMore: photoArray.length === _numPhoto, // Xác định xem có ảnh để load thêm không
     });
+
+    // Dừng loading
     this.props.loadingActions.setLoading(false);
   };
 
@@ -75,7 +115,7 @@ class NewAlbumScreen extends React.Component {
       if (result) {
         let arrTemp = [];
         arrTemp.push({
-          id: 'photoByCam',
+          id: "photoByCam",
           data: result,
         });
 
@@ -84,17 +124,17 @@ class NewAlbumScreen extends React.Component {
           _classChoose = JSON.parse(_classChoose);
         }
 
-        this.props.navigation.navigate('UploadAlbum', {
+        this.props.navigation.navigate("UploadAlbum", {
           seletedClass: _classChoose,
           arrSelectedPhoto: arrTemp,
           addFrom: this.state._addFrom,
           onRefresh:
             this.props.route.params?.onRefresh ??
-            (arrSelectedPhoto => this._onBack(arrSelectedPhoto)),
+            ((arrSelectedPhoto) => this._onBack(arrSelectedPhoto)),
         });
       } else {
         Helpers.toast(
-          this.props.language === 'vi' ? 'Lỗi Camera' : 'Camera error',
+          this.props.language === "vi" ? "Lỗi Camera" : "Camera error"
         );
       }
     }
@@ -114,8 +154,8 @@ class NewAlbumScreen extends React.Component {
   };
 
   /** HANDLE FUNCTIONS */
-  _onPressImageItem = item => {
-    if (item.id == 'cameraBtn') {
+  _onPressImageItem = (item) => {
+    if (item.id == "cameraBtn") {
       this._openCamera();
     } else {
       //Check exist
@@ -134,24 +174,24 @@ class NewAlbumScreen extends React.Component {
   };
 
   _onPressNext = () => {
-    let {_arrSelectedPhoto, _classChoose, _addFrom} = this.state;
-    let {navigation} = this.props;
+    let { _arrSelectedPhoto, _classChoose, _addFrom } = this.state;
+    let { navigation } = this.props;
     // console.log(this.props);
 
     if (_arrSelectedPhoto.length > 0) {
       // let fromRoute = navigation.getParam('fromRoute', "");
       let fromRoute = this.props.route.params?.fromRoute;
-      if (fromRoute && fromRoute === 'Message') {
+      if (fromRoute && fromRoute === "Message") {
         navigation.state.params.onPrepareMedia(_arrSelectedPhoto);
         navigation.goBack();
       } else {
-        navigation.navigate('UploadAlbum', {
+        navigation.navigate("UploadAlbum", {
           arrSelectedPhoto: _arrSelectedPhoto,
           seletedClass: _classChoose,
           addFrom: _addFrom,
           onRefresh:
             this.props.route.params?.onRefresh ??
-            (arrSelectedPhoto => this._onBack(arrSelectedPhoto)),
+            ((arrSelectedPhoto) => this._onBack(arrSelectedPhoto)),
           // onRefresh: navigation.getParam('onRefresh', arrSelectedPhoto =>
           //   this._onBack(arrSelectedPhoto),
           // ),
@@ -160,7 +200,7 @@ class NewAlbumScreen extends React.Component {
     }
   };
 
-  _onBack = arrSelectedPhoto => {
+  _onBack = (arrSelectedPhoto) => {
     this.setState({
       _arrSelectedPhoto: arrSelectedPhoto,
       _dataPhoto: [],
@@ -180,7 +220,7 @@ class NewAlbumScreen extends React.Component {
 
   /** RENDER */
   render() {
-    let {_dataPhoto, _arrDataClasses} = this.state;
+    let { _dataPhoto, _arrDataClasses } = this.state;
 
     return (
       <ViewNewAlbumScreen
@@ -201,14 +241,14 @@ class NewAlbumScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };

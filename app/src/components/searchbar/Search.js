@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   StyleSheet,
   View,
@@ -9,26 +9,26 @@ import {
   LayoutAnimation,
   UIManager,
   ActivityIndicator,
-} from 'react-native';
-import Text from '../text/Text';
-import Input from '../input/Input';
-import Icon from 'react-native-fontawesome-pro';
-import ViewPropTypes from '../config/ViewPropTypes';
+} from "react-native";
+import Text from "../text/Text";
+import Input from "../input/Input";
+import Icon from "react-native-fontawesome-pro";
+import ViewPropTypes from "../config/ViewPropTypes";
 
-import {withTheme} from '../config';
-import {renderNode, nodeType} from '../helpers';
-import {grey5, grey4} from '../config/colors';
-import {sizes} from '../config/fonts';
-import {margin, padding, borderRadius} from '../config/spacing';
+import { withTheme } from "../config";
+import { renderNode, nodeType } from "../helpers";
+import { grey5, grey4 } from "../config/colors";
+import { sizes } from "../config/fonts";
+import { margin, padding, borderRadius } from "../config/spacing";
 
 const defaultSearchIcon = {
-  type: 'feather',
+  type: "feather",
   size: 20,
-  name: 'search',
+  name: "search",
 };
 const defaultClearIcon = {
-  type: 'feather',
-  name: 'x',
+  type: "feather",
+  name: "x",
   size: 20,
   color: grey4,
 };
@@ -36,7 +36,7 @@ const defaultClearIcon = {
 class Search extends React.Component<Props> {
   constructor(props) {
     super(props);
-    const {value} = props;
+    const { value } = props;
 
     this.state = {
       isEmpty: !value || value.length < 1,
@@ -52,7 +52,7 @@ class Search extends React.Component<Props> {
 
   clear = () => {
     this.input.clear();
-    this.onChangeText('');
+    this.onChangeText("");
     this.props.onClear();
   };
 
@@ -71,9 +71,9 @@ class Search extends React.Component<Props> {
     UIManager.configureNextLayoutAnimation && LayoutAnimation.easeInEaseOut();
   };
 
-  onChangeText = text => {
+  onChangeText = (text) => {
     this.props.onChangeText(text);
-    this.setState({isEmpty: !text || text.length < 1});
+    this.setState({ isEmpty: !text || text.length < 1 });
   };
   render() {
     const {
@@ -93,9 +93,9 @@ class Search extends React.Component<Props> {
       searchIcon,
       ...attributes
     } = this.props;
-    const {isEmpty} = this.state;
+    const { isEmpty } = this.state;
 
-    const {style: loadingStyle, ...otherLoadingProps} = loadingProps;
+    const { style: loadingStyle, ...otherLoadingProps } = loadingProps;
     const colors = theme.SearchBar;
     const {
       buttonStyle,
@@ -115,7 +115,7 @@ class Search extends React.Component<Props> {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           onChangeText={this.onChangeText}
-          ref={input => {
+          ref={(input) => {
             this.input = input;
           }}
           inputStyle={StyleSheet.flatten([styles.input(theme), inputStyle])}
@@ -140,7 +140,7 @@ class Search extends React.Component<Props> {
               {showLoading && (
                 <ActivityIndicator
                   key="loading"
-                  style={StyleSheet.flatten([{marginRight: 5}, loadingStyle])}
+                  style={StyleSheet.flatten([{ marginRight: 5 }, loadingStyle])}
                   {...otherLoadingProps}
                 />
               )}
@@ -148,7 +148,7 @@ class Search extends React.Component<Props> {
                 renderNode(Icon, clearIcon, {
                   ...defaultClearIcon,
                   color: theme.colors.secondary,
-                  key: 'cancel',
+                  key: "cancel",
                   onPress: this.clear,
                 })}
             </View>
@@ -163,18 +163,20 @@ class Search extends React.Component<Props> {
             accessibilityRole="button"
             onPress={this.cancel}
             disabled={buttonDisabled}
-            {...otherCancelButtonProps}>
+            {...otherCancelButtonProps}
+          >
             <View style={[buttonStyle, buttonDisabled && buttonDisabledStyle]}>
               <Text
                 style={[
                   styles.buttonTextStyle,
-                  buttonColor && {color: buttonColor},
+                  buttonColor && { color: buttonColor },
                   buttonTextStyle,
                   buttonDisabled &&
                     (buttonDisabledTextStyle ||
                       styles.buttonTextDisabled(theme)),
                 ]}
-                h6>
+                h6
+              >
                 {cancelButtonTitle}
               </Text>
             </View>
@@ -187,16 +189,16 @@ class Search extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: padding.large,
   },
-  input: theme => ({
+  input: (theme) => ({
     marginLeft: margin.small,
     fontSize: sizes.base,
     color: theme.colors.primary,
   }),
-  inputContainer: bgColor => ({
+  inputContainer: (bgColor) => ({
     borderBottomWidth: 0,
     backgroundColor: bgColor,
     borderRadius: borderRadius.base,
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewRightInput: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   rightIconContainerStyle: {
     marginRight: margin.large,
@@ -219,7 +221,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
     paddingVertical: padding.small,
   },
-  buttonTextDisabled: theme => ({
+  buttonTextDisabled: (theme) => ({
     color: theme.colors.disabled,
   }),
 });
@@ -238,18 +240,18 @@ Search.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChangeText: PropTypes.func,
-  containerStyle: ViewPropTypes.style,
-  leftIconContainerStyle: ViewPropTypes.style,
-  rightIconContainerStyle: ViewPropTypes.style,
-  inputContainerStyle: ViewPropTypes.style,
-  inputStyle: TextRN.propTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  leftIconContainerStyle: ViewPropTypes?.style,
+  rightIconContainerStyle: ViewPropTypes?.style,
+  inputContainerStyle: ViewPropTypes?.style,
+  inputStyle: TextRN.propTypes?.style,
   placeholderTextColor: PropTypes.string,
 };
 
 Search.defaultProps = {
-  value: '',
+  value: "",
   cancelButton: true,
-  cancelButtonTitle: 'Cancel',
+  cancelButtonTitle: "Cancel",
   loadingProps: {},
   cancelButtonProps: {},
   showLoading: false,

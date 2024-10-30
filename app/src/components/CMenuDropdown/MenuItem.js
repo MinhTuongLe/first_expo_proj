@@ -1,19 +1,19 @@
 /**
-* @Description: ./src/components/CMenuDropdown
-* @CreatedAt: 13/11/2019
-* @Author: ZiniSoft
-*/
+ * @Description: ./src/components/CMenuDropdown
+ * @CreatedAt: 13/11/2019
+ * @Author: ZiniSoft
+ */
 /** LIBRARY */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Platform,
   StyleSheet,
   Text,
   TouchableNativeFeedback,
   View,
-  ViewPropTypes
-} from 'react-native';
+  ViewPropTypes,
+} from "react-native";
 
 const Touchable = Platform.select({
   android: TouchableNativeFeedback,
@@ -31,7 +31,7 @@ function MenuItem({
   ...props
 }) {
   const touchableProps =
-    Platform.OS === 'android'
+    Platform.OS === "android"
       ? { background: TouchableNativeFeedback.SelectableBackground() }
       : {};
 
@@ -42,9 +42,7 @@ function MenuItem({
       {...touchableProps}
       {...props}
     >
-      <View style={[styles.container, style]}>
-        {children}
-      </View>
+      <View style={[styles.container, style]}>{children}</View>
     </Touchable>
   );
 }
@@ -55,30 +53,30 @@ MenuItem.propTypes = {
   disabledTextColor: PropTypes.string,
   ellipsizeMode: PropTypes.string,
   onPress: PropTypes.func,
-  style: ViewPropTypes.style,
-  textStyle: Text.propTypes.style,
+  style: ViewPropTypes?.style,
+  textStyle: Text.propTypes?.style,
   // underlayColor: ViewPropTypes.underlayColor,
 };
 
 MenuItem.defaultProps = {
   disabled: false,
-  disabledTextColor: '#bdbdbd',
-  ellipsizeMode: Platform.OS === 'ios' ? 'clip' : 'tail',
-  underlayColor: '#e0e0e0',
+  disabledTextColor: "#bdbdbd",
+  ellipsizeMode: Platform.OS === "ios" ? "clip" : "tail",
+  underlayColor: "#e0e0e0",
 };
 
 const styles = StyleSheet.create({
   container: {
     height: 48,
-    justifyContent: 'center',
+    justifyContent: "center",
     maxWidth: 248,
     minWidth: 124,
   },
   title: {
     fontSize: 14,
-    fontWeight: '400',
+    fontWeight: "400",
     paddingHorizontal: 16,
-    textAlign: 'left',
+    textAlign: "left",
   },
 });
 

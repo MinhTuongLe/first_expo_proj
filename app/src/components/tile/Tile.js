@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   View,
   StyleSheet,
   Dimensions,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import Icon from "react-native-fontawesome-pro";
 
 import {
   BackgroundImage,
   TextPropTypes,
   ViewPropTypes,
   withTheme,
-} from '../config';
+} from "../config";
 
-import Text from '../text/Text';
+import Text from "../text/Text";
 
-import FeaturedTile from './FeaturedTile';
+import FeaturedTile from "./FeaturedTile";
 
-const Tile = props => {
+const Tile = (props) => {
   const {
     featured,
     imageSrc,
@@ -42,7 +42,7 @@ const Tile = props => {
     ...attributes
   } = props;
 
-  const {width, height = width * 0.8} = props;
+  const { width, height = width * 0.8 } = props;
 
   if (featured) {
     const featuredProps = {
@@ -75,19 +75,22 @@ const Tile = props => {
           height,
         },
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       <ImageComponent
         source={imageSrc}
         style={StyleSheet.flatten([
           styles.imageContainer,
           imageContainerStyle && imageContainerStyle,
         ])}
-        resizeMode="cover">
+        resizeMode="cover"
+      >
         <View
           style={StyleSheet.flatten([
             styles.iconContainer,
             iconContainerStyle && iconContainerStyle,
-          ])}>
+          ])}
+        >
           {icon && <Icon {...icon} />}
         </View>
       </ImageComponent>
@@ -95,12 +98,14 @@ const Tile = props => {
         style={StyleSheet.flatten([
           styles.contentContainer,
           contentContainerStyle && contentContainerStyle,
-        ])}>
+        ])}
+      >
         <Text
           testID="tileTitle"
           h4
           style={StyleSheet.flatten([styles.text, titleStyle && titleStyle])}
-          numberOfLines={titleNumberOfLines}>
+          numberOfLines={titleNumberOfLines}
+        >
           {title}
         </Text>
         {children}
@@ -113,38 +118,38 @@ Tile.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.object,
   caption: PropTypes.node,
-  imageSrc: Image.propTypes.source,
+  imageSrc: Image.propTypes?.source,
   onPress: PropTypes.func,
   activeOpacity: PropTypes.number,
-  containerStyle: ViewPropTypes.style,
-  imageContainerStyle: ViewPropTypes.style,
-  iconContainerStyle: ViewPropTypes.style,
-  overlayContainerStyle: ViewPropTypes.style,
-  titleStyle: TextPropTypes.style,
-  captionStyle: TextPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  imageContainerStyle: ViewPropTypes?.style,
+  iconContainerStyle: ViewPropTypes?.style,
+  overlayContainerStyle: ViewPropTypes?.style,
+  titleStyle: TextPropTypes?.style,
+  captionStyle: TextPropTypes?.style,
   width: PropTypes.number,
   height: PropTypes.number,
   featured: PropTypes.bool,
   children: PropTypes.node,
-  contentContainerStyle: ViewPropTypes.style,
+  contentContainerStyle: ViewPropTypes?.style,
   titleNumberOfLines: PropTypes.number,
   ImageComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 };
 
 Tile.defaultProps = {
-  width: Dimensions.get('window').width,
+  width: Dimensions.get("window").width,
   ImageComponent: BackgroundImage,
 };
 
 const styles = StyleSheet.create({
   imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
     flex: 2,
   },
   text: {
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: "rgba(0,0,0,0)",
     marginBottom: 5,
   },
   contentContainer: {
@@ -154,11 +159,11 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
   },
 });
 
-export {Tile};
-export default withTheme(Tile, 'Tile');
+export { Tile };
+export default withTheme(Tile, "Tile");

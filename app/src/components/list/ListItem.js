@@ -1,32 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, Switch, TouchableHighlight, View} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, Switch, TouchableHighlight, View } from "react-native";
+import Icon from "react-native-fontawesome-pro";
 
-import {renderNode, nodeType} from '../helpers';
-import {ViewPropTypes, TextPropTypes, withTheme} from '../config';
+import { renderNode, nodeType } from "../helpers";
+import { ViewPropTypes, TextPropTypes, withTheme } from "../config";
 
-import Avatar from '../avatar/Avatar';
-import Badge from '../badge/Badge';
-import CheckBox from '../checkbox/CheckBox';
+import Avatar from "../avatar/Avatar";
+import Badge from "../badge/Badge";
+import CheckBox from "../checkbox/CheckBox";
 
-import Text from '../text/Text';
-import ButtonGroup from '../buttons/ButtonGroup';
-import Input from '../input/Input';
+import Text from "../text/Text";
+import ButtonGroup from "../buttons/ButtonGroup";
+import Input from "../input/Input";
 
-import {padding, margin, borderRadius} from '../config/spacing';
+import { padding, margin, borderRadius } from "../config/spacing";
 
-const ANDROID_SECONDARY = 'rgba(0, 0, 0, 0.54)';
+const ANDROID_SECONDARY = "rgba(0, 0, 0, 0.54)";
 
 const chevronDefaultProps = {
-  type: 'feather',
-  name: 'chevron-right',
+  type: "feather",
+  name: "chevron-right",
   size: 18,
   isRotateRTL: true,
 };
 
-const checkmarkDefaultProps = theme => ({
-  name: 'check',
+const checkmarkDefaultProps = (theme) => ({
+  name: "check",
   size: 20,
   color: theme.colors.primary,
 });
@@ -37,18 +37,18 @@ const renderText = (content, defaultProps, style) =>
     style: StyleSheet.flatten([style, defaultProps && defaultProps.style]),
   });
 
-const renderAvatar = content =>
+const renderAvatar = (content) =>
   renderNode(Avatar, content, {
     size: 40,
     rounded: true,
   });
 
-const renderIcon = content =>
+const renderIcon = (content) =>
   renderNode(Icon, content, {
     size: 24,
   });
 
-const ListItem = props => {
+const ListItem = (props) => {
   const {
     title,
     titleStyle,
@@ -106,40 +106,43 @@ const ListItem = props => {
       {...attributes}
       onPress={onPress}
       onLongPress={onLongPress}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       <PadView
         Component={ViewComponent}
         {...linearGradientProps}
         style={StyleSheet.flatten([
           styles.container(theme),
-          type === 'underline' && styles.containerUnderline,
+          type === "underline" && styles.containerUnderline,
           small && styles.containerSmall,
-          (buttonGroup || switchProps) && {paddingVertical: 8},
-          topDivider && {borderTopWidth: StyleSheet.hairlineWidth},
-          bottomDivider && {borderBottomWidth: StyleSheet.hairlineWidth},
+          (buttonGroup || switchProps) && { paddingVertical: 8 },
+          topDivider && { borderTopWidth: StyleSheet.hairlineWidth },
+          bottomDivider && { borderBottomWidth: StyleSheet.hairlineWidth },
           containerStyle,
           disabled && disabledStyle,
         ])}
-        pad={pad}>
+        pad={pad}
+      >
         {renderNode(Text, leftElement)}
         {renderIcon(leftIcon)}
         {renderAvatar(leftAvatar)}
 
-        {(typeof title !== 'undefined' || subtitle) && (
+        {(typeof title !== "undefined" || subtitle) && (
           <View
             style={StyleSheet.flatten([
               styles.contentContainer,
               contentContainerStyle,
-            ])}>
+            ])}
+          >
             {renderText(
               title,
-              {testID: 'listItemTitle', ...titleProps},
-              StyleSheet.flatten([styles.title, titleStyle]),
+              { testID: "listItemTitle", ...titleProps },
+              StyleSheet.flatten([styles.title, titleStyle])
             )}
             {renderText(
               subtitle,
               propsSubtitle,
-              StyleSheet.flatten([styles.subtitle, subtitleStyle]),
+              StyleSheet.flatten([styles.subtitle, subtitleStyle])
             )}
           </View>
         )}
@@ -149,7 +152,8 @@ const ListItem = props => {
             style={StyleSheet.flatten([
               styles.rightContentContainer,
               rightContentContainerStyle,
-            ])}>
+            ])}
+          >
             {renderText(
               rightTitle,
               rightTitleProps,
@@ -157,7 +161,7 @@ const ListItem = props => {
                 styles.title,
                 styles.rightTitle,
                 rightTitleStyle,
-              ]),
+              ])
             )}
 
             {renderText(
@@ -167,7 +171,7 @@ const ListItem = props => {
                 styles.subtitle,
                 styles.rightSubtitle,
                 rightSubtitleStyle,
-              ]),
+              ])
             )}
           </View>
         )}
@@ -220,7 +224,7 @@ const ListItem = props => {
 };
 
 const styles = {
-  container: theme => ({
+  container: (theme) => ({
     // ...Platform.select({
     //   ios: {
     //     padding: 14,
@@ -229,8 +233,8 @@ const styles = {
     //     padding: 16,
     //   },
     // }),
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: theme.colors.bgColorSecondary,
     borderColor: theme.colors.border,
     borderRadius: borderRadius.large,
@@ -239,7 +243,7 @@ const styles = {
     // paddingVertical: padding.large + 2,
   }),
   containerUnderline: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderRadius: 0,
     borderBottomWidth: 1,
     paddingHorizontal: 0,
@@ -249,7 +253,7 @@ const styles = {
     minHeight: 52,
   },
   title: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     lineHeight: 20,
 
     // ...Platform.select({
@@ -262,7 +266,7 @@ const styles = {
     // }),
   },
   subtitle: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     lineHeight: 20,
     marginTop: margin.small,
     // ...Platform.select({
@@ -277,12 +281,12 @@ const styles = {
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   rightContentContainer: {
     flex: 0.5,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
   inputContainer: {
     flex: 1,
@@ -296,7 +300,7 @@ const styles = {
   },
   input: {
     flex: 1,
-    textAlign: 'right',
+    textAlign: "right",
     width: null,
     height: null,
   },
@@ -322,17 +326,17 @@ const styles = {
 };
 
 ListItem.propTypes = {
-  containerStyle: ViewPropTypes.style,
-  contentContainerStyle: ViewPropTypes.style,
-  rightContentContainerStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  contentContainerStyle: ViewPropTypes?.style,
+  rightContentContainerStyle: ViewPropTypes?.style,
   Component: PropTypes.func,
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  titleStyle: TextPropTypes.style,
+  titleStyle: TextPropTypes?.style,
   titleProps: PropTypes.object,
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  subtitleStyle: TextPropTypes.style,
+  subtitleStyle: TextPropTypes?.style,
   subtitleProps: PropTypes.object,
   leftIcon: nodeType,
   leftAvatar: nodeType,
@@ -341,10 +345,10 @@ ListItem.propTypes = {
   rightAvatar: nodeType,
   rightElement: nodeType,
   rightTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  rightTitleStyle: TextPropTypes.style,
+  rightTitleStyle: TextPropTypes?.style,
   rightTitleProps: PropTypes.object,
   rightSubtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  rightSubtitleStyle: TextPropTypes.style,
+  rightSubtitleStyle: TextPropTypes?.style,
   rightSubtitleProps: PropTypes.object,
   input: PropTypes.object,
   buttonGroup: PropTypes.object,
@@ -354,35 +358,35 @@ ListItem.propTypes = {
   chevron: nodeType,
   checkmark: nodeType,
   disabled: PropTypes.bool,
-  disabledStyle: ViewPropTypes.style,
+  disabledStyle: ViewPropTypes?.style,
   topDivider: PropTypes.bool,
   bottomDivider: PropTypes.bool,
   pad: PropTypes.number,
   linearGradientProps: PropTypes.object,
   ViewComponent: PropTypes.func,
   theme: PropTypes.object,
-  type: PropTypes.oneOf(['solid', 'underline']),
+  type: PropTypes.oneOf(["solid", "underline"]),
   small: PropTypes.bool,
 };
 
 ListItem.defaultProps = {
   pad: padding.small,
-  title: '',
-  underlayColor: 'transparent',
-  type: 'solid',
+  title: "",
+  underlayColor: "transparent",
+  type: "solid",
   small: false,
 };
 
-const PadView = ({children, pad, Component, ...props}) => {
+const PadView = ({ children, pad, Component, ...props }) => {
   const childrens = React.Children.toArray(children);
-  const {length} = childrens;
+  const { length } = childrens;
   const Container = Component || View;
   return (
     <Container {...props}>
       {React.Children.map(
         childrens,
         (child, index) =>
-          child && [child, index !== length - 1 && <View width={pad} />],
+          child && [child, index !== length - 1 && <View width={pad} />]
       )}
     </Container>
   );
@@ -398,5 +402,5 @@ PadView.propTypes = {
   ]),
 };
 
-export {ListItem};
-export default withTheme(ListItem, 'ListItem');
+export { ListItem };
+export default withTheme(ListItem, "ListItem");

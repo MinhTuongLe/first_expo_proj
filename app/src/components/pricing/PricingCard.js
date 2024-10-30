@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View, Platform, StyleSheet} from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, Platform, StyleSheet } from "react-native";
 
-import {normalizeText} from '../helpers';
-import {fonts, ViewPropTypes, withTheme} from '../config';
+import { normalizeText } from "../helpers";
+import { fonts, ViewPropTypes, withTheme } from "../config";
 
-import Text from '../text/Text';
-import Button from '../buttons/Button';
-import Icon from 'react-native-fontawesome-pro';
+import Text from "../text/Text";
+import Button from "../buttons/Button";
+import Icon from "react-native-fontawesome-pro";
 
-const PricingCard = props => {
-  const {theme, ...rest} = props;
+const PricingCard = (props) => {
+  const { theme, ...rest } = props;
 
   const {
     containerStyle,
@@ -33,19 +33,22 @@ const PricingCard = props => {
       style={StyleSheet.flatten([
         styles.container(theme),
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       <View
         style={StyleSheet.flatten([
           styles.wrapper,
           wrapperStyle && wrapperStyle,
-        ])}>
+        ])}
+      >
         <Text
           testID="pricingCardTitle"
           style={StyleSheet.flatten([
             styles.pricingTitle,
             titleStyle,
-            {color},
-          ])}>
+            { color },
+          ])}
+        >
           {title}
         </Text>
 
@@ -53,10 +56,11 @@ const PricingCard = props => {
           {price}
         </Text>
 
-        {info.map(item => (
+        {info.map((item) => (
           <Text
             key={item}
-            style={StyleSheet.flatten([styles.pricingInfo(theme), infoStyle])}>
+            style={StyleSheet.flatten([styles.pricingInfo(theme), infoStyle])}
+          >
             {item}
           </Text>
         ))}
@@ -66,7 +70,7 @@ const PricingCard = props => {
           buttonStyle={StyleSheet.flatten([
             styles.button,
             button.buttonStyle,
-            {backgroundColor: color},
+            { backgroundColor: color },
           ])}
           onPress={onButtonPress}
           icon={<Icon name={button.icon} size={15} color="white" />}
@@ -77,8 +81,8 @@ const PricingCard = props => {
 };
 
 PricingCard.propTypes = {
-  containerStyle: ViewPropTypes.style,
-  wrapperStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  wrapperStyle: ViewPropTypes?.style,
   title: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   info: PropTypes.arrayOf(PropTypes.string),
@@ -96,10 +100,10 @@ PricingCard.defaultProps = {
 };
 
 const styles = {
-  container: theme => ({
+  container: (theme) => ({
     margin: 15,
     marginBottom: 15,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderWidth: 1,
     padding: 15,
     borderColor: theme.colors.grey5,
@@ -108,18 +112,18 @@ const styles = {
         elevation: 1,
       },
       default: {
-        shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: {height: 1, width: 0},
+        shadowColor: "rgba(0,0,0, .2)",
+        shadowOffset: { height: 1, width: 0 },
         shadowOpacity: 0.5,
         shadowRadius: 0.5,
       },
     }),
   }),
   wrapper: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   pricingTitle: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: normalizeText(30),
     ...fonts.bold,
     // ...Platform.select({
@@ -132,7 +136,7 @@ const styles = {
     // }),
   },
   pricingPrice: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 10,
     marginBottom: 10,
     fontSize: normalizeText(40),
@@ -146,8 +150,8 @@ const styles = {
     //   },
     // }),
   },
-  pricingInfo: theme => ({
-    textAlign: 'center',
+  pricingInfo: (theme) => ({
+    textAlign: "center",
     marginTop: 5,
     marginBottom: 5,
     color: theme.colors.grey3,
@@ -167,5 +171,5 @@ const styles = {
   },
 };
 
-export {PricingCard};
-export default withTheme(PricingCard, 'PricingCard');
+export { PricingCard };
+export default withTheme(PricingCard, "PricingCard");

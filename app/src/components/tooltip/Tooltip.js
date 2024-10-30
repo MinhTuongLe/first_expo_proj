@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {TouchableOpacity, Modal, View, StatusBar} from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { TouchableOpacity, Modal, View, StatusBar } from "react-native";
 
-import {ViewPropTypes, withTheme} from '../config';
-import {ScreenWidth, ScreenHeight, isIOS} from '../helpers';
+import { ViewPropTypes, withTheme } from "../config";
+import { ScreenWidth, ScreenHeight, isIOS } from "../helpers";
 
-import Triangle from './Triangle';
+import Triangle from "./Triangle";
 import getTooltipCoordinate, {
   getElementVisibleWidth,
-} from './getTooltipCoordinate';
+} from "./getTooltipCoordinate";
 
 class Tooltip extends React.PureComponent {
   state = {
@@ -22,14 +22,14 @@ class Tooltip extends React.PureComponent {
   renderedElement;
 
   toggleTooltip = () => {
-    const {onClose} = this.props;
+    const { onClose } = this.props;
     this.getElementPosition();
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (prevState.isVisible && !isIOS) {
         onClose && onClose();
       }
 
-      return {isVisible: !prevState.isVisible};
+      return { isVisible: !prevState.isVisible };
     });
   };
 
@@ -46,11 +46,11 @@ class Tooltip extends React.PureComponent {
   };
 
   getTooltipStyle = () => {
-    const {yOffset, xOffset, elementHeight, elementWidth} = this.state;
-    const {height, backgroundColor, width, withPointer, containerStyle} =
+    const { yOffset, xOffset, elementHeight, elementWidth } = this.state;
+    const { height, backgroundColor, width, withPointer, containerStyle } =
       this.props;
 
-    const {x, y} = getTooltipCoordinate(
+    const { x, y } = getTooltipCoordinate(
       xOffset,
       yOffset,
       elementWidth,
@@ -59,20 +59,20 @@ class Tooltip extends React.PureComponent {
       ScreenHeight,
       width,
       height,
-      withPointer,
+      withPointer
     );
 
     return {
-      position: 'absolute',
+      position: "absolute",
       left: x,
       top: y,
       width,
       height,
       backgroundColor,
       // default styles
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       flex: 1,
       borderRadius: 10,
       padding: 10,
@@ -80,9 +80,9 @@ class Tooltip extends React.PureComponent {
     };
   };
 
-  renderPointer = tooltipY => {
-    const {yOffset, xOffset, elementHeight, elementWidth} = this.state;
-    const {backgroundColor, pointerColor} = this.props;
+  renderPointer = (tooltipY) => {
+    const { yOffset, xOffset, elementHeight, elementWidth } = this.state;
+    const { backgroundColor, pointerColor } = this.props;
     const pastMiddleLine = yOffset > tooltipY;
 
     return (
@@ -96,23 +96,24 @@ class Tooltip extends React.PureComponent {
               getElementVisibleWidth(elementWidth, xOffset, ScreenWidth) / 2 -
               7.5,
           },
-        ]}>
+        ]}
+      >
         <Triangle
-          style={{borderBottomColor: pointerColor || backgroundColor}}
+          style={{ borderBottomColor: pointerColor || backgroundColor }}
           isDown={pastMiddleLine}
         />
       </View>
     );
   };
 
-  renderContent = withTooltip => {
-    const {popover, withPointer, toggleOnPress, highlightColor} = this.props;
+  renderContent = (withTooltip) => {
+    const { popover, withPointer, toggleOnPress, highlightColor } = this.props;
 
     if (!withTooltip) {
       return this.wrapWithPress(toggleOnPress, this.props.children);
     }
 
-    const {yOffset, xOffset, elementWidth, elementHeight} = this.state;
+    const { yOffset, xOffset, elementWidth, elementHeight } = this.state;
     const tooltipStyle = this.getTooltipStyle();
     return (
       <View>
@@ -126,7 +127,8 @@ class Tooltip extends React.PureComponent {
               width: elementWidth,
               height: elementHeight,
             },
-          ]}>
+          ]}
+        >
           {this.props.children}
         </View>
         {withPointer && this.renderPointer(tooltipStyle.top)}
@@ -151,7 +153,7 @@ class Tooltip extends React.PureComponent {
           width,
           height,
           pageOffsetX,
-          pageOffsetY,
+          pageOffsetY
         ) => {
           this.setState({
             xOffset: pageOffsetX,
@@ -161,20 +163,21 @@ class Tooltip extends React.PureComponent {
             elementWidth: width,
             elementHeight: height,
           });
-        },
+        }
       );
   };
 
   render() {
-    const {isVisible} = this.state;
-    const {onClose, withOverlay, onOpen} = this.props;
+    const { isVisible } = this.state;
+    const { onClose, withOverlay, onOpen } = this.props;
 
     return (
       <View
         collapsable={false}
-        ref={e => {
+        ref={(e) => {
           this.renderedElement = e;
-        }}>
+        }}
+      >
         {this.renderContent(false)}
         <Modal
           animationType="fade"
@@ -182,11 +185,13 @@ class Tooltip extends React.PureComponent {
           transparent
           onDismiss={onClose}
           onShow={onOpen}
-          onRequestClose={onClose}>
+          onRequestClose={onClose}
+        >
           <TouchableOpacity
             style={styles.container(withOverlay)}
             onPress={this.toggleTooltip}
-            activeOpacity={1}>
+            activeOpacity={1}
+          >
             {this.renderContent(true)}
           </TouchableOpacity>
         </Modal>
@@ -202,7 +207,7 @@ Tooltip.propTypes = {
   toggleOnPress: PropTypes.bool,
   height: PropTypes.number,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  containerStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
   pointerColor: PropTypes.string,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
@@ -213,30 +218,30 @@ Tooltip.propTypes = {
 
 Tooltip.defaultProps = {
   withOverlay: true,
-  highlightColor: 'transparent',
+  highlightColor: "transparent",
   withPointer: true,
   toggleOnPress: true,
   height: 40,
   width: 150,
   containerStyle: {},
-  backgroundColor: '#617080',
+  backgroundColor: "#617080",
   onClose: () => {},
   onOpen: () => {},
 };
 
 const styles = {
-  container: withOverlay => ({
-    backgroundColor: withOverlay ? 'rgba(250, 250, 250, 0.70)' : 'transparent',
+  container: (withOverlay) => ({
+    backgroundColor: withOverlay ? "rgba(250, 250, 250, 0.70)" : "transparent",
     flex: 1,
   }),
   viewPointer: {
-    position: 'absolute',
+    position: "absolute",
   },
   viewContent: {
-    position: 'absolute',
-    overflow: 'visible',
+    position: "absolute",
+    overflow: "visible",
   },
 };
 
-export {Tooltip};
-export default withTheme(Tooltip, 'Tooltip');
+export { Tooltip };
+export default withTheme(Tooltip, "Tooltip");

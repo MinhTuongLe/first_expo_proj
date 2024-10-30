@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Text,
   View,
@@ -7,16 +7,16 @@ import {
   Animated,
   Easing,
   StyleSheet,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import Icon from "react-native-fontawesome-pro";
 
-import {nodeType, renderNode} from '../helpers';
-import {fonts, withTheme, ViewPropTypes, TextPropTypes} from '../config';
+import { nodeType, renderNode } from "../helpers";
+import { fonts, withTheme, ViewPropTypes, TextPropTypes } from "../config";
 
 const renderText = (content, defaultProps, style) =>
   renderNode(Text, content, {
     ...defaultProps,
-    style: StyleSheet.flatten([style, defaultProps && defaultProps.style]),
+    style: StyleSheet.flatten([style, defaultProps && defaultProps?.style]),
   });
 
 class Input extends React.Component {
@@ -43,7 +43,7 @@ class Input extends React.Component {
   }
 
   shake = () => {
-    const {shakeAnimationValue} = this;
+    const { shakeAnimationValue } = this;
 
     shakeAnimationValue.setValue(0);
     // Animation duration based on Material Design
@@ -84,22 +84,24 @@ class Input extends React.Component {
       <View style={StyleSheet.flatten([styles.container, containerStyle])}>
         {renderText(
           label,
-          {style: labelStyle, ...labelProps},
-          styles.label(theme),
+          { style: labelStyle, ...labelProps },
+          styles.label(theme)
         )}
 
         <Animated.View
           style={StyleSheet.flatten([
             styles.inputContainer(theme),
             inputContainerStyle,
-            {transform: [{translateX}]},
-          ])}>
+            { transform: [{ translateX }] },
+          ])}
+        >
           {leftIcon && (
             <View
               style={StyleSheet.flatten([
                 styles.iconContainer,
                 leftIconContainerStyle,
-              ])}>
+              ])}
+            >
               {renderNode(Icon, leftIcon)}
             </View>
           )}
@@ -108,7 +110,7 @@ class Input extends React.Component {
             testID="RNE__Input__text-input"
             underlineColorAndroid="transparent"
             {...attributes}
-            ref={ref => {
+            ref={(ref) => {
               this.input = ref;
             }}
             style={StyleSheet.flatten([styles.input, inputStyle])}
@@ -119,7 +121,8 @@ class Input extends React.Component {
               style={StyleSheet.flatten([
                 styles.iconContainer,
                 rightIconContainerStyle,
-              ])}>
+              ])}
+            >
               {renderNode(Icon, rightIcon)}
             </View>
           )}
@@ -131,7 +134,8 @@ class Input extends React.Component {
             style={StyleSheet.flatten([
               styles.error(theme),
               errorStyle && errorStyle,
-            ])}>
+            ])}
+          >
             {errorMessage}
           </Text>
         )}
@@ -141,54 +145,54 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
-  containerStyle: ViewPropTypes.style,
-  inputContainerStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  inputContainerStyle: ViewPropTypes?.style,
   leftIcon: nodeType,
-  leftIconContainerStyle: ViewPropTypes.style,
+  leftIconContainerStyle: ViewPropTypes?.style,
   rightIcon: nodeType,
-  rightIconContainerStyle: ViewPropTypes.style,
-  inputStyle: TextPropTypes.style,
+  rightIconContainerStyle: ViewPropTypes?.style,
+  inputStyle: TextPropTypes?.style,
   inputComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   shake: PropTypes.any,
   errorProps: PropTypes.object,
-  errorStyle: TextPropTypes.style,
+  errorStyle: TextPropTypes?.style,
   errorMessage: PropTypes.string,
   label: PropTypes.node,
-  labelStyle: TextPropTypes.style,
+  labelStyle: TextPropTypes?.style,
   labelProps: PropTypes.object,
   theme: PropTypes.object,
 };
 
 const styles = {
   container: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 10,
   },
-  inputContainer: theme => ({
-    flexDirection: 'row',
+  inputContainer: (theme) => ({
+    flexDirection: "row",
     borderBottomWidth: 1,
-    alignItems: 'center',
+    alignItems: "center",
     borderColor: theme.colors.grey3,
   }),
   iconContainer: {
     // height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 15,
   },
   input: {
-    alignSelf: 'center',
-    color: 'black',
+    alignSelf: "center",
+    color: "black",
     // fontSize: 18,
     flex: 1,
     // minHeight: 40,
   },
-  error: theme => ({
+  error: (theme) => ({
     margin: 5,
     fontSize: 12,
     color: theme.colors.error,
   }),
-  label: theme => ({
+  label: (theme) => ({
     fontSize: 16,
     color: theme.colors.grey3,
     ...fonts.bold,
@@ -203,5 +207,5 @@ const styles = {
   }),
 };
 
-export {Input};
-export default withTheme(Input, 'Input');
+export { Input };
+export default withTheme(Input, "Input");

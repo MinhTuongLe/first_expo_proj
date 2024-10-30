@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Text, StyleSheet} from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { Text, StyleSheet } from "react-native";
 
-import {fonts, sizes, lineHeights, withTheme} from '../config';
+import { fonts, sizes, lineHeights, withTheme } from "../config";
 
-const TextElement = props => {
+const TextElement = (props) => {
   const {
     style,
     children,
@@ -90,14 +90,15 @@ const TextElement = props => {
         medium && styles.medium,
         bold && styles.bold,
       ])}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Text>
   );
 };
 
 TextElement.propTypes = {
-  style: Text.propTypes.style,
+  style: Text.propTypes?.style,
   medium: PropTypes.bool,
   light: PropTypes.bool,
   bold: PropTypes.bool,
@@ -109,14 +110,14 @@ TextElement.propTypes = {
   h6: PropTypes.bool,
   colorSecondary: PropTypes.bool,
   colorThird: PropTypes.bool,
-  h1Style: Text.propTypes.style,
-  h2Style: Text.propTypes.style,
-  h3Style: Text.propTypes.style,
-  h4Style: Text.propTypes.style,
-  h5Style: Text.propTypes.style,
-  h6Style: Text.propTypes.style,
-  primary: Text.propTypes.style,
-  secondary: Text.propTypes.style,
+  h1Style: Text.propTypes?.style,
+  h2Style: Text.propTypes?.style,
+  h3Style: Text.propTypes?.style,
+  h4Style: Text.propTypes?.style,
+  h5Style: Text.propTypes?.style,
+  h6Style: Text.propTypes?.style,
+  primary: Text.propTypes?.style,
+  secondary: Text.propTypes?.style,
   children: PropTypes.node,
 };
 
@@ -137,7 +138,7 @@ TextElement.defaultProps = {
   h4Style: {},
   h5Style: {},
   h6Style: {},
-  children: '',
+  children: "",
 };
 
 const styles = StyleSheet.create({
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: sizes.base,
     // lineHeight: lineHeights.base,
     ...fonts.regular,
-    textAlign: 'left',
+    textAlign: "left",
   },
   light: {
     ...fonts.light,
@@ -158,5 +159,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export {TextElement};
-export default withTheme(TextElement, 'Text');
+export { TextElement };
+export default withTheme(TextElement, "Text");

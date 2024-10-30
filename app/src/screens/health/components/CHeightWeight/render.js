@@ -4,7 +4,7 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -13,30 +13,30 @@ import {
   Platform,
   Animated,
   TouchableOpacity,
-} from 'react-native';
-import {LineChart} from 'react-native-charts-wrapper';
-import {Picker} from '@react-native-picker/picker';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+} from "react-native";
+// import {LineChart} from 'react-native-charts-wrapper';
+import { Picker } from "@react-native-picker/picker";
+import Icon from "react-native-fontawesome-pro";
+import moment from "moment";
 /** COMMON */
-import {DEVICE, COLOR, LANG, CONFIG} from '../../../../config';
-import Helpers from '../../../../helpers';
+import { DEVICE, COLOR, LANG, CONFIG } from "../../../../config";
+import Helpers from "../../../../helpers";
 /** COMPONENT */
-import CText from '../../../../components/CText';
-import CLoading from '../../../../components/CLoading';
-import wGirl from '../../../../config/ChildGrowthStandards/weight/girl';
-import wBoy from '../../../../config/ChildGrowthStandards/weight/boy';
-import hGirl from '../../../../config/ChildGrowthStandards/height/girl';
-import hBoy from '../../../../config/ChildGrowthStandards/height/boy';
+import CText from "../../../../components/CText";
+import CLoading from "../../../../components/CLoading";
+import wGirl from "../../../../config/ChildGrowthStandards/weight/girl";
+import wBoy from "../../../../config/ChildGrowthStandards/weight/boy";
+import hGirl from "../../../../config/ChildGrowthStandards/height/girl";
+import hBoy from "../../../../config/ChildGrowthStandards/height/boy";
 /** STYLES */
-import styles from './style';
-import {getMonthsDifference} from '../../../../utils/dateTime';
+import styles from "./style";
+import { getMonthsDifference } from "../../../../utils/dateTime";
 
 const INIT = {
-  TXT_H_W_TITLE: 'txtWH',
-  TXT_MONTH: 'monthAge',
-  TXT_HEIGHT: 'txtHeight',
-  TXT_WEIGHT: 'txtWeight',
+  TXT_H_W_TITLE: "txtWH",
+  TXT_MONTH: "monthAge",
+  TXT_HEIGHT: "txtHeight",
+  TXT_WEIGHT: "txtWeight",
 };
 
 class ViewHeightWeight extends React.Component {
@@ -48,20 +48,20 @@ class ViewHeightWeight extends React.Component {
       showSortAge: false,
       xAxis: {
         valueFormatter: [
-          '12',
-          '13',
-          '14',
-          '15',
-          '16',
-          '17',
-          '18',
-          '19',
-          '20',
-          '21',
-          '22',
-          '23',
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
         ],
-        position: 'BOTTOM',
+        position: "BOTTOM",
         gridColor: processColor(COLOR.placeholderTextColor),
         fontSize: Helpers.fS(12),
         axisLineColor: processColor(COLOR.placeholderTextColor),
@@ -72,7 +72,7 @@ class ViewHeightWeight extends React.Component {
       },
       yHeightAxis: {
         right: {
-          valueFormatter: '#.#',
+          valueFormatter: "#.#",
           axisLineWidth: 0.5,
           granularityEnabled: true,
           granularity: 1,
@@ -84,7 +84,7 @@ class ViewHeightWeight extends React.Component {
           },
         },
         left: {
-          valueFormatter: '#.#',
+          valueFormatter: "#.#",
           axisLineWidth: 0.5,
           granularityEnabled: true,
           granularity: 1,
@@ -98,7 +98,7 @@ class ViewHeightWeight extends React.Component {
       },
       yWeightAxis: {
         right: {
-          valueFormatter: '#.#',
+          valueFormatter: "#.#",
           axisLineWidth: 0.5,
           granularityEnabled: true,
           granularity: 1,
@@ -110,7 +110,7 @@ class ViewHeightWeight extends React.Component {
           },
         },
         left: {
-          valueFormatter: '#.#',
+          valueFormatter: "#.#",
           axisLineWidth: 0.5,
           granularityEnabled: true,
           granularity: 1,
@@ -128,8 +128,8 @@ class ViewHeightWeight extends React.Component {
         fillColor: processColor(COLOR.chartPlus1SD),
         drawCircles: true,
         dashedLine: {
-          lineLength: Platform.OS === 'ios' ? 8 : 20,
-          spaceLength: Platform.OS === 'ios' ? 3 : 10,
+          lineLength: Platform.OS === "ios" ? 8 : 20,
+          spaceLength: Platform.OS === "ios" ? 3 : 10,
         },
         drawValues: false,
         lineWidth: 1.5,
@@ -142,8 +142,8 @@ class ViewHeightWeight extends React.Component {
         fillColor: processColor(COLOR.chartStandard),
         drawCircles: true,
         dashedLine: {
-          lineLength: Platform.OS === 'ios' ? 8 : 20,
-          spaceLength: Platform.OS === 'ios' ? 3 : 10,
+          lineLength: Platform.OS === "ios" ? 8 : 20,
+          spaceLength: Platform.OS === "ios" ? 3 : 10,
         },
         drawValues: false,
         lineWidth: 1.5,
@@ -156,8 +156,8 @@ class ViewHeightWeight extends React.Component {
         fillColor: processColor(COLOR.chartMinus1SD),
         drawCircles: true,
         dashedLine: {
-          lineLength: Platform.OS === 'ios' ? 8 : 20,
-          spaceLength: Platform.OS === 'ios' ? 3 : 10,
+          lineLength: Platform.OS === "ios" ? 8 : 20,
+          spaceLength: Platform.OS === "ios" ? 3 : 10,
         },
         drawValues: false,
         lineWidth: 1.5,
@@ -170,8 +170,8 @@ class ViewHeightWeight extends React.Component {
         fillColor: processColor(COLOR.chartMinus2SD),
         drawCircles: true,
         dashedLine: {
-          lineLength: Platform.OS === 'ios' ? 8 : 20,
-          spaceLength: Platform.OS === 'ios' ? 3 : 10,
+          lineLength: Platform.OS === "ios" ? 8 : 20,
+          spaceLength: Platform.OS === "ios" ? 3 : 10,
         },
         drawValues: false,
         lineWidth: 1.5,
@@ -180,7 +180,7 @@ class ViewHeightWeight extends React.Component {
       },
       config_kid: {
         // mode: 'CUBIC_BEZIER',
-        valueFormatter: '#.#',
+        valueFormatter: "#.#",
         valueTextColor: processColor(COLOR.primaryApp),
         valueTextSize: Helpers.fS(12),
         circleColor: processColor(COLOR.primaryApp),
@@ -201,15 +201,15 @@ class ViewHeightWeight extends React.Component {
           ],
           positions: [0, 0.5],
           angle: 50,
-          orientation: 'TOP_BOTTOM',
+          orientation: "TOP_BOTTOM",
         },
       },
       legend: {
         enabled: true,
         textColor: processColor(COLOR.text_1),
         textSize: Helpers.fS(12),
-        position: 'LEFT_OF_CHART_CENTER',
-        form: 'SQUARE',
+        position: "LEFT_OF_CHART_CENTER",
+        form: "SQUARE",
         formSize: Helpers.fS(16),
         xEntrySpace: 10,
         yEntrySpace: 10,
@@ -219,41 +219,41 @@ class ViewHeightWeight extends React.Component {
       },
       dataH: {
         dataSets: [
-          {label: LANG[CONFIG.lang].plus1SDH, values: []},
-          {label: LANG[CONFIG.lang].standard, values: []},
-          {label: LANG[CONFIG.lang].minus1SDH, values: []},
-          {label: LANG[CONFIG.lang].minus2SDH, values: []},
-          {label: LANG[CONFIG.lang].reality, values: []},
+          { label: LANG[CONFIG.lang].plus1SDH, values: [] },
+          { label: LANG[CONFIG.lang].standard, values: [] },
+          { label: LANG[CONFIG.lang].minus1SDH, values: [] },
+          { label: LANG[CONFIG.lang].minus2SDH, values: [] },
+          { label: LANG[CONFIG.lang].reality, values: [] },
         ],
       },
       dataW: {
         dataSets: [
-          {label: LANG[CONFIG.lang].plus1SDW, values: []},
-          {label: LANG[CONFIG.lang].standard, values: []},
-          {label: LANG[CONFIG.lang].minus1SDW, values: []},
-          {label: LANG[CONFIG.lang].minus2SDW, values: []},
-          {label: LANG[CONFIG.lang].reality, values: []},
+          { label: LANG[CONFIG.lang].plus1SDW, values: [] },
+          { label: LANG[CONFIG.lang].standard, values: [] },
+          { label: LANG[CONFIG.lang].minus1SDW, values: [] },
+          { label: LANG[CONFIG.lang].minus2SDW, values: [] },
+          { label: LANG[CONFIG.lang].reality, values: [] },
         ],
       },
       marker: {
         enabled: true,
         digits: 1,
         markerColor: processColor(COLOR.primaryButton),
-        textColor: processColor('#ffffff'),
+        textColor: processColor("#ffffff"),
         config: {
           drawValues: true,
           drawCircles: true,
           lineWidth: 1,
-          mode: 'CUBIC_BEZIER',
+          mode: "CUBIC_BEZIER",
           drawCubicIntensity: 0.2,
           circleRadius: 4,
-          color: processColor('gray'),
+          color: processColor("gray"),
           drawFilled: true,
-          fillColor: processColor('gray'),
+          fillColor: processColor("gray"),
           fillAlpha: 45,
-          circleColor: processColor('gray'),
-          circleHoleColor: processColor('gray'),
-          valueFormatter: '#.#',
+          circleColor: processColor("gray"),
+          circleHoleColor: processColor("gray"),
+          valueFormatter: "#.#",
         },
       },
       ageSelected: 1,
@@ -268,8 +268,8 @@ class ViewHeightWeight extends React.Component {
 
   /** FUNCTION */
   _prepareData = () => {
-    let {data} = this.props;
-    let {ageSelected} = this.state;
+    let { data } = this.props;
+    let { ageSelected } = this.state;
     let arrAge = [];
     for (let i = 1; i <= 4; i += 1) {
       arrAge.push(i);
@@ -284,12 +284,12 @@ class ViewHeightWeight extends React.Component {
         weightNow: data?.weightNow,
         birthday: data?.birthday,
       },
-      () => this._formatData(),
+      () => this._formatData()
     );
   };
 
   _formatData = async () => {
-    let {data} = this.props;
+    let { data } = this.props;
     let {
       dataH,
       dataW,
@@ -331,37 +331,37 @@ class ViewHeightWeight extends React.Component {
       // Add to array to render xAxis range
       valueFormatter.push(from.toString());
       /** Height */
-      dataH.dataSets[0].values.push({y: heightPlus1SD[from].y});
-      dataH.dataSets[1].values.push({y: heightStandard[from].y});
-      dataH.dataSets[2].values.push({y: heightMinus1SD[from].y});
-      dataH.dataSets[3].values.push({y: heightMinus2SD[from].y});
+      dataH.dataSets[0].values.push({ y: heightPlus1SD[from].y });
+      dataH.dataSets[1].values.push({ y: heightStandard[from].y });
+      dataH.dataSets[2].values.push({ y: heightMinus1SD[from].y });
+      dataH.dataSets[3].values.push({ y: heightMinus2SD[from].y });
 
       /** Width */
-      dataW.dataSets[0].values.push({y: weightPlus1SD[from].y});
-      dataW.dataSets[1].values.push({y: weightStandard[from].y});
-      dataW.dataSets[2].values.push({y: weightMinus1SD[from].y});
-      dataW.dataSets[3].values.push({y: weightMinus2SD[from].y});
+      dataW.dataSets[0].values.push({ y: weightPlus1SD[from].y });
+      dataW.dataSets[1].values.push({ y: weightStandard[from].y });
+      dataW.dataSets[2].values.push({ y: weightMinus1SD[from].y });
+      dataW.dataSets[3].values.push({ y: weightMinus2SD[from].y });
 
       let arrFilter = data.h_w.filter(
-        f =>
-          moment(f.date, 'YYYY-MM-DD').diff(
-            moment(data.birthday, 'YYYY-MM-DD'),
-            'months',
-          ) === from,
+        (f) =>
+          moment(f.date, "YYYY-MM-DD").diff(
+            moment(data.birthday, "YYYY-MM-DD"),
+            "months"
+          ) === from
       );
       if (arrFilter.length > 0) {
         let tmpHeightMax = Math.max.apply(
           Math,
           arrFilter.map(function (o) {
             return o.height;
-          }),
+          })
         );
 
         let tmpWeightMax = Math.max.apply(
           Math,
           arrFilter.map(function (o) {
             return o.weight;
-          }),
+          })
         );
 
         let height = tmpHeightMax.toFixed(2);
@@ -420,8 +420,8 @@ class ViewHeightWeight extends React.Component {
   };
 
   /** HANDLE FUNCTIONS */
-  _onSelectedValue = value => {
-    let {dataH, dataW, xAxis, yHeightAxis, yWeightAxis} = this.state;
+  _onSelectedValue = (value) => {
+    let { dataH, dataW, xAxis, yHeightAxis, yWeightAxis } = this.state;
     let tmp = value * 12,
       arrMonth = [];
 
@@ -430,7 +430,7 @@ class ViewHeightWeight extends React.Component {
     }
     xAxis = {
       valueFormatter: arrMonth,
-      position: 'BOTTOM',
+      position: "BOTTOM",
       gridColor: processColor(COLOR.placeholderTextColor),
       fontSize: Helpers.fS(12),
       axisLineColor: processColor(COLOR.placeholderTextColor),
@@ -441,7 +441,7 @@ class ViewHeightWeight extends React.Component {
     };
     yHeightAxis = {
       right: {
-        valueFormatter: '#.#',
+        valueFormatter: "#.#",
         axisLineWidth: 0.5,
         granularityEnabled: true,
         granularity: 1,
@@ -453,7 +453,7 @@ class ViewHeightWeight extends React.Component {
         },
       },
       left: {
-        valueFormatter: '#.#',
+        valueFormatter: "#.#",
         axisLineWidth: 0.5,
         granularityEnabled: true,
         granularity: 1,
@@ -467,7 +467,7 @@ class ViewHeightWeight extends React.Component {
     };
     yWeightAxis = {
       right: {
-        valueFormatter: '#.#',
+        valueFormatter: "#.#",
         axisLineWidth: 0.5,
         granularityEnabled: true,
         granularity: 1,
@@ -479,7 +479,7 @@ class ViewHeightWeight extends React.Component {
         },
       },
       left: {
-        valueFormatter: '#.#',
+        valueFormatter: "#.#",
         axisLineWidth: 0.5,
         granularityEnabled: true,
         granularity: 1,
@@ -493,20 +493,20 @@ class ViewHeightWeight extends React.Component {
     };
     dataH = {
       dataSets: [
-        {label: LANG[CONFIG.lang].plus1SDH, values: []},
-        {label: LANG[CONFIG.lang].standard, values: []},
-        {label: LANG[CONFIG.lang].minus1SDH, values: []},
-        {label: LANG[CONFIG.lang].minus2SDH, values: []},
-        {label: LANG[CONFIG.lang].reality, values: []},
+        { label: LANG[CONFIG.lang].plus1SDH, values: [] },
+        { label: LANG[CONFIG.lang].standard, values: [] },
+        { label: LANG[CONFIG.lang].minus1SDH, values: [] },
+        { label: LANG[CONFIG.lang].minus2SDH, values: [] },
+        { label: LANG[CONFIG.lang].reality, values: [] },
       ],
     };
     dataW = {
       dataSets: [
-        {label: LANG[CONFIG.lang].plus1SDW, values: []},
-        {label: LANG[CONFIG.lang].standard, values: []},
-        {label: LANG[CONFIG.lang].minus1SDW, values: []},
-        {label: LANG[CONFIG.lang].minus2SDW, values: []},
-        {label: LANG[CONFIG.lang].reality, values: []},
+        { label: LANG[CONFIG.lang].plus1SDW, values: [] },
+        { label: LANG[CONFIG.lang].standard, values: [] },
+        { label: LANG[CONFIG.lang].minus1SDW, values: [] },
+        { label: LANG[CONFIG.lang].minus2SDW, values: [] },
+        { label: LANG[CONFIG.lang].reality, values: [] },
       ],
     };
 
@@ -520,7 +520,7 @@ class ViewHeightWeight extends React.Component {
         yHeightAxis,
         yWeightAxis,
       },
-      () => this._formatData(),
+      () => this._formatData()
     );
   };
 
@@ -542,15 +542,16 @@ class ViewHeightWeight extends React.Component {
     return (
       <View
         style={[
-          {height: Helpers.hS('15%'), borderRadius: 10},
+          { height: Helpers.hS("15%"), borderRadius: 10 },
           DEVICE.gStyle.center,
-        ]}>
+        ]}
+      >
         <Icon
-          containerStyle={{marginTop: 10}}
-          name={'exclamation-circle'}
+          containerStyle={{ marginTop: 10 }}
+          name={"exclamation-circle"}
           size={DEVICE.s * 50}
           color={COLOR.placeholderTextColor}
-          type={'solid'}
+          type={"solid"}
         />
         <Text style={styles.con_empty}>{LANG[CONFIG.lang].txtEmptyOfDay}</Text>
       </View>
@@ -560,7 +561,7 @@ class ViewHeightWeight extends React.Component {
   /** RENDER */
   render() {
     return (
-      <View style={[styles.con, {backgroundColor: COLOR.backgroundMain}]}>
+      <View style={[styles.con, { backgroundColor: COLOR.backgroundMain }]}>
         {this.state.loading ? (
           <CLoading />
         ) : (
@@ -568,38 +569,42 @@ class ViewHeightWeight extends React.Component {
             style={{
               backgroundColor: COLOR.backgroundMain,
               marginVertical: 10,
-            }}>
+            }}
+          >
             <View
               style={{
                 borderRadius: 10,
                 backgroundColor: COLOR.backgroundSec,
-              }}>
+              }}
+            >
               <View
                 style={{
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-end',
-                  flexDirection: 'row',
+                  justifyContent: "space-between",
+                  alignItems: "flex-end",
+                  flexDirection: "row",
                   paddingHorizontal: 10,
                   marginTop: 10,
-                }}>
+                }}
+              >
                 <CText style={styles.txt_unit}>
                   {this.state?.birthday
-                    ? getMonthsDifference(this.state.birthday) + '\u00A0tháng'
-                    : ''}
+                    ? getMonthsDifference(this.state.birthday) + "\u00A0tháng"
+                    : ""}
                 </CText>
                 <View style={styles.con_picker_main}>
-                  {Platform.OS === 'android' && (
+                  {Platform.OS === "android" && (
                     <Picker
-                      mode={'dialog'}
+                      mode={"dialog"}
                       selectedValue={this.state.ageSelected}
                       style={[
                         styles.txt_item_result,
-                        {height: 36, width: Helpers.wS('40%')},
+                        { height: 36, width: Helpers.wS("40%") },
                       ]}
-                      itemStyle={[styles.txt_item_result, {borderWidth: 1}]}
+                      itemStyle={[styles.txt_item_result, { borderWidth: 1 }]}
                       onValueChange={(itemValue, itemIndex) =>
                         this._onSelectedValue(itemValue)
-                      }>
+                      }
+                    >
                       {this.state.arrAge.map((item, index) => {
                         return (
                           <Picker.Item
@@ -613,10 +618,11 @@ class ViewHeightWeight extends React.Component {
                       })}
                     </Picker>
                   )}
-                  {Platform.OS === 'ios' && (
+                  {Platform.OS === "ios" && (
                     <TouchableOpacity
                       style={styles.con_item}
-                      onPress={this._sortAge}>
+                      onPress={this._sortAge}
+                    >
                       <Text style={styles.txt_item_result}>{`${
                         this.state.ageSelected
                       } - ${this.state.ageSelected + 1} ${
@@ -632,7 +638,8 @@ class ViewHeightWeight extends React.Component {
                   style={
                     (DEVICE.gStyle.row_align_center,
                     DEVICE.gStyle.row_space_between)
-                  }>
+                  }
+                >
                   <CText
                     style={styles.header_title}
                     i18nKey={INIT.TXT_HEIGHT}
@@ -642,40 +649,41 @@ class ViewHeightWeight extends React.Component {
                     <CText style={styles.txt_unit}>
                       {this.state.heightNow}
                     </CText>
-                    <CText style={styles.txt_unit}>{' Cm'}</CText>
+                    <CText style={styles.txt_unit}>{" Cm"}</CText>
                   </View>
                 </View>
 
                 {!this.state.loadForChart && (
-                  <LineChart
-                    style={{flex: 1, height: Helpers.wS('90%')}}
-                    data={this.state.dataH}
-                    marker={this.state.marker}
-                    xAxis={this.state.xAxis}
-                    yAxis={this.state.yHeightAxis}
-                    borderColor={processColor(COLOR.placeholderTextColor)}
-                    legend={this.state.legend}
-                    chartDescription={{text: ''}}
-                    drawBorders={true}
-                    drawGridBackground={false}
-                    autoScaleMinMaxEnabled={true}
-                    touchEnabled={true}
-                    dragEnabled={true}
-                    scaleEnabled={true}
-                    scaleXEnabled={true}
-                    scaleYEnabled={true}
-                    doubleTapToZoomEnabled={false}
-                    highlightPerTapEnabled={true}
-                    highlightPerDragEnabled={true}
-                    dragDecelerationEnabled={true}
-                    dragDecelerationFrictionCoef={0.99}
-                    keepPositionOnRotation={false}
-                    animation={{
-                      durationX: 0,
-                      durationY: 1000,
-                      easingY: 'Linear',
-                    }}
-                  />
+                  // <LineChart
+                  //   style={{flex: 1, height: Helpers.wS('90%')}}
+                  //   data={this.state.dataH}
+                  //   marker={this.state.marker}
+                  //   xAxis={this.state.xAxis}
+                  //   yAxis={this.state.yHeightAxis}
+                  //   borderColor={processColor(COLOR.placeholderTextColor)}
+                  //   legend={this.state.legend}
+                  //   chartDescription={{text: ''}}
+                  //   drawBorders={true}
+                  //   drawGridBackground={false}
+                  //   autoScaleMinMaxEnabled={true}
+                  //   touchEnabled={true}
+                  //   dragEnabled={true}
+                  //   scaleEnabled={true}
+                  //   scaleXEnabled={true}
+                  //   scaleYEnabled={true}
+                  //   doubleTapToZoomEnabled={false}
+                  //   highlightPerTapEnabled={true}
+                  //   highlightPerDragEnabled={true}
+                  //   dragDecelerationEnabled={true}
+                  //   dragDecelerationFrictionCoef={0.99}
+                  //   keepPositionOnRotation={false}
+                  //   animation={{
+                  //     durationX: 0,
+                  //     durationY: 1000,
+                  //     easingY: 'Linear',
+                  //   }}
+                  // />
+                  <Text>This is Line Chart</Text>
                 )}
               </View>
             </View>
@@ -685,13 +693,15 @@ class ViewHeightWeight extends React.Component {
                 borderRadius: 10,
                 backgroundColor: COLOR.backgroundSec,
                 marginTop: 10,
-              }}>
+              }}
+            >
               <View style={styles.con_chart}>
                 <View
                   style={
                     (DEVICE.gStyle.row_align_center,
                     DEVICE.gStyle.row_space_between)
-                  }>
+                  }
+                >
                   <CText
                     style={styles.header_title}
                     i18nKey={INIT.TXT_WEIGHT}
@@ -701,66 +711,68 @@ class ViewHeightWeight extends React.Component {
                     <CText style={styles.txt_unit}>
                       {this.state.weightNow}
                     </CText>
-                    <CText style={styles.txt_unit}>{' Kg'}</CText>
+                    <CText style={styles.txt_unit}>{" Kg"}</CText>
                   </View>
                 </View>
 
                 {!this.state.loadForChart && (
-                  <LineChart
-                    style={{
-                      flex: 1,
-                      height: Helpers.wS('90%'),
-                    }}
-                    marker={this.state.marker}
-                    data={this.state.dataW}
-                    xAxis={this.state.xAxis}
-                    yAxis={this.state.yWeightAxis}
-                    borderColor={processColor(COLOR.placeholderTextColor)}
-                    legend={this.state.legend}
-                    chartDescription={{text: ''}}
-                    drawBorders={true}
-                    drawGridBackground={false}
-                    autoScaleMinMaxEnabled={true}
-                    touchEnabled={true}
-                    dragEnabled={true}
-                    scaleEnabled={true}
-                    scaleXEnabled={true}
-                    scaleYEnabled={true}
-                    doubleTapToZoomEnabled={false}
-                    highlightPerTapEnabled={true}
-                    highlightPerDragEnabled={true}
-                    dragDecelerationEnabled={true}
-                    dragDecelerationFrictionCoef={0.99}
-                    keepPositionOnRotation={false}
-                    animation={{
-                      durationX: 0,
-                      durationY: 1000,
-                      easingY: 'Linear',
-                    }}
-                  />
+                  // <LineChart
+                  //   style={{
+                  //     flex: 1,
+                  //     height: Helpers.wS('90%'),
+                  //   }}
+                  //   marker={this.state.marker}
+                  //   data={this.state.dataW}
+                  //   xAxis={this.state.xAxis}
+                  //   yAxis={this.state.yWeightAxis}
+                  //   borderColor={processColor(COLOR.placeholderTextColor)}
+                  //   legend={this.state.legend}
+                  //   chartDescription={{text: ''}}
+                  //   drawBorders={true}
+                  //   drawGridBackground={false}
+                  //   autoScaleMinMaxEnabled={true}
+                  //   touchEnabled={true}
+                  //   dragEnabled={true}
+                  //   scaleEnabled={true}
+                  //   scaleXEnabled={true}
+                  //   scaleYEnabled={true}
+                  //   doubleTapToZoomEnabled={false}
+                  //   highlightPerTapEnabled={true}
+                  //   highlightPerDragEnabled={true}
+                  //   dragDecelerationEnabled={true}
+                  //   dragDecelerationFrictionCoef={0.99}
+                  //   keepPositionOnRotation={false}
+                  //   animation={{
+                  //     durationX: 0,
+                  //     durationY: 1000,
+                  //     easingY: 'Linear',
+                  //   }}
+                  // />
+                  <Text>This is Line Chart</Text>
                 )}
               </View>
             </View>
           </View>
         )}
 
-        {Platform.OS === 'ios' && (
+        {Platform.OS === "ios" && (
           <Modal
             visible={this.state.showSortAge}
-            animationType={'slide'}
+            animationType={"slide"}
             onRequestClose={this._sortAge}
-            transparent>
+            transparent
+          >
             <View style={styles.con_bg_picker_ios}>
               <View style={styles.con_content_picker_ios}>
                 <View style={styles.con_header_picker_ios}>
                   <CText
                     style={styles.txt_header_picker_ios_left}
-                    i18nKey={'cancel'}
+                    i18nKey={"cancel"}
                     onPress={this._sortAge}
                   />
                   <CText
                     style={styles.txt_header_picker_ios_right}
-                    i18nKey={'ok'}
+                    i18nKey={"ok"}
                     onPress={this._sortAge}
                   />
                 </View>
@@ -770,7 +782,8 @@ class ViewHeightWeight extends React.Component {
                   itemStyle={styles.txt_item_picker}
                   onValueChange={(itemValue, itemIndex) =>
                     this._onSelectedValue(itemValue)
-                  }>
+                  }
+                >
                   {this.state.arrAge.map((item, index) => {
                     return (
                       <Picker.Item
@@ -790,7 +803,7 @@ class ViewHeightWeight extends React.Component {
 
         {this.state.showSortAge && (
           <Animated.View
-            style={[styles.con_bg_grey, {opacity: this.state.animateBg}]}
+            style={[styles.con_bg_grey, { opacity: this.state.animateBg }]}
           />
         )}
       </View>

@@ -4,7 +4,7 @@
  * @Date create: 24/01/2019
  */
 /** LIBRARY */
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -12,19 +12,19 @@ import {
   Animated,
   ViewPropTypes,
   TouchableOpacity,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import XDate from 'xdate';
+} from "react-native";
+import PropTypes from "prop-types";
+import XDate from "xdate";
 
 /** COMPONENT */
-import {parseDate, xdateToData} from '../interface';
-import dateutils from '../dateutils';
-import CalendarList from '../calendar-list';
-import ReservationsList from './reservation-list';
-import {VelocityTracker} from '../input';
+import { parseDate, xdateToData } from "../interface";
+import dateutils from "../dateutils";
+import CalendarList from "../calendar-list";
+import ReservationsList from "./reservation-list";
+import { VelocityTracker } from "../input";
 
 /** STYLES */
-import styleConstructor from './style';
+import styleConstructor from "./style";
 
 /** INIT */
 const HEADER_HEIGHT = 104;
@@ -39,7 +39,7 @@ export default class CCalendar extends Component {
     theme: PropTypes.object,
 
     // agenda container style
-    style: viewPropTypes.style,
+    style: viewPropTypes?.style,
 
     // the list of items that have to be displayed in agenda. If you want to render item as empty date
     // the value of date key has to be an empty array []. If there exists no value for date key it is
@@ -115,11 +115,11 @@ export default class CCalendar extends Component {
   constructor(props) {
     super(props);
     this.styles = styleConstructor(props.theme);
-    const windowSize = Dimensions.get('window');
+    const windowSize = Dimensions.get("window");
     this.viewHeight = windowSize.height;
     this.viewWidth = windowSize.width;
     this.scrollTimeout = undefined;
-    this.headerState = 'idle';
+    this.headerState = "idle";
     this.state = {
       scrollY: new Animated.Value(0),
       calendarIsReady: false,
@@ -137,7 +137,7 @@ export default class CCalendar extends Component {
     this.onSnapAfterDrag = this.onSnapAfterDrag.bind(this);
     this.generateMarkings = this.generateMarkings.bind(this);
     this.knobTracker = new VelocityTracker();
-    this.state.scrollY.addListener(({value}) => this.knobTracker.add(value));
+    this.state.scrollY.addListener(({ value }) => this.knobTracker.add(value));
   }
 
   calendarOffset() {
@@ -149,7 +149,7 @@ export default class CCalendar extends Component {
   }
 
   setScrollPadPosition(y, animated) {
-    this.scrollPad.scrollTo({x: 0, y, animated});
+    this.scrollPad.scrollTo({ x: 0, y, animated });
   }
 
   onScrollPadLayout() {
@@ -158,7 +158,7 @@ export default class CCalendar extends Component {
     // scroll position actually changes (it would stay at 0, when scrolled to the top).
     this.setScrollPadPosition(this.initialScrollPadPosition(), false);
     // delay rendering calendar in full height because otherwise it still flickers sometimes
-    setTimeout(() => this.setState({calendarIsReady: true}), 0);
+    setTimeout(() => this.setState({ calendarIsReady: true }), 0);
   }
 
   onLayout(event) {
@@ -168,26 +168,26 @@ export default class CCalendar extends Component {
   }
 
   onTouchStart() {
-    this.headerState = 'touched';
+    this.headerState = "touched";
     if (this.knob) {
-      this.knob.setNativeProps({style: {opacity: 0.5}});
+      this.knob.setNativeProps({ style: { opacity: 0.5 } });
     }
   }
 
   onTouchEnd() {
     if (this.knob) {
-      this.knob.setNativeProps({style: {opacity: 1}});
+      this.knob.setNativeProps({ style: { opacity: 1 } });
     }
 
-    if (this.headerState === 'touched') {
+    if (this.headerState === "touched") {
       this.setScrollPadPosition(0, true);
       this.enableCalendarScrolling();
     }
-    this.headerState = 'idle';
+    this.headerState = "idle";
   }
 
   onStartDrag() {
-    this.headerState = 'dragged';
+    this.headerState = "dragged";
     this.knobTracker.reset();
   }
 
@@ -229,7 +229,7 @@ export default class CCalendar extends Component {
           if (this.props.loadItemsForMonth) {
             this.props.loadItemsForMonth(xdateToData(this.state.selectedDay));
           }
-        },
+        }
       );
     }
   }
@@ -271,7 +271,7 @@ export default class CCalendar extends Component {
     this.calendar.scrollToDay(
       this.state.selectedDay,
       this.calendarOffset() + 1,
-      true,
+      true
     );
   }
 
@@ -321,7 +321,7 @@ export default class CCalendar extends Component {
         topDay={this.state.topDay}
         onDayChange={this.onDayChange.bind(this)}
         onScroll={() => {}}
-        ref={c => (this.list = c)}
+        ref={(c) => (this.list = c)}
         theme={this.props.theme}
       />
     );
@@ -344,16 +344,16 @@ export default class CCalendar extends Component {
     let markings = this.props.markedDates;
     if (!markings) {
       markings = {};
-      Object.keys(this.props.items || {}).forEach(key => {
+      Object.keys(this.props.items || {}).forEach((key) => {
         if (this.props.items[key] && this.props.items[key].length) {
-          markings[key] = {marked: true};
+          markings[key] = { marked: true };
         }
       });
     }
-    const key = this.state.selectedDay.toString('yyyy-MM-dd');
+    const key = this.state.selectedDay.toString("yyyy-MM-dd");
     return {
       ...markings,
-      [key]: {...(markings[key] || {}), ...{selected: true}},
+      [key]: { ...(markings[key] || {}), ...{ selected: true } },
     };
   }
 
@@ -366,7 +366,7 @@ export default class CCalendar extends Component {
         opacity: this.state.scrollY.interpolate({
           inputRange: [agendaHeight - HEADER_HEIGHT, agendaHeight],
           outputRange: [0, 1],
-          extrapolate: 'clamp',
+          extrapolate: "clamp",
         }),
         transform: [
           {
@@ -376,7 +376,7 @@ export default class CCalendar extends Component {
                 agendaHeight,
               ],
               outputRange: [-HEADER_HEIGHT, 0],
-              extrapolate: 'clamp',
+              extrapolate: "clamp",
             }),
           },
         ],
@@ -386,25 +386,25 @@ export default class CCalendar extends Component {
     const headerTranslate = this.state.scrollY.interpolate({
       inputRange: [0, agendaHeight],
       outputRange: [agendaHeight, 0],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
 
     const contentTranslate = this.state.scrollY.interpolate({
       inputRange: [0, agendaHeight],
       outputRange: [0, agendaHeight / 2],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
 
     const headerStyle = [
       this.styles.header,
-      {bottom: agendaHeight, transform: [{translateY: headerTranslate}]},
+      { bottom: agendaHeight, transform: [{ translateY: headerTranslate }] },
     ];
 
     if (!this.state.calendarIsReady) {
       // limit header height until everything is setup for calendar dragging
-      headerStyle.push({height: 0});
+      headerStyle.push({ height: 0 });
       // fill header with appStyle.calendarBackground background to reduce flickering
-      weekdaysStyle.push({height: HEADER_HEIGHT});
+      weekdaysStyle.push({ height: HEADER_HEIGHT });
     }
 
     const shouldAllowDragging =
@@ -413,7 +413,7 @@ export default class CCalendar extends Component {
       (shouldAllowDragging ? HEADER_HEIGHT : 0) - KNOB_HEIGHT;
 
     const scrollPadStyle = {
-      position: 'absolute',
+      position: "absolute",
       width: 80,
       height: KNOB_HEIGHT,
       top: scrollPadPosition,
@@ -437,14 +437,15 @@ export default class CCalendar extends Component {
       knob = this.state.calendarScrollable ? (
         <View style={this.styles.knobContainer}>
           <TouchableOpacity
-            ref={c => (this.knob = c)}
-            onPress={() => this._chooseDayFromCalendar(this.state.selectedDay)}>
+            ref={(c) => (this.knob = c)}
+            onPress={() => this._chooseDayFromCalendar(this.state.selectedDay)}
+          >
             {knobViewWhenCalOpen}
           </TouchableOpacity>
         </View>
       ) : (
         <View style={this.styles.knobContainer}>
-          <View ref={c => (this.knob = c)}>{knobViewWhenCalClose}</View>
+          <View ref={(c) => (this.knob = c)}>{knobViewWhenCalClose}</View>
         </View>
       );
     }
@@ -452,31 +453,34 @@ export default class CCalendar extends Component {
     return (
       <View
         onLayout={this.onLayout}
-        style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
+        style={[this.props.style, { flex: 1, overflow: "hidden" }]}
+      >
         <View
           style={[
             this.styles.reservations,
-            !showCalendar ? {marginTop: 0} : {},
-          ]}>
+            !showCalendar ? { marginTop: 0 } : {},
+          ]}
+        >
           {this.renderReservations()}
           {this.props.renderFooterContent()}
         </View>
         {showCalendar && (
           <Animated.View style={headerStyle}>
             <Animated.View
-              style={{flex: 1, transform: [{translateY: contentTranslate}]}}>
+              style={{ flex: 1, transform: [{ translateY: contentTranslate }] }}
+            >
               <CalendarList
                 onLayout={() => {
                   this.calendar.scrollToDay(
                     this.state.selectedDay.clone(),
                     this.calendarOffset(),
-                    false,
+                    false
                   );
                 }}
                 calendarWidth={this.viewWidth}
                 theme={this.props.theme}
                 onVisibleMonthsChange={this.onVisibleMonthsChange.bind(this)}
-                ref={c => (this.calendar = c)}
+                ref={(c) => (this.calendar = c)}
                 minDate={this.props.minDate}
                 maxDate={this.props.maxDate}
                 current={this.currentMonth}
@@ -507,14 +511,16 @@ export default class CCalendar extends Component {
               <Text
                 allowFontScaling={false}
                 style={this.styles.weekday}
-                numberOfLines={1}></Text>
+                numberOfLines={1}
+              ></Text>
             )}
             {weekDaysNames.map((day, index) => (
               <Text
                 allowFontScaling={false}
                 key={day + index}
                 style={this.styles.weekday}
-                numberOfLines={1}>
+                numberOfLines={1}
+              >
                 {day}
               </Text>
             ))}
@@ -523,7 +529,7 @@ export default class CCalendar extends Component {
 
         {showCalendar && (
           <Animated.ScrollView
-            ref={c => (this.scrollPad = c)}
+            ref={(c) => (this.scrollPad = c)}
             overScrollMode="never"
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
@@ -535,11 +541,12 @@ export default class CCalendar extends Component {
             onScrollBeginDrag={this.onStartDrag}
             onScrollEndDrag={this.onSnapAfterDrag}
             onScroll={Animated.event(
-              [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],
-              {useNativeDriver: true},
-            )}>
+              [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+              { useNativeDriver: true }
+            )}
+          >
             <View
-              style={{height: agendaHeight + KNOB_HEIGHT}}
+              style={{ height: agendaHeight + KNOB_HEIGHT }}
               onLayout={this.onScrollPadLayout}
             />
           </Animated.ScrollView>

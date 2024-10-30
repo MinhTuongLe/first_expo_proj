@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   Text as NativeText,
-} from 'react-native';
+} from "react-native";
 
-import TextElement from '../text/Text';
-import CheckBoxIcon from './CheckBoxIcon';
-import {fonts, ViewPropTypes, withTheme} from '../config';
+import TextElement from "../text/Text";
+import CheckBoxIcon from "./CheckBoxIcon";
+import { fonts, ViewPropTypes, withTheme } from "../config";
 
-const CheckBox = props => {
-  const {theme, ...rest} = props;
+const CheckBox = (props) => {
+  const { theme, ...rest } = props;
 
   const {
     Component,
@@ -42,14 +42,16 @@ const CheckBox = props => {
         styles.container,
         title && styles.containerHasTitle,
         containerStyle && containerStyle,
-      ])}>
+      ])}
+    >
       <View
         style={StyleSheet.flatten([
           styles.wrapper,
-          right && {justifyContent: 'flex-end'},
-          center && {justifyContent: 'center'},
+          right && { justifyContent: "flex-end" },
+          center && { justifyContent: "center" },
           wrapperStyle && wrapperStyle,
-        ])}>
+        ])}
+      >
         {!iconRight && <CheckBoxIcon {...props} checkedColor={checkedColor} />}
 
         {React.isValidElement(title)
@@ -60,9 +62,10 @@ const CheckBox = props => {
                 style={StyleSheet.flatten([
                   styles.text(theme),
                   textStyle && textStyle,
-                  fontFamily && {fontFamily},
+                  fontFamily && { fontFamily },
                 ])}
-                {...titleProps}>
+                {...titleProps}
+              >
                 {checked ? checkedTitle || title : title}
               </TextElement>
             )}
@@ -80,9 +83,9 @@ CheckBox.propTypes = {
   titleProps: PropTypes.object,
   center: PropTypes.bool,
   right: PropTypes.bool,
-  containerStyle: ViewPropTypes.style,
-  wrapperStyle: ViewPropTypes.style,
-  textStyle: NativeText.propTypes.style,
+  containerStyle: ViewPropTypes?.style,
+  wrapperStyle: ViewPropTypes?.style,
+  textStyle: NativeText.propTypes?.style,
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,
   checkedTitle: PropTypes.string,
@@ -94,9 +97,9 @@ CheckBox.defaultProps = {
   iconRight: false,
   right: false,
   center: false,
-  uncheckedColor: '#bfbfbf',
-  checkedIcon: 'check-square-o',
-  uncheckedIcon: 'square-o',
+  uncheckedColor: "#bfbfbf",
+  checkedIcon: "check-square-o",
+  uncheckedIcon: "square-o",
   size: 24,
   Component: TouchableOpacity,
   titleProps: {},
@@ -104,8 +107,8 @@ CheckBox.defaultProps = {
 
 const styles = {
   wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   container: {
     margin: 5,
@@ -116,10 +119,10 @@ const styles = {
   containerHasTitle: {
     borderWidth: 1,
     borderRadius: 3,
-    backgroundColor: '#fafafa',
-    borderColor: '#ededed',
+    backgroundColor: "#fafafa",
+    borderColor: "#ededed",
   },
-  text: theme => ({
+  text: (theme) => ({
     marginLeft: 10,
     marginRight: 10,
     color: theme.colors.grey1,
@@ -135,5 +138,5 @@ const styles = {
   }),
 };
 
-export {CheckBox};
-export default withTheme(CheckBox, 'CheckBox');
+export { CheckBox };
+export default withTheme(CheckBox, "CheckBox");

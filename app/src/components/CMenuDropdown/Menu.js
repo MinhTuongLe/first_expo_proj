@@ -4,8 +4,8 @@
  * @Author: ZiniSoft
  */
 /** LIBRARY */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Animated,
   Dimensions,
@@ -18,18 +18,18 @@ import {
   View,
   ViewPropTypes,
   I18nManager,
-} from 'react-native';
-import {DEVICE} from '../../config';
-import Helpers from '../../helpers';
+} from "react-native";
+import { DEVICE } from "../../config";
+import Helpers from "../../helpers";
 
 const STATES = {
-  HIDDEN: 'HIDDEN',
-  ANIMATING: 'ANIMATING',
-  SHOWN: 'SHOWN',
+  HIDDEN: "HIDDEN",
+  ANIMATING: "ANIMATING",
+  SHOWN: "SHOWN",
 };
 
 const EASING = Easing.bezier(0.4, 0, 0.2, 1);
-const SCREEN_INDENT = Helpers.wS('10%');
+const SCREEN_INDENT = Helpers.wS("10%");
 
 class Menu extends React.Component {
   _container = null;
@@ -46,21 +46,21 @@ class Menu extends React.Component {
     buttonWidth: 0,
     buttonHeight: 0,
 
-    menuSizeAnimation: new Animated.ValueXY({x: 0, y: 0}),
+    menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
     opacityAnimation: new Animated.Value(0),
   };
 
-  _setContainerRef = ref => {
+  _setContainerRef = (ref) => {
     this._container = ref;
   };
 
   // Start menu animation
-  _onMenuLayout = e => {
+  _onMenuLayout = (e) => {
     if (this.state.menuState === STATES.ANIMATING) {
       return;
     }
 
-    const {width, height} = e.nativeEvent.layout;
+    const { width, height } = e.nativeEvent.layout;
 
     this.setState(
       {
@@ -71,7 +71,7 @@ class Menu extends React.Component {
       () => {
         Animated.parallel([
           Animated.timing(this.state.menuSizeAnimation, {
-            toValue: {x: width, y: height},
+            toValue: { x: width, y: height },
             duration: this.props.animationDuration,
             easing: EASING,
           }),
@@ -81,7 +81,7 @@ class Menu extends React.Component {
             easing: EASING,
           }),
         ]).start();
-      },
+      }
     );
   };
 
@@ -103,7 +103,7 @@ class Menu extends React.Component {
     });
   };
 
-  hide = onHidden => {
+  hide = (onHidden) => {
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
       duration: this.props.animationDuration,
@@ -113,7 +113,7 @@ class Menu extends React.Component {
       this.setState(
         {
           menuState: STATES.HIDDEN,
-          menuSizeAnimation: new Animated.ValueXY({x: 0, y: 0}),
+          menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
           opacityAnimation: new Animated.Value(0),
         },
         () => {
@@ -122,10 +122,10 @@ class Menu extends React.Component {
           }
 
           // Invoke onHidden callback if defined
-          if (Platform.OS !== 'ios' && this.props.onHidden) {
+          if (Platform.OS !== "ios" && this.props.onHidden) {
             this.props.onHidden();
           }
-        },
+        }
       );
     });
   };
@@ -136,10 +136,10 @@ class Menu extends React.Component {
   };
 
   render() {
-    const {isRTL} = I18nManager;
+    const { isRTL } = I18nManager;
 
-    const dimensions = Dimensions.get('window');
-    const {width: windowWidth} = dimensions;
+    const dimensions = Dimensions.get("window");
+    const { width: windowWidth } = dimensions;
     const windowHeight = dimensions.height - (StatusBar.currentHeight || 0);
 
     const {
@@ -156,7 +156,7 @@ class Menu extends React.Component {
     };
 
     // Adjust position of menu
-    let {left, top} = this.state;
+    let { left, top } = this.state;
     const transforms = [];
 
     if (
@@ -170,12 +170,12 @@ class Menu extends React.Component {
       left = Math.min(
         windowWidth -
           SCREEN_INDENT +
-          (Platform.OS === 'ios' ? DEVICE.s * 35 : DEVICE.s * 25),
-        left + buttonWidth,
+          (Platform.OS === "ios" ? DEVICE.s * 35 : DEVICE.s * 25),
+        left + buttonWidth
       );
     } else if (left < SCREEN_INDENT) {
       left =
-        SCREEN_INDENT + (Platform.OS === 'ios' ? DEVICE.s * 35 : DEVICE.s * 15);
+        SCREEN_INDENT + (Platform.OS === "ios" ? DEVICE.s * 35 : DEVICE.s * 15);
     }
 
     // Flip by Y axis if menu hits bottom screen border
@@ -187,11 +187,11 @@ class Menu extends React.Component {
       top =
         windowHeight -
         SCREEN_INDENT +
-        (Platform.OS === 'ios' ? DEVICE.s * 35 : DEVICE.s * 15);
+        (Platform.OS === "ios" ? DEVICE.s * 35 : DEVICE.s * 15);
       top = Math.min(windowHeight - SCREEN_INDENT, top + buttonHeight);
     } else if (top < SCREEN_INDENT) {
       top =
-        SCREEN_INDENT + (Platform.OS === 'ios' ? DEVICE.s * 35 : DEVICE.s * 15);
+        SCREEN_INDENT + (Platform.OS === "ios" ? DEVICE.s * 35 : DEVICE.s * 15);
     }
 
     const shadowMenuContainerStyle = {
@@ -200,14 +200,14 @@ class Menu extends React.Component {
       top,
 
       // Switch left to right for rtl devices
-      ...(isRTL ? {right: left} : {left}),
+      ...(isRTL ? { right: left } : { left }),
     };
 
-    const {menuState} = this.state;
+    const { menuState } = this.state;
     const animationStarted = menuState === STATES.ANIMATING;
     const modalVisible = menuState === STATES.SHOWN || animationStarted;
 
-    const {testID, button, style, children} = this.props;
+    const { testID, button, style, children } = this.props;
 
     return (
       <View ref={this._setContainerRef} collapsable={false} testID={testID}>
@@ -216,9 +216,10 @@ class Menu extends React.Component {
         <Modal
           visible={modalVisible}
           onRequestClose={this._hide}
-          supportedOrientations={['portrait']}
+          supportedOrientations={["portrait"]}
           transparent
-          onDismiss={this._onDismiss}>
+          onDismiss={this._onDismiss}
+        >
           <TouchableWithoutFeedback onPress={this._hide} accessible={false}>
             <View style={StyleSheet.absoluteFill}>
               <Animated.View
@@ -227,9 +228,11 @@ class Menu extends React.Component {
                   styles.shadowMenuContainer,
                   shadowMenuContainerStyle,
                   style,
-                ]}>
+                ]}
+              >
                 <Animated.View
-                  style={[styles.menuContainer, animationStarted && menuSize]}>
+                  style={[styles.menuContainer, animationStarted && menuSize]}
+                >
                   {children}
                 </Animated.View>
               </Animated.View>
@@ -246,8 +249,8 @@ Menu.propTypes = {
   button: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
   onHidden: PropTypes.func,
-  style: ViewPropTypes.style,
-  testID: ViewPropTypes.testID,
+  style: ViewPropTypes?.style,
+  testID: ViewPropTypes?.testID,
 };
 
 Menu.defaultProps = {
@@ -256,16 +259,16 @@ Menu.defaultProps = {
 
 const styles = StyleSheet.create({
   shadowMenuContainer: {
-    position: 'absolute',
-    backgroundColor: '#ffffff',
+    position: "absolute",
+    backgroundColor: "#ffffff",
     borderRadius: 4,
     opacity: 0,
 
     // Shadow
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
-        shadowOffset: {width: 2, height: 2},
+        shadowColor: "black",
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
       },
@@ -275,7 +278,7 @@ const styles = StyleSheet.create({
     }),
   },
   menuContainer: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });
 

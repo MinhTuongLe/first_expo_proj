@@ -1,39 +1,39 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {StyleSheet, View} from 'react-native';
-import {useSafeArea} from 'react-native-safe-area-context';
+import { StyleSheet, View } from "react-native";
+import { useSafeArea } from "react-native-safe-area-context";
 
-import ViewPropTypes from '../config/ViewPropTypes';
+import ViewPropTypes from "../config/ViewPropTypes";
 
-const SafeAreaView = ({forceInset, style, ...restProps}) => {
+const SafeAreaView = ({ forceInset, style, ...restProps }) => {
   const insets = useSafeArea();
   let padding = {};
 
-  if (forceInset && typeof forceInset === 'object') {
-    Object.keys(forceInset).forEach(key => {
+  if (forceInset && typeof forceInset === "object") {
+    Object.keys(forceInset).forEach((key) => {
       let inset = 0;
 
-      if (forceInset[key] === 'always') {
+      if (forceInset[key] === "always") {
         inset = insets[key];
-      } else if (forceInset[key] === 'never') {
+      } else if (forceInset[key] === "never") {
         inset = 0;
       }
       switch (key) {
-        case 'left': {
+        case "left": {
           padding.paddingLeft = inset;
           break;
         }
-        case 'right': {
+        case "right": {
           padding.paddingRight = inset;
           break;
         }
-        case 'top': {
+        case "top": {
           padding.paddingTop = inset;
           break;
         }
-        case 'bottom': {
+        case "bottom": {
           padding.paddingBottom = inset > 20 ? 20 : inset;
           break;
         }
@@ -49,12 +49,12 @@ const SafeAreaView = ({forceInset, style, ...restProps}) => {
 };
 
 SafeAreaView.propTypes = {
-  style: ViewPropTypes.style,
+  style: ViewPropTypes?.style,
   forceInset: PropTypes.exact({
-    top: PropTypes.oneOf(['always', 'never']),
-    bottom: PropTypes.oneOf(['always', 'never']),
-    left: PropTypes.oneOf(['always', 'never']),
-    right: PropTypes.oneOf(['always', 'never']),
+    top: PropTypes.oneOf(["always", "never"]),
+    bottom: PropTypes.oneOf(["always", "never"]),
+    left: PropTypes.oneOf(["always", "never"]),
+    right: PropTypes.oneOf(["always", "never"]),
   }),
 };
 
