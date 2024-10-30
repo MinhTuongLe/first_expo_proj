@@ -19,7 +19,7 @@ import AppRouter from "./AppRouter";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NavigationService from "./navigation/NavigationService";
 import { Alert } from "react-native";
-import messaging from "@react-native-firebase/messaging";
+// import messaging from "@react-native-firebase/messaging";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as notificationActions from "./redux/actions/notification";
@@ -30,37 +30,37 @@ import store from "./redux/store";
 const App = () => {
   useEffect(() => {
     configureFontAwesomePro("light");
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-      let notiData = remoteMessage.notification?.body;
-      console.log("Message handled in the background!", notiData);
-    });
-    messaging().onNotificationOpenedApp((remoteMessage) => {
-      console.log(
-        "Notification caused app to open from background state:",
-        remoteMessage.notification
-      );
-    });
+    // messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    //   let notiData = remoteMessage.notification?.body;
+    //   console.log("Message handled in the background!", notiData);
+    // });
+    // messaging().onNotificationOpenedApp((remoteMessage) => {
+    //   console.log(
+    //     "Notification caused app to open from background state:",
+    //     remoteMessage.notification
+    //   );
+    // });
 
-    // Check whether an initial notification is available
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log(
-            "Notification caused app to open from quit state:",
-            remoteMessage.notification
-          );
-        }
-      });
+    // // Check whether an initial notification is available
+    // messaging()
+    //   .getInitialNotification()
+    //   .then((remoteMessage) => {
+    //     if (remoteMessage) {
+    //       console.log(
+    //         "Notification caused app to open from quit state:",
+    //         remoteMessage.notification
+    //       );
+    //     }
+    //   });
 
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      let dataNoti = remoteMessage.notification?.body;
-      dataNoti = dataNoti.replace(/^.*[\\/]/, "");
-      // console.log('dataNoti: ', dataNoti);
-      // Alert.alert('Notification', dataNoti);
-    });
+    // const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    //   let dataNoti = remoteMessage.notification?.body;
+    //   dataNoti = dataNoti.replace(/^.*[\\/]/, "");
+    //   // console.log('dataNoti: ', dataNoti);
+    //   // Alert.alert('Notification', dataNoti);
+    // });
 
-    return unsubscribe;
+    // return unsubscribe;
   }, []);
 
   _goToNotification = (data) => {
@@ -80,7 +80,7 @@ const App = () => {
     } else {
       if (Number(dataNotRead) > 0) {
         this.props.notificationActions.setNotRead(dataNotRead - 1);
-        firebase.notifications().setBadge(sumBadge - 1);
+        // firebase.notifications().setBadge(sumBadge - 1);
       }
 
       NavigationService.navigate("NotificationDetail", {

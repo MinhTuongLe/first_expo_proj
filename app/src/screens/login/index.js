@@ -198,32 +198,30 @@ class LoginScreen extends React.Component {
   };
 
   _checkPermission = async () => {
-    // console.log('CHECK_PERMISSION');
-    let enabled = await messaging().hasPermission();
-    if (enabled !== -1) this._getToken();
-    else this._requestPermission();
+    // let enabled = await messaging().hasPermission();
+    // if (enabled !== -1) this._getToken();
+    // else this._requestPermission();
   };
 
   _getToken = async () => {
-    await messaging().registerDeviceForRemoteMessages();
-    const fcmToken = await messaging().getToken();
-    const deviceName = DeviceInfo.getModel() || Platform.OS;
-
-    if (fcmToken) {
-      this._fcmToken = fcmToken;
-      this._deviceName = deviceName;
-      CONFIG.FCM_TOKEN = fcmToken;
-      CONFIG.DEVICE_NAME = deviceName;
-    } else this._requestPermission();
+    // await messaging().registerDeviceForRemoteMessages();
+    // const fcmToken = await messaging().getToken();
+    // const deviceName = DeviceInfo.getModel() || Platform.OS;
+    // if (fcmToken) {
+    //   this._fcmToken = fcmToken;
+    //   this._deviceName = deviceName;
+    //   CONFIG.FCM_TOKEN = fcmToken;
+    //   CONFIG.DEVICE_NAME = deviceName;
+    // } else this._requestPermission();
   };
 
   _requestPermission = async () => {
-    try {
-      await messaging().requestPermission();
-      this._getToken();
-    } catch (error) {
-      console.log("Permission rejected");
-    }
+    // try {
+    //   await messaging().requestPermission();
+    //   this._getToken();
+    // } catch (error) {
+    //   console.log("Permission rejected");
+    // }
   };
 
   _getSettings = async (resp) => {
