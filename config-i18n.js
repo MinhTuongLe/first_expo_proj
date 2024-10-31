@@ -1,18 +1,18 @@
-import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import languages from './locales';
+import languages from "./src/locales";
 
 i18n.use(initReactI18next).init({
-  compatibilityJSON: 'v3',
-  fallbackLng: 'en',
-  lng: 'en',
+  compatibilityJSON: "v3",
+  fallbackLng: "en",
+  lng: "en",
 
   resources: languages,
 
   // have a common namespace used around the full app
-  ns: ['common'],
-  defaultNS: 'common',
+  ns: ["common"],
+  defaultNS: "common",
 
   debug: false,
 

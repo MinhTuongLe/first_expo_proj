@@ -7,29 +7,29 @@
 /** LIBRARY */
 import { Dimensions } from "react-native";
 /* ASSETS FOOD */
-import cake from "../../../assets/icons/food/cake.png"; // Bánh ngọt
-import egg from "../../../assets/icons/food/egg.png"; // Trứng
-import fish from "../../../assets/icons/food/fish.png"; // Cá
-import fruit from "../../../assets/icons/food/fruit.png"; // Trái cây
-import meat from "../../../assets/icons/food/meat.png"; // Thịt
-import milk from "../../../assets/icons/food/milk.png"; // Sữa
-import soup from "../../../assets/icons/food/soup.png"; // Canh
-import vegetable from "../../../assets/icons/food/carrot.png"; // Rau
-import appetizer from "../../../assets/icons/food/appetizer.png"; //
-import dessert from "../../../assets/icons/food/dessert.png"; //
-import drink from "../../../assets/icons/food/drink.png"; //
-import main_course from "../../../assets/icons/food/main_course.png"; //
+import cake from "../../assets/icons/food/cake.png"; // Bánh ngọt
+import egg from "../../assets/icons/food/egg.png"; // Trứng
+import fish from "../../assets/icons/food/fish.png"; // Cá
+import fruit from "../../assets/icons/food/fruit.png"; // Trái cây
+import meat from "../../assets/icons/food/meat.png"; // Thịt
+import milk from "../../assets/icons/food/milk.png"; // Sữa
+import soup from "../../assets/icons/food/soup.png"; // Canh
+import vegetable from "../../assets/icons/food/carrot.png"; // Rau
+import appetizer from "../../assets/icons/food/appetizer.png"; //
+import dessert from "../../assets/icons/food/dessert.png"; //
+import drink from "../../assets/icons/food/drink.png"; //
+import main_course from "../../assets/icons/food/main_course.png"; //
 /* ASSETS CLASS */
-import lopmam from "../../../assets/icons/class/mam.png"; // Mầm
-import lopchoi from "../../../assets/icons/class/choi.png"; // Chồi
-import lopla from "../../../assets/icons/class/la.png"; // Lá
-import lopmaugiao from "../../../assets/icons/class/chim.png"; // Mẫu giáo
+import lopmam from "../../assets/icons/class/mam.png"; // Mầm
+import lopchoi from "../../assets/icons/class/choi.png"; // Chồi
+import lopla from "../../assets/icons/class/la.png"; // Lá
+import lopmaugiao from "../../assets/icons/class/chim.png"; // Mẫu giáo
 /* ASSETS USER */
-import male from "../../../assets/icons/user/male.png"; // Nam
-import female from "../../../assets/icons/user/female.png"; // Nữ
+import male from "../../assets/icons/user/male.png"; // Nam
+import female from "../../assets/icons/user/female.png"; // Nữ
 /* ASSETS STUDENT */
-import male_kid from "../../../assets/icons/user/male-kid.png"; // Nam
-import female_kid from "../../../assets/icons/user/female-kid.png"; // Nữ
+import male_kid from "../../assets/icons/user/male-kid.png"; // Nam
+import female_kid from "../../assets/icons/user/female-kid.png"; // Nữ
 /* COMMON */
 import Helpers from "../helpers";
 import { backgroundColor } from "../components/CCalendar/style";
@@ -477,31 +477,31 @@ export const DEVICE = {
 
 export const ASSETS = {
   /** IMAGE/ICON DEFAULT */
-  imgCardFront: require("../../../assets/images/card/card_front.png"),
-  imgCardBack: require("../../../assets/images/card/card_back.png"),
-  imgBackground: require("../../../assets/images/bg/bg_intro.jpg"),
-  imgLogo: require("../../../assets/images/logo.png"),
-  imgLogoShort: require("../../../assets/images/logo_short.png"),
-  imgFailed: require("../../../assets/images/image_failed.png"),
-  avatar: require("../../../assets/images/avatar/avatar.png"),
-  card: require("../../../assets/images/card_demo.jpg"),
-  icAbsent: require("../../../assets/icons/homeIcon/iconAbsent.png"),
-  icAttendance: require("../../../assets/icons/homeIcon/iconAttendance.png"),
-  icHealth: require("../../../assets/icons/homeIcon/iconHealth.png"),
-  icMenu: require("../../../assets/icons/homeIcon/iconMenu.png"),
-  icPickup: require("../../../assets/icons/homeIcon/iconPickUp.png"),
-  icSchedule: require("../../../assets/icons/homeIcon/iconSchedule.png"),
-  icFeeInvoice: require("../../../assets/icons/homeIcon/iconTuition.png"),
-  icBirth: require("../../../assets/icons/homeIcon/iconBirth.png"),
-  icClassFun: require("../../../assets/icons/homeIcon/iconClass.png"),
-  icFeedback: require("../../../assets/icons/homeIcon/iconFeedback.png"),
-  icStatistics: require("../../../assets/icons/homeIcon/iconStatistics.png"),
-  schoolBus: require("../../../assets/icons/user/school-bus.png"),
-  imgParent: require("../../../assets/icons/user/parent.png"),
-  imgTeacher: require("../../../assets/icons/user/teacher.png"),
-  imgDriver: require("../../../assets/icons/user/driver.png"),
-  image_speaker: require("../../../assets/images/image_speaker.png"),
-  icCoin: require("../../../assets/images/coin.png"),
+  imgCardFront: require("../../assets/images/card/card_front.png"),
+  imgCardBack: require("../../assets/images/card/card_back.png"),
+  imgBackground: require("../../assets/images/bg/bg_intro.jpg"),
+  imgLogo: require("../../assets/images/logo.png"),
+  imgLogoShort: require("../../assets/images/logo_short.png"),
+  imgFailed: require("../../assets/images/image_failed.png"),
+  avatar: require("../../assets/images/avatar/avatar.png"),
+  card: require("../../assets/images/card_demo.jpg"),
+  icAbsent: require("../../assets/icons/homeIcon/iconAbsent.png"),
+  icAttendance: require("../../assets/icons/homeIcon/iconAttendance.png"),
+  icHealth: require("../../assets/icons/homeIcon/iconHealth.png"),
+  icMenu: require("../../assets/icons/homeIcon/iconMenu.png"),
+  icPickup: require("../../assets/icons/homeIcon/iconPickUp.png"),
+  icSchedule: require("../../assets/icons/homeIcon/iconSchedule.png"),
+  icFeeInvoice: require("../../assets/icons/homeIcon/iconTuition.png"),
+  icBirth: require("../../assets/icons/homeIcon/iconBirth.png"),
+  icClassFun: require("../../assets/icons/homeIcon/iconClass.png"),
+  icFeedback: require("../../assets/icons/homeIcon/iconFeedback.png"),
+  icStatistics: require("../../assets/icons/homeIcon/iconStatistics.png"),
+  schoolBus: require("../../assets/icons/user/school-bus.png"),
+  imgParent: require("../../assets/icons/user/parent.png"),
+  imgTeacher: require("../../assets/icons/user/teacher.png"),
+  imgDriver: require("../../assets/icons/user/driver.png"),
+  image_speaker: require("../../assets/images/image_speaker.png"),
+  icCoin: require("../../assets/images/coin.png"),
 };
 
 export const KEY = {

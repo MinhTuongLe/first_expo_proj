@@ -17,15 +17,15 @@ import "./ignoreWarnings";
 import "./config-i18n";
 import AppRouter from "./AppRouter";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import NavigationService from "./navigation/NavigationService";
+import NavigationService from "./src/navigation/NavigationService";
 import { Alert } from "react-native";
 // import messaging from "@react-native-firebase/messaging";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as notificationActions from "./redux/actions/notification";
-import * as messagesActions from "./redux/actions/messages";
+import * as notificationActions from "./src/redux/actions/notification";
+import * as messagesActions from "./src/redux/actions/messages";
 /** REDUX */
-import store from "./redux/store";
+import store from "./src/redux/store";
 
 const App = () => {
   useEffect(() => {

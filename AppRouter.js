@@ -14,18 +14,18 @@
  * @flow
  */
 
-import React from 'react';
-import {View, StatusBar, Modal} from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-import {withTranslation} from 'react-i18next';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import FlashMessage from 'react-native-flash-message';
-import {DEVICE} from './config';
-import CText from './components/CText';
-import './config-i18n';
-import Router from './navigation/root-switch';
-import Helpers from './helpers';
+import React from "react";
+import { View, StatusBar, Modal } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
+import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import FlashMessage from "react-native-flash-message";
+import { DEVICE } from "./src/config";
+import CText from "./src/components/CText";
+import "./config-i18n";
+import Router from "./src/navigation/root-switch";
+import Helpers from "./src/helpers";
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -34,16 +34,16 @@ class AppRouter extends React.Component {
       isCheck: false,
       isConnected: true,
     };
-    const {i18n, language} = props;
+    const { i18n, language } = props;
     if (i18n.language !== language) {
       i18n.changeLanguage(language);
     }
   }
 
   componentDidMount() {
-    NetInfo.addEventListener(state => {
-      const {isCheck} = this.state;
-      const {isConnected} = state;
+    NetInfo.addEventListener((state) => {
+      const { isCheck } = this.state;
+      const { isConnected } = state;
       this.checkInternet();
       if (!isConnected) {
         this.setState({
@@ -66,30 +66,31 @@ class AppRouter extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    const {i18n, language} = this.props;
+    const { i18n, language } = this.props;
     if (i18n.language !== language) {
       i18n.changeLanguage(language);
     }
   }
 
   render() {
-    const {isConnected} = this.state;
+    const { isConnected } = this.state;
 
     return (
       <>
         <StatusBar
           translucent
-          barStyle={'light-content'}
+          barStyle={"light-content"}
           backgroundColor="transparent"
         />
         {!isConnected ? (
           <Modal
             visible={!this.state._connected}
-            animationType={'fade'}
+            animationType={"fade"}
             onRequestClose={() => {}}
-            transparent={true}>
+            transparent={true}
+          >
             <View style={styles.con_modal}>
-              <CText style={styles.txt_alert_1} i18nKey={'connectionFailed'} />
+              <CText style={styles.txt_alert_1} i18nKey={"connectionFailed"} />
             </View>
           </Modal>
         ) : (
@@ -101,7 +102,7 @@ class AppRouter extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // language: languageSelector(state)
   };
@@ -113,17 +114,17 @@ const styles = {
   note: {
     fontSize: 20 * DEVICE.s,
     fontFamily: DEVICE.fontBold,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
-    color: '#ffffff',
+    color: "#ffffff",
   },
   con_modal: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,.9)',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,.9)",
   },
   txt_alert_1: {
-    color: 'red',
+    color: "red",
     fontFamily: DEVICE.fontBold,
     fontSize: Helpers.fS(12),
     paddingVertical: 10,
