@@ -339,12 +339,6 @@ function RootDriver() {
 const Stack = createNativeStackNavigator();
 
 function RootStack({ isLoading, setting }) {
-  /**
-   * Hide Splash after fetch data
-   */
-  // if (!isLoading) {
-  //   SplashScreen.hide();
-  // }
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, headerTransparent: true }}

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-navigation-boilerplate",
-    "slug": "react-navigation-boilerplate",
+    "name": "Kindie",
+    "slug": "Kindie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo_short.png",
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo_short.png",
         "backgroundColor": "#FFFFFF"
       }
     },

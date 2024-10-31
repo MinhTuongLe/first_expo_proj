@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Linking, Keyboard, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DeviceInfo from "react-native-device-info";
 // import firebase from 'react-native-firebase'
 /** COMMON **/
 import Helpers from "../../helpers";
@@ -206,7 +205,7 @@ class LoginScreen extends React.Component {
   _getToken = async () => {
     // await messaging().registerDeviceForRemoteMessages();
     // const fcmToken = await messaging().getToken();
-    // const deviceName = DeviceInfo.getModel() || Platform.OS;
+    // const deviceName = DeviceInfo.modelName || Platform.OS;
     // if (fcmToken) {
     //   this._fcmToken = fcmToken;
     //   this._deviceName = deviceName;

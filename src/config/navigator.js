@@ -7,11 +7,10 @@ export const homeTabs = {
 };
 
 export const authStack = {
-  login: "login",
-  login: "login",
-  login_mobile: "login_mobile",
+  login: "Login",
+  login_mobile: "Login",
   register: "register",
-  forgot: "forgot",
+  forgot: "ForgetPass",
 };
 
 export const homeDrawer = {
