@@ -1153,7 +1153,7 @@
   dependencies:
     cross-spawn "^7.0.3"
 
-"@expo/vector-icons@^14.0.2", "@expo/vector-icons@^14.0.3":
+"@expo/vector-icons@^14.0.3":
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-14.0.4.tgz#fa9d4351877312badf91a806598b2f0bab16039a"
   integrity sha512-+yKshcbpDfbV4zoXOgHxCwh7lkE9VVTT5T03OUlBsqfze1PLy6Hi4jp1vSb1GVbY6eskvMIivGVc9SKzIv0oEQ==
@@ -4478,6 +4478,16 @@ expo-camera@~15.0.16:
   dependencies:
     invariant "^2.2.4"
 
+expo-checkbox@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/expo-checkbox/-/expo-checkbox-3.0.0.tgz#73a5d60678dd4a1d2971b48957b08acf1dd734f1"
+  integrity sha512-ZfNUawE0Bp/Xa5Gwtn04yfg6rCnKdqdmBXvEGbYg5U+IfRfLh+ocLiiBAcx760DfdYpzMGQOGpUtWQeEVmJwNw==
+
+expo-clipboard@~6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-6.0.3.tgz#dfea74d4a004dce59ecefd063d6fb9f1c356a03f"
+  integrity sha512-RIKDsuHkYfaspifbFpVC8sBVFKR05L7Pj7mU2/XkbrW9m01OBNvdpGraXEMsTFCx97xMGsZpEw9pPquL4j4xVg==
+
 expo-constants@~16.0.0, expo-constants@~16.0.2:
   version "16.0.2"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-16.0.2.tgz#eb5a1bddb7308fd8cadac8fc44decaf4784cac5e"
@@ -4503,7 +4513,7 @@ expo-file-system@~17.0.1:
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-17.0.1.tgz#b9f8af8c1c06ec71d96fd7a0d2567fa9e1c88f15"
   integrity sha512-dYpnZJqTGj6HCYJyXAgpFkQWsiCH3HY1ek2cFZVHFoEc5tLz9gmdEgTF6nFHurvmvfmXqxi7a5CXyVm0aFYJBw==
 
-expo-font@~12.0.10, expo-font@~12.0.9:
+expo-font@~12.0.10:
   version "12.0.10"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-12.0.10.tgz#62deaf1f46159d7839f01305f44079268781b1db"
   integrity sha512-Q1i2NuYri3jy32zdnBaHHCya1wH1yMAsI+3CCmj9zlQzlhsS9Bdwcj2W3c5eU5FvH2hsNQy4O+O1NnM6o/pDaQ==

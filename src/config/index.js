@@ -6,6 +6,8 @@
  */
 /** LIBRARY */
 import { Dimensions } from "react-native";
+import { expo } from "../../app.json";
+
 /* ASSETS FOOD */
 import cake from "../../assets/icons/food/cake.png"; // Bánh ngọt
 import egg from "../../assets/icons/food/egg.png"; // Trứng
@@ -31,8 +33,6 @@ import female from "../../assets/icons/user/female.png"; // Nữ
 import male_kid from "../../assets/icons/user/male-kid.png"; // Nam
 import female_kid from "../../assets/icons/user/female-kid.png"; // Nữ
 /* COMMON */
-import Helpers from "../helpers";
-import { backgroundColor } from "../components/CCalendar/style";
 
 export const privacyUrl = "https://kindie.com/dieu-khoan-su-dung/";
 
@@ -219,6 +219,17 @@ const userType = [
   },
 ];
 
+const STANDARD_SIZE = {
+  width: 375,
+};
+
+/* Parse font system with screen size */
+const fS = (size) => {
+  return (
+    (parseInt(size) * Dimensions.get("window").width) / STANDARD_SIZE.width
+  );
+};
+
 /** STYLE INIT */
 const gStyle = {
   flex_1: { flex: 1 },
@@ -300,13 +311,13 @@ const gStyle = {
   },
 
   header_title: {
-    fontSize: Helpers.fS(22),
+    fontSize: fS(22),
     fontFamily: "OpenSans-SemiBold",
     color: "#ffffff",
   },
 
   txt_no_data: {
-    fontSize: Helpers.fS(20),
+    fontSize: fS(20),
     fontFamily: "OpenSans-SemiBold",
     color: "#777777",
   },
@@ -418,58 +429,58 @@ export const DEVICE = {
   s: Dimensions.get("window").width / 480,
 
   /** FONT SYSTEM */
-  fontBold: "OpenSans-Bold",
-  fontRegular: "OpenSans-Regular",
-  fontLight: "OpenSans-Light",
-  fontMedium: "OpenSans-SemiBold",
+  fontBold: expo.fonts["OpenSans-Bold"],
+  fontRegular: expo.fonts["OpenSans-Regular"],
+  fontLight: expo.fonts["OpenSans-Light"],
+  fontMedium: expo.fonts["OpenSans-SemiBold"],
 
   /** CHECK TIME OVER NOW */
 
   /** FONT SIZE */
   initFont: {
     XXXX_SMALL: {
-      fontSize: Helpers.fS(10),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(10),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     XXX_SMALL: {
-      fontSize: Helpers.fS(12),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(12),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     XX_SMALL: {
-      fontSize: Helpers.fS(14),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(14),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     X_SMALL: {
-      fontSize: Helpers.fS(16),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(16),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     SMALL: {
-      fontSize: Helpers.fS(18),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(18),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     MEDIUM: {
-      fontSize: Helpers.fS(20),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(20),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     LARGE: {
-      fontSize: Helpers.fS(22),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(22),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     X_LARGE: {
-      fontSize: Helpers.fS(24),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(24),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
     XX_LARGE: {
-      fontSize: Helpers.fS(26),
-      fontFamily: "OpenSans-Regular",
+      fontSize: fS(26),
+      fontFamily: expo.fonts["OpenSans-Regular"],
       color: "#000",
     },
   },

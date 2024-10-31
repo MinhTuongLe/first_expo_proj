@@ -4,7 +4,7 @@
  * @Date create: 18/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -16,19 +16,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Linking,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMMON **/
-import {LANG, CONFIG, ASSETS, DEVICE, privacyUrl, COLOR} from '../../config';
+import { LANG, CONFIG, ASSETS, DEVICE, privacyUrl, COLOR } from "../../config";
 /** COMPONENTS **/
-import CInput from '../../components/CInput/CInput';
-import CButton from '../../components/CButton';
-import CRadioButton from '../../components/CRadioButton';
-import CText from '../../components/CText';
-import CheckBox from '@react-native-community/checkbox';
+import CInput from "../../components/CInput/CInput";
+import CButton from "../../components/CButton";
+import CRadioButton from "../../components/CRadioButton";
+import CText from "../../components/CText";
+import Checkbox from "expo-checkbox";
+
 /** STYLES **/
-import styles from './style';
-import Helpers from '../../helpers';
+import styles from "./style";
+import Helpers from "../../helpers";
 
 class ViewLogin extends React.PureComponent {
   render() {
@@ -52,9 +53,10 @@ class ViewLogin extends React.PureComponent {
       <ImageBackground
         style={styles.con_flex}
         source={ASSETS.imgBackground}
-        resizeMode={'stretch'}
-        blurRadius={Platform.OS == 'android' ? 5 : 15}>
-        <KeyboardAvoidingView style={styles.con_flex} behavior={'padding'}>
+        resizeMode={"stretch"}
+        blurRadius={Platform.OS == "android" ? 5 : 15}
+      >
+        <KeyboardAvoidingView style={styles.con_flex} behavior={"padding"}>
           <SafeAreaView style={styles.con_flex}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.con_content}>
@@ -70,11 +72,12 @@ class ViewLogin extends React.PureComponent {
                         {
                           marginBottom: 10,
                           marginTop: 30,
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "center",
                         },
-                      ]}>
+                      ]}
+                    >
                       <CText
                         style={[
                           styles.txtContact,
@@ -84,7 +87,7 @@ class ViewLogin extends React.PureComponent {
                             fontWeight: 700,
                           },
                         ]}
-                        i18nKey={'txtWelcomeBack'}
+                        i18nKey={"txtWelcomeBack"}
                       />
                       <Text
                         style={[
@@ -94,21 +97,22 @@ class ViewLogin extends React.PureComponent {
                             fontSize: Helpers.fS(17),
                             fontWeight: 700,
                           },
-                        ]}>
-                        {infoUser?.userName || '-'}
+                        ]}
+                      >
+                        {infoUser?.userName || "-"}
                       </Text>
                     </View>
 
                     <View key="password-group" style={styles.input_group}>
-                      <Icon
-                        containerStyle={styles.input_group_icon}
-                        name={'lock-alt'}
+                      <FontAwesome5
+                        style={styles.input_group_icon}
+                        name="lock" // hoặc "lock-alt" tùy icon có sẵn
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        type={'solid'}
+                        solid // thay cho type={'solid'}
                       />
                       <CInput
-                        ref={'passContinue'}
+                        ref={"passContinue"}
                         style={styles.input_group_text}
                         placeholder={LANG[CONFIG.lang].txtLoginPass}
                         secureTextEntry
@@ -119,14 +123,13 @@ class ViewLogin extends React.PureComponent {
                       />
                     </View>
 
-                    {errorText !== '' && (
+                    {errorText !== "" && (
                       <View key="message-group" style={styles.message_group}>
-                        <Icon
-                          containerStyle={styles.message_group_icon}
-                          name={'times-circle'}
+                        <FontAwesome5
+                          style={styles.input_group_icon}
+                          name="times-circle" // hoặc "lock-alt" tùy icon có sẵn
                           size={Helpers.fS(23)}
-                          color={'red'}
-                          type={'light'}
+                          color={"red"}
                         />
                         <CText
                           style={styles.message_group_label}
@@ -145,56 +148,56 @@ class ViewLogin extends React.PureComponent {
 
                     <View
                       key="username-group"
-                      style={[styles.input_group, {marginTop: 30}]}>
-                      <Icon
-                        containerStyle={styles.input_group_icon}
-                        name={'user-alt'}
+                      style={[styles.input_group, { marginTop: 30 }]}
+                    >
+                      <FontAwesome5
+                        style={styles.input_group_icon} // thay containerStyle bằng style
+                        name="user-alt"
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        type={'solid'}
+                        solid // thay type={'solid'} bằng solid
                       />
                       <CInput
-                        ref={'email'}
+                        ref={"email"}
                         style={styles.input_group_text}
                         placeholder={LANG[CONFIG.lang].txtLoginUser2}
-                        keyboardType={'email-address'}
+                        keyboardType={"email-address"}
                         placeholderTextColor={COLOR.placeholderTextColor}
-                        returnKeyType={'next'}
+                        returnKeyType={"next"}
                         autoFocus={session == false}
-                        onSubmitEditing={ref => this.refs.password.focus}
+                        onSubmitEditing={(ref) => this.refs.password.focus}
                         cursorColor={COLOR.txtColor}
                       />
                     </View>
 
                     <View key="password-group" style={styles.input_group}>
-                      <Icon
-                        containerStyle={styles.input_group_icon}
-                        name={'lock-alt'}
+                      <FontAwesome5
+                        style={styles.input_group_icon}
+                        name="lock" // hoặc "lock-alt" tùy icon có sẵn
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        type={'solid'}
+                        solid // thay cho type={'solid'}
                       />
                       <CInput
-                        ref={'password'}
+                        ref={"password"}
                         style={styles.input_group_text}
                         placeholder={LANG[CONFIG.lang].txtLoginPass}
                         secureTextEntry
                         placeholderTextColor={COLOR.placeholderTextColor}
-                        returnKeyType={'done'}
+                        returnKeyType={"done"}
                         blurOnSubmit
                         onSubmitEditing={handlerLogin}
                         cursorColor={COLOR.txtColor}
                       />
                     </View>
 
-                    {errorText !== '' && (
+                    {errorText !== "" && (
                       <View key="message-group" style={styles.message_group}>
-                        <Icon
-                          containerStyle={styles.message_group_icon}
-                          name={'times-circle'}
+                        <FontAwesome5
+                          style={styles.input_group_icon}
+                          name="times-circle" // hoặc "lock-alt" tùy icon có sẵn
                           size={Helpers.fS(23)}
-                          color={'red'}
-                          type={'light'}
+                          color={"red"}
                         />
                         <CText
                           style={styles.message_group_label}
@@ -211,97 +214,106 @@ class ViewLogin extends React.PureComponent {
                       key="submit-group"
                       style={[
                         styles.submit_group,
-                        {marginBottom: 20, paddingHorizontal: 20},
-                      ]}>
+                        { marginBottom: 20, paddingHorizontal: 20 },
+                      ]}
+                    >
                       <CButton
                         style={styles.submit_group_submit}
                         loading={loadingLogin}
                         textStyle={styles.submit_group_submit}
-                        onPress={() => handlerLogin(true)}>
+                        onPress={() => handlerLogin(true)}
+                      >
                         {LANG[CONFIG.lang].txtLoginButton.toUpperCase()}
                       </CButton>
                     </View>
                     <TouchableOpacity
                       key="check-forget-pass-1"
                       style={{}}
-                      onPress={handlerGoForgetPass}>
+                      onPress={handlerGoForgetPass}
+                    >
                       <CText
                         style={[
                           styles.forget_group_label_left,
                           {
-                            textDecorationLine: 'underline',
+                            textDecorationLine: "underline",
                             color: COLOR.txtColor,
                           },
                         ]}
-                        i18nKey={'txtLoginForgetPass'}
+                        i18nKey={"txtLoginForgetPass"}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
                       key="check-forget-pass-2"
                       style={styles.forget_group}
-                      onPress={handlerShowLogin}>
+                      onPress={handlerShowLogin}
+                    >
                       <CText
                         style={[
                           styles.forget_group_label_left,
                           {
-                            textDecorationLine: 'underline',
+                            textDecorationLine: "underline",
                             color: COLOR.txtColor,
                           },
                         ]}
-                        i18nKey={'txtLoginAnother'}
+                        i18nKey={"txtLoginAnother"}
                       />
                     </TouchableOpacity>
                   </>
                 ) : (
-                  <View style={{paddingHorizontal: 20}}>
+                  <View style={{ paddingHorizontal: 20 }}>
                     <View
                       key="check-term-privacy"
-                      style={[styles.accept_term_group, {marginTop: 10}]}
+                      style={[styles.accept_term_group, { marginTop: 10 }]}
                       onPress={() => {
                         Linking.openURL(privacyUrl);
-                      }}>
-                      <CheckBox
+                      }}
+                    >
+                      <Checkbox
                         value={acceptTerm}
-                        onValueChange={checked =>
-                          handleAcceptTerm(checked)
-                        }></CheckBox>
+                        onValueChange={handleAcceptTerm}
+                        color={acceptTerm ? COLOR.primary : undefined}
+                      />
                       <TouchableOpacity
                         onPress={() => {
                           Linking.openURL(privacyUrl);
-                        }}>
+                        }}
+                      >
                         <CText
                           numberOfLines={2}
                           style={[
                             styles.accept_term_label,
                             {
-                              textDecorationLine: 'underline',
+                              textDecorationLine: "underline",
                               color: COLOR.txtColor,
                             },
                           ]}
-                          i18nKey={'txtTermAndPrivacy'}></CText>
+                          i18nKey={"txtTermAndPrivacy"}
+                        ></CText>
                       </TouchableOpacity>
                     </View>
 
                     <CButton
                       loading={loadingLogin}
                       style={styles.submit_group_submit}
-                      onPress={handlerLogin}>
+                      onPress={handlerLogin}
+                    >
                       {LANG[CONFIG.lang].txtLoginButton}
                     </CButton>
 
                     <TouchableOpacity
                       key="check-forget-pass-3"
                       style={styles.forget_group}
-                      onPress={handlerGoForgetPass}>
+                      onPress={handlerGoForgetPass}
+                    >
                       <CText
                         style={[
                           styles.forget_group_label_left,
                           {
-                            textDecorationLine: 'underline',
+                            textDecorationLine: "underline",
                             color: COLOR.txtColor,
                           },
                         ]}
-                        i18nKey={'txtLoginForgetPass'}
+                        i18nKey={"txtLoginForgetPass"}
                       />
                     </TouchableOpacity>
                   </View>
@@ -319,8 +331,9 @@ class ViewLogin extends React.PureComponent {
               DEVICE.gStyle.row_justify_center,
             ]}
             activeOpacity={0.5}
-            onPress={handlerCall}>
-            <CText style={styles.txtContact} i18nKey={'txtContact'} />
+            onPress={handlerCall}
+          >
+            <CText style={styles.txtContact} i18nKey={"txtContact"} />
             <Text style={styles.txtContact}> {hotline}</Text>
           </TouchableOpacity>
         </View>
@@ -330,8 +343,8 @@ class ViewLogin extends React.PureComponent {
 }
 
 ViewLogin.defaultProps = {
-  errorText: '',
-  password: '',
+  errorText: "",
+  password: "",
   session: true,
   infoUser: null,
   showReLogin: false,

@@ -5,15 +5,15 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 /* COMPONENTS */
-import {ViewFeeInvoiceDetail, ViewModalList} from './render';
+import { ViewFeeInvoiceDetail, ViewModalList } from "./render";
 /** COMMON */
-import Services from '../../../services';
-import {CONFIG} from '../../../config';
-import Clipboard from '@react-native-clipboard/clipboard';
-import helpers from '../../../helpers';
+import Services from "../../../services";
+import { CONFIG } from "../../../config";
+// import Clipboard from '@react-native-clipboard/clipboard';
+import helpers from "../../../helpers";
 
 class FeeInvoiceDetailScreen extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class FeeInvoiceDetailScreen extends Component {
       _dataFeeInvoice: props.route.params.dataFeeInvoice,
       _method: CONFIG.CASH,
       _bank: 0,
-      _errText: '',
+      _errText: "",
       _viewableBank: 0,
       _methods: CONFIG.PAYMENT_METHODS,
     };
@@ -40,25 +40,25 @@ class FeeInvoiceDetailScreen extends Component {
     //     : [];
   }
   /** FUNCTIONS */
-  _onGetDetailFeeInvoice = async id => {
-    let {_dataFeeInvoice, _detailData, _errText, _error} = this.state;
+  _onGetDetailFeeInvoice = async (id) => {
+    let { _dataFeeInvoice, _detailData, _errText, _error } = this.state;
     let res = await Services.FeeInvoice.getDetailFeeInvoice({
       id,
       school: this.props.login.data.school,
     });
     if (res) {
-      if (res.code === 'FEE_INVOICE_NOT_FOUND') {
+      if (res.code === "FEE_INVOICE_NOT_FOUND") {
         _error = true;
-        _errText = 'serverError';
+        _errText = "serverError";
       } else {
         _error = false;
-        _errText = '';
+        _errText = "";
         _detailData = res.items;
         _dataFeeInvoice = res;
       }
     } else {
       _error = true;
-      _errText = 'serverError';
+      _errText = "serverError";
     }
 
     this.setState({
@@ -87,18 +87,18 @@ class FeeInvoiceDetailScreen extends Component {
   _addPayment = () => {
     if (this.state._method === CONFIG.CASH) {
       helpers.customToast(
-        'Tuition information is pending. Kindie will update the information to parents as soon as it is completed.',
+        "Tuition information is pending. Kindie will update the information to parents as soon as it is completed."
       );
     }
     if (this.state._method === CONFIG.BANK) {
-      this.props.navigation.navigate('FeeInvoiceSummary', {
+      this.props.navigation.navigate("FeeInvoiceSummary", {
         selectedStudent: this.state._selectedStudent,
         dataFeeInvoice: this.state._dataFeeInvoice,
         method: this.state._method,
         bank: this._dataBank[this.state._bank],
         parentId: this._parentId,
         setting: this._setting,
-        onRefresh: id => this._onRefresh(id),
+        onRefresh: (id) => this._onRefresh(id),
       });
     } else if (this.state._method === CONFIG.PAYPAL) {
       // this.props.navigation.navigate('FeeInvoicePaypal', {
@@ -110,7 +110,7 @@ class FeeInvoiceDetailScreen extends Component {
     }
   };
 
-  _onViewableItemsChanged = ({viewableItems, changed}) => {
+  _onViewableItemsChanged = ({ viewableItems, changed }) => {
     if (viewableItems?.length > 0) {
       this.setState({
         _viewableBank: viewableItems[0].index,
@@ -118,21 +118,21 @@ class FeeInvoiceDetailScreen extends Component {
     }
   };
 
-  _onChangeMethod = method => {
-    this.setState({_method: method});
+  _onChangeMethod = (method) => {
+    this.setState({ _method: method });
   };
 
-  _onChangeBank = idxBank => {
-    this.setState({_bank: idxBank});
+  _onChangeBank = (idxBank) => {
+    this.setState({ _bank: idxBank });
   };
 
-  _onRefresh = idFeeInvoice => {
+  _onRefresh = (idFeeInvoice) => {
     this._onGetDetailFeeInvoice(idFeeInvoice);
   };
 
-  _copyToClipboard = string => {
-    Clipboard.setString(string);
-    helpers.toast('Copied');
+  _copyToClipboard = (string) => {
+    // Clipboard.setString(string);
+    helpers.toast("Copied");
   };
 
   /** HANDLE FUNCTIONS */
@@ -164,17 +164,17 @@ class FeeInvoiceDetailScreen extends Component {
           }}
           onPressBack={this._onPressBack}
           settingTransfer={
-            CONFIG.USER_TYPE == 'parent' &&
+            CONFIG.USER_TYPE == "parent" &&
             this.state._methods.includes(CONFIG.BANK) &&
             this.state._dataFeeInvoice?.status !== CONFIG.FEE_INVOICE.PAID
           }
           settingPaypal={
-            CONFIG.USER_TYPE == 'parent' &&
+            CONFIG.USER_TYPE == "parent" &&
             this.state._methods.includes(CONFIG.PAYPAL) &&
             this.state._dataFeeInvoice?.status !== CONFIG.FEE_INVOICE.PAID
           }
           settingCash={
-            CONFIG.USER_TYPE == 'parent' &&
+            CONFIG.USER_TYPE == "parent" &&
             this.state._methods.includes(CONFIG.CASH) &&
             this.state._dataFeeInvoice?.status !== CONFIG.FEE_INVOICE.PAID
           }
@@ -184,7 +184,7 @@ class FeeInvoiceDetailScreen extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,

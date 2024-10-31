@@ -1,5 +1,4 @@
 import { Platform } from "react-native";
-import { DEVICE, COLOR } from "../../config";
 
 export const foregroundColor = "#e2f1ee";
 export const backgroundColor = "#f4f4f4";

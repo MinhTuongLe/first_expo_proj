@@ -28,6 +28,15 @@
     "web": {
       "favicon": "./assets/images/logo_short.png"
     },
-    "userInterfaceStyle": "automatic"
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      "expo-font"
+    ],
+    "fonts": {
+      "OpenSans-Bold": "./assets/fonts/OpenSans-Bold.ttf",
+      "OpenSans-Regular": "./assets/fonts/OpenSans-Regular.ttf",
+      "OpenSans-Light": "./assets/fonts/OpenSans-Light.ttf",
+      "OpenSans-SemiBold": "./assets/fonts/OpenSans-SemiBold.ttf"
+    }
   }
 }

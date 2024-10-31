@@ -1,5 +1,5 @@
 export const homeTabs = {
-  home_drawer: "home_drawer",
+  home_drawer: "HomeDrawer",
   shop: "shop",
   wish_list: "wish_list",
   cart: "cart",
@@ -14,7 +14,7 @@ export const authStack = {
 };
 
 export const homeDrawer = {
-  home: "/",
+  home: "Home",
 };
 
 export const mainStack = {

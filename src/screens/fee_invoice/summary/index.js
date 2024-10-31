@@ -8,7 +8,7 @@
 import React from "react";
 import { Linking, Platform } from "react-native";
 // import Share from "react-native-share";
-import Clipboard from "@react-native-clipboard/clipboard";
+// import Clipboard from "@react-native-clipboard/clipboard";
 import { connect } from "react-redux";
 import * as FileSystem from "expo-file-system";
 
@@ -94,8 +94,8 @@ class FeeInvoiceSummaryScreen extends React.Component {
   };
 
   _copyToClipboard = (string) => {
-    Clipboard.setString(string);
-    Helpers.toast("Copied");
+    // Clipboard.setString(string);
+    // Helpers.toast("Copied");
   };
 
   _openDeepLinkApp = (deeplink) => {

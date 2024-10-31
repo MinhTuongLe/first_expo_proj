@@ -5,7 +5,7 @@
  * @Date create: 17/01/2019
  */
 /** LIBRARY */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { configureFontAwesomePro } from "react-native-fontawesome-pro";
 import { RootSiblingParent } from "react-native-root-siblings";
@@ -18,16 +18,60 @@ import "./config-i18n";
 import AppRouter from "./AppRouter";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NavigationService from "./src/navigation/NavigationService";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 // import messaging from "@react-native-firebase/messaging";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as notificationActions from "./src/redux/actions/notification";
 import * as messagesActions from "./src/redux/actions/messages";
+import * as Font from "expo-font";
+
 /** REDUX */
 import store from "./src/redux/store";
 
 const App = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  _goToNotification = (data) => {
+    // Check if data == {} return null
+    let tmp =
+      Object.keys(data).length === 0 && data.constructor === Object
+        ? null
+        : data;
+    let msgNotRead = this.props.messages.msgNotRead;
+    let dataNotRead = this.props.notification.dataNotRead;
+    let sumBadge = msgNotRead + dataNotRead;
+
+    if (data.key && data.key === "message") {
+      NavigationService.navigate("Message", {
+        dataFromNotification: tmp,
+      });
+    } else {
+      if (Number(dataNotRead) > 0) {
+        this.props.notificationActions.setNotRead(dataNotRead - 1);
+        // firebase.notifications().setBadge(sumBadge - 1);
+      }
+
+      NavigationService.navigate("NotificationDetail", {
+        data: tmp,
+      });
+    }
+  };
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        "OpenSans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+        "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
+        "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
+        "OpenSans-SemiBold": require("./assets/fonts/OpenSans-SemiBold.ttf"),
+      });
+      setFontsLoaded(true);
+    }
+
+    loadFonts();
+  }, []);
+
   useEffect(() => {
     configureFontAwesomePro("light");
     // messaging().setBackgroundMessageHandler(async (remoteMessage) => {
@@ -63,31 +107,9 @@ const App = () => {
     // return unsubscribe;
   }, []);
 
-  _goToNotification = (data) => {
-    // Check if data == {} return null
-    let tmp =
-      Object.keys(data).length === 0 && data.constructor === Object
-        ? null
-        : data;
-    let msgNotRead = this.props.messages.msgNotRead;
-    let dataNotRead = this.props.notification.dataNotRead;
-    let sumBadge = msgNotRead + dataNotRead;
-
-    if (data.key && data.key === "message") {
-      NavigationService.navigate("Message", {
-        dataFromNotification: tmp,
-      });
-    } else {
-      if (Number(dataNotRead) > 0) {
-        this.props.notificationActions.setNotRead(dataNotRead - 1);
-        // firebase.notifications().setBadge(sumBadge - 1);
-      }
-
-      NavigationService.navigate("NotificationDetail", {
-        data: tmp,
-      });
-    }
-  };
+  if (!fontsLoaded) {
+    return <Text>Loading ... </Text>;
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

@@ -4,41 +4,42 @@
  * @Date create: 18/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {Linking, Keyboard} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React from "react";
+import { Linking, Keyboard } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 /** COMMON **/
-import Api from '../../services/api';
-import Helpers from '../../helpers';
-import {LANG, CONFIG, DEVICE} from '../../config';
-import * as loadingActions from '../../redux/actions/loading';
+import Api from "../../services/api";
+import Helpers from "../../helpers";
+import { LANG, CONFIG, DEVICE } from "../../config";
+import * as loadingActions from "../../redux/actions/loading";
 /** COMPONENTS **/
-import ViewForgotPassword from './render';
+import ViewForgotPassword from "./render";
+import { CommonActions } from "@react-navigation/native";
 
 class ForgetPassScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _errorText: '',
+      _errorText: "",
       _error: false,
     };
   }
 
   /* FUNCTIONS */
-  _handlerSend = email => {
+  _handlerSend = (email) => {
     this._sendReset(email);
   };
 
-  _sendReset = async email => {
-    this.setState({_error: false, _errorText: ''});
+  _sendReset = async (email) => {
+    this.setState({ _error: false, _errorText: "" });
     Keyboard.dismiss();
-    if (email === '')
-      return this.setState({_error: true, _errorText: 'txtEmailErrFormat'});
+    if (email === "")
+      return this.setState({ _error: true, _errorText: "txtEmailErrFormat" });
     if (Helpers.validateEmail(email) === false)
-      return this.setState({_error: true, _errorText: 'txtEmailErrFormat'});
+      return this.setState({ _error: true, _errorText: "txtEmailErrFormat" });
     this.props.loadingActions.setLoading(true);
-    let res = await Api.put('/resetpassword', {emailAddress: email});
+    let res = await Api.put("/resetpassword", { emailAddress: email });
     if (res && res.message) {
       Helpers.toast(res.message);
     }
@@ -51,14 +52,14 @@ class ForgetPassScreen extends React.Component {
   };
 
   _handlerCall = () => {
-    Linking.openURL('tel:' + LANG[CONFIG.lang].txtPhoneNumber).catch(error =>
-      console.log('Error call'),
+    Linking.openURL("tel:" + LANG[CONFIG.lang].txtPhoneNumber).catch((error) =>
+      console.log("Error call")
     );
   };
 
   /* RENDER */
   render() {
-    let {setting} = this.props;
+    let { setting } = this.props;
 
     return (
       <ViewForgotPassword
@@ -68,20 +69,20 @@ class ForgetPassScreen extends React.Component {
         state={this.state}
         hotline={
           (setting.config && setting.config.value.hotline) ||
-          '(+84) 28 2217 8804'
+          "(+84) 28 2217 8804"
         }
       />
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     setting: state.setting,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };

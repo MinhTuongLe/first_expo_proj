@@ -33,6 +33,8 @@ import * as languageActions from "../../redux/actions/language";
 import * as loadingActions from "../../redux/actions/loading";
 import * as schoolActions from "../../redux/actions/school";
 import * as DeviceInfo from "expo-device";
+import NavigationService from "../../navigation/NavigationService";
+import { CommonActions } from "@react-navigation/native";
 
 class IntroScreen extends React.Component {
   constructor(props) {
@@ -118,7 +120,7 @@ class IntroScreen extends React.Component {
         }
         this._nextToScreen("Login", { type: "InvalidToken" });
       } else {
-        // console.log("NO DATA LOGIN")
+        // console.log("NO DATA LOGIN");
         this._nextToScreen("Login", null);
       }
     } else {

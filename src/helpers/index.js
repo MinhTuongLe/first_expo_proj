@@ -432,7 +432,6 @@ export default {
       index: 0,
       routes: [{ name: routeName, params }],
     });
-    navigation.dispatch(resetAction);
   },
 
   toast: (message) => {
