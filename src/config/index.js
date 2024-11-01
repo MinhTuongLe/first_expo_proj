@@ -6,7 +6,6 @@
  */
 /** LIBRARY */
 import { Dimensions } from "react-native";
-import { expo } from "../../app.json";
 
 /* ASSETS FOOD */
 import cake from "../../assets/icons/food/cake.png"; // Bánh ngọt
@@ -429,10 +428,10 @@ export const DEVICE = {
   s: Dimensions.get("window").width / 480,
 
   /** FONT SYSTEM */
-  fontBold: expo.fonts["OpenSans-Bold"],
-  fontRegular: expo.fonts["OpenSans-Regular"],
-  fontLight: expo.fonts["OpenSans-Light"],
-  fontMedium: expo.fonts["OpenSans-SemiBold"],
+  fontBold: "OpenSans-Bold",
+  fontRegular: "OpenSans-Regular",
+  fontLight: "OpenSans-Light",
+  fontMedium: "OpenSans-SemiBold",
 
   /** CHECK TIME OVER NOW */
 
@@ -440,47 +439,47 @@ export const DEVICE = {
   initFont: {
     XXXX_SMALL: {
       fontSize: fS(10),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     XXX_SMALL: {
       fontSize: fS(12),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     XX_SMALL: {
       fontSize: fS(14),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     X_SMALL: {
       fontSize: fS(16),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     SMALL: {
       fontSize: fS(18),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     MEDIUM: {
       fontSize: fS(20),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     LARGE: {
       fontSize: fS(22),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     X_LARGE: {
       fontSize: fS(24),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
     XX_LARGE: {
       fontSize: fS(26),
-      fontFamily: expo.fonts["OpenSans-Regular"],
+      fontFamily: "OpenSans-Regular",
       color: "#000",
     },
   },

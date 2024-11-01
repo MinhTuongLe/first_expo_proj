@@ -30,13 +30,17 @@
     },
     "userInterfaceStyle": "automatic",
     "plugins": [
-      "expo-font"
-    ],
-    "fonts": {
-      "OpenSans-Bold": "./assets/fonts/OpenSans-Bold.ttf",
-      "OpenSans-Regular": "./assets/fonts/OpenSans-Regular.ttf",
-      "OpenSans-Light": "./assets/fonts/OpenSans-Light.ttf",
-      "OpenSans-SemiBold": "./assets/fonts/OpenSans-SemiBold.ttf"
-    }
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/OpenSans-Bold.ttf",
+            "./assets/fonts/OpenSans-Regular.ttf",
+            "./assets/fonts/OpenSans-Light.ttf",
+            "./assets/fonts/OpenSans-SemiBold.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }

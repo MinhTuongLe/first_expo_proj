@@ -24,13 +24,19 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as notificationActions from "./src/redux/actions/notification";
 import * as messagesActions from "./src/redux/actions/messages";
-import * as Font from "expo-font";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 /** REDUX */
 import store from "./src/redux/store";
 
 const App = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [loaded, error] = useFonts({
+    "OpenSans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
+    "OpenSans-SemiBold": require("./assets/fonts/OpenSans-SemiBold.ttf"),
+  });
 
   _goToNotification = (data) => {
     // Check if data == {} return null
@@ -57,20 +63,6 @@ const App = () => {
       });
     }
   };
-
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "OpenSans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-        "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
-        "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
-        "OpenSans-SemiBold": require("./assets/fonts/OpenSans-SemiBold.ttf"),
-      });
-      setFontsLoaded(true);
-    }
-
-    loadFonts();
-  }, []);
 
   useEffect(() => {
     configureFontAwesomePro("light");
@@ -107,8 +99,14 @@ const App = () => {
     // return unsubscribe;
   }, []);
 
-  if (!fontsLoaded) {
-    return <Text>Loading ... </Text>;
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
   }
 
   return (
