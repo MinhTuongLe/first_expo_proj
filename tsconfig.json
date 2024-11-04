@@ -12,6 +12,8 @@
     "**/*.js",
     "**/*.ts",
     "**/*.tsx",
-    "src/utils/phone-formatter.ss"
+    "src/utils/phone-formatter.ss",
+    "src/components/Loading.tsx",
+    "src/components/pricing/PricingCard.tsx"
   ]
 }
