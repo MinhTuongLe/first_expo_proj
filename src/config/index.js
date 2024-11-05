@@ -33,6 +33,7 @@ import male_kid from "../../assets/icons/user/male-kid.png"; // Nam
 import female_kid from "../../assets/icons/user/female-kid.png"; // Nữ
 /* COMMON */
 
+export const PROJECT_ID = "44c5fe0b-8661-4732-a93b-5a7614e04d14";
 export const privacyUrl = "https://kindie.com/dieu-khoan-su-dung/";
 
 export const activeSteps = {

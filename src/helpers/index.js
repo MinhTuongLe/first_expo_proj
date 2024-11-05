@@ -9,7 +9,6 @@ import * as ImagePicker from "expo-image-picker";
 import { CommonActions } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 import ImageResizer from "react-native-image-resizer";
-import * as Permissions from "expo-permissions";
 import { Camera } from "expo-camera";
 
 /** COMMON */

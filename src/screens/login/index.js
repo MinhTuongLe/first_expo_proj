@@ -10,10 +10,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Linking, Keyboard, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 // import firebase from 'react-native-firebase'
 /** COMMON **/
 import Helpers from "../../helpers";
-import { LANG, CONFIG, KEY, ASSETS, COLOR } from "../../config";
+import { LANG, CONFIG, KEY, ASSETS, COLOR, PROJECT_ID } from "../../config";
 import Services from "../../services";
 import Modules from "../../config/modules";
 /** COMPONENTS **/
@@ -27,6 +29,7 @@ import * as notificationActions from "../../redux/actions/notification";
 import * as languageActions from "../../redux/actions/language";
 import * as settingActions from "../../redux/actions/setting";
 import * as schoolActions from "../../redux/actions/school";
+import { trackScreen } from "@/src/utils/analytics";
 // import messaging from '@react-native-firebase/messaging';
 
 // const Analytics = firebase.analytics();
@@ -34,7 +37,7 @@ import * as schoolActions from "../../redux/actions/school";
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
-    // Analytics.setCurrentScreen('LOGIN_SCREEN');
+    trackScreen("LOGIN_SCREEN");
     this.state = {
       _loadingLogin: false,
       _session: false,
@@ -200,6 +203,14 @@ class LoginScreen extends React.Component {
     // let enabled = await messaging().hasPermission();
     // if (enabled !== -1) this._getToken();
     // else this._requestPermission();
+    const { status } = await Notifications.getPermissionsAsync();
+    console.log("status: ", status);
+    if (status !== "granted") {
+      console.log("Permission not granted for notifications");
+      await this._requestPermission();
+      return;
+    }
+    this._getToken();
   };
 
   _getToken = async () => {
@@ -212,6 +223,24 @@ class LoginScreen extends React.Component {
     //   CONFIG.FCM_TOKEN = fcmToken;
     //   CONFIG.DEVICE_NAME = deviceName;
     // } else this._requestPermission();
+    // if (!Device.isDevice) {
+    //   console.log("Must use physical device for Push Notifications");
+    //   return;
+    // }
+    const deviceName = Device.deviceName || Platform.OS;
+    // console.log("device:", Device);
+    const token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: PROJECT_ID,
+      })
+    ).data;
+    // console.log("Expo Push Token:", token);
+    if (token) {
+      this._fcmToken = token;
+      this._deviceName = deviceName;
+      CONFIG.FCM_TOKEN = token;
+      CONFIG.DEVICE_NAME = deviceName;
+    } else this._requestPermission();
   };
 
   _requestPermission = async () => {
@@ -221,6 +250,18 @@ class LoginScreen extends React.Component {
     // } catch (error) {
     //   console.log("Permission rejected");
     // }
+    try {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status === "granted") {
+        // console.log("Notification permission granted.");
+        this._getToken();
+      }
+      // else {
+      //   console.log("Permission rejected");
+      // }
+    } catch (error) {
+      console.log("Error requesting permission:", error);
+    }
   };
 
   _getSettings = async (resp) => {
