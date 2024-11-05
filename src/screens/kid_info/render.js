@@ -4,7 +4,7 @@
  * @Date create: 18/11/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -14,38 +14,39 @@ import {
   Platform,
   Modal,
   FlatList,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import DateTimePicker from '@react-native-community/datetimepicker';
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-} from 'react-native-popup-menu';
-import moment from 'moment';
+} from "react-native-popup-menu";
+import moment from "moment";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import CButton from '../../components/CButton';
-import CConfirm from '../../components/CConfirm';
-import CInput from '../../components/CInput/CInput';
-import CText from '../../components/CText';
+import HeaderBar from "../partials/header_bar";
+import CButton from "../../components/CButton";
+import CConfirm from "../../components/CConfirm";
+import CInput from "../../components/CInput/CInput";
+import CText from "../../components/CText";
 /** COMMON */
-import {CONFIG, COLOR, DEVICE} from '../../config';
-import Helpers from '../../helpers';
+import { CONFIG, COLOR, DEVICE } from "../../config";
+import Helpers from "../../helpers";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 
 const triggerStyles = {
   triggerOuterWrapper: {},
   triggerWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     zIndex: 10,
     marginRight: 10,
   },
   triggerTouchable: {
-    underlayColor: '#ffffff',
+    underlayColor: "#ffffff",
     activeOpacity: true,
   },
 };
@@ -83,15 +84,15 @@ export const ViewKidInfomation = ({
     ? Helpers.capitalizeName(
         state._dataStudent.firstName,
         state._dataStudent.lastName,
-        CONFIG.settingLocal.softName,
+        CONFIG.settingLocal.softName
       )
-    : 'No Name';
+    : "No Name";
 
   return (
     <View style={styles.con}>
       {/* Header */}
       <HeaderBar
-        title={'kidInformation'}
+        title={"kidInformation"}
         hasBack
         onBack={onFunction.back}
         titleCenter={false}
@@ -101,7 +102,7 @@ export const ViewKidInfomation = ({
       <CConfirm
         receive={onFunction.receiveImage}
         closeModal={onFunction.cloaseModal}
-        type={'upload'}
+        type={"upload"}
         navigation={props.navigation}
         dataUser={state._dataStudent}
         loginActions={props.loginActions}
@@ -112,15 +113,17 @@ export const ViewKidInfomation = ({
       <View style={styles.con_avatar_box}>
         <TouchableOpacity
           style={styles.con_avatar}
-          onPress={onPress.changeAvatar}>
+          onPress={onPress.changeAvatar}
+        >
           <Image
-            style={[styles.img_avatar, {zIndex: 9}]}
-            resizeMode={'cover'}
+            style={[styles.img_avatar, { zIndex: 9 }]}
+            resizeMode={"cover"}
             source={state._avatar}
             onError={onError.avatar}
           />
           <View style={styles.con_icon_edit}>
-            <Icon name={'camera'} size={12} color={'#ffffff'} type={'solid'} />
+            {/* <Icon name={"camera"} size={12} color={"#ffffff"} type={"solid"} /> */}
+            <FontAwesome5 name={"camera"} size={12} color={"#ffffff"} solid />
           </View>
         </TouchableOpacity>
         <Text style={styles.txt_name_account}>{newFullName}</Text>
@@ -128,23 +131,25 @@ export const ViewKidInfomation = ({
 
       {/* CONTENT */}
       <ScrollView
-        contentContainerStyle={[DEVICE.gStyle.grow, {paddingHorizontal: 10}]}
-        keyboardShouldPersistTaps={'handled'}>
+        contentContainerStyle={[DEVICE.gStyle.grow, { paddingHorizontal: 10 }]}
+        keyboardShouldPersistTaps={"handled"}
+      >
         {data.field.map((item, index) => {
-          if (item.fieldType === 'TextInput') {
+          if (item.fieldType === "TextInput") {
             if (item.isEditName) {
               return (
                 <View key={index} style={styles.con_content_item}>
                   <View style={styles.con_info_item_1}>
-                    <Icon
+                    {/* <Icon
                       name={item.icon}
                       size={20}
                       color="black"
-                      type={'regular'}
-                    />
+                      type={"regular"}
+                    /> */}
+                    <FontAwesome5 name={item.icon} size={20} color="black" />
                   </View>
                   <CInput
-                    ref={ref => (item.ref1 = ref)}
+                    ref={(ref) => (item.ref1 = ref)}
                     style={styles.input_group_text}
                     value={item.value1}
                     placeholder={item.placeholder1}
@@ -159,10 +164,10 @@ export const ViewKidInfomation = ({
                     borderColor={COLOR.borderColorSec}
                   />
 
-                  <View style={{paddingHorizontal: 10}} />
+                  <View style={{ paddingHorizontal: 10 }} />
 
                   <CInput
-                    ref={ref => (item.ref2 = ref)}
+                    ref={(ref) => (item.ref2 = ref)}
                     style={styles.input_group_text}
                     value={item.value2}
                     placeholder={item.placeholder2}
@@ -184,15 +189,16 @@ export const ViewKidInfomation = ({
               return (
                 <View key={index} style={styles.con_content_item}>
                   <View style={styles.con_info_item_1}>
-                    <Icon
+                    {/* <Icon
                       name={item.icon}
                       size={20}
                       color="black"
-                      type={'regular'}
-                    />
+                      type={"regular"}
+                    /> */}
+                    <FontAwesome5 name={item.icon} size={20} color="black" />
                   </View>
                   <CInput
-                    ref={ref => (item.addressRef = ref)}
+                    ref={(ref) => (item.addressRef = ref)}
                     style={styles.input_group_text}
                     value={item.value}
                     placeholder={item.placeholder}
@@ -209,42 +215,49 @@ export const ViewKidInfomation = ({
                 </View>
               );
             }
-          } else if (item.fieldType === 'DropDown') {
-            let tmpGender = state._gender == 0 ? 'female' : 'male';
+          } else if (item.fieldType === "DropDown") {
+            let tmpGender = state._gender == 0 ? "female" : "male";
             return (
               <View key={index} style={styles.con_content_item}>
                 <View style={styles.con_info_item_1}>
-                  <Icon
+                  {/* <Icon
                     name={item.icon}
                     size={20}
                     color="black"
-                    type={'regular'}
-                  />
+                    type={"regular"}
+                  /> */}
+                  <FontAwesome5 name={item.icon} size={20} color="black" />
                 </View>
 
-                <View style={{width: '100%', alignItems: 'flex-start'}}>
+                <View style={{ width: "100%", alignItems: "flex-start" }}>
                   <Menu>
                     <MenuTrigger customStyles={triggerStyles}>
                       <View
                         style={{
-                          width: Helpers.wS('85%'),
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}>
+                          width: Helpers.wS("85%"),
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <CText
                           style={{
                             fontFamily: DEVICE.fontRegular,
                             fontSize: Helpers.fS(16),
-                            color: 'black',
+                            color: "black",
                           }}
                           i18nKey={tmpGender}
                         />
-                        <Icon
-                          name={'sort-down'}
+                        {/* <Icon
+                          name={"sort-down"}
                           size={18}
-                          color={'black'}
-                          type={'regular'}
+                          color={"black"}
+                          type={"regular"}
+                        /> */}
+                        <FontAwesome5
+                          name={"sort-down"}
+                          size={18}
+                          color={"black"}
                         />
                       </View>
                     </MenuTrigger>
@@ -252,15 +265,16 @@ export const ViewKidInfomation = ({
                     <MenuOptions customStyles={optionsStyles}>
                       <FlatList
                         data={item.data}
-                        renderItem={props => {
+                        renderItem={(props) => {
                           return (
                             <MenuOption
-                              onSelect={() => item.onItem(props.item)}>
+                              onSelect={() => item.onItem(props.item)}
+                            >
                               <CText
                                 style={{
                                   fontFamily: DEVICE.fontRegular,
                                   fontSize: Helpers.fS(16),
-                                  color: 'black',
+                                  color: "black",
                                   paddingLeft: 10,
                                 }}
                                 i18nKey={props.item.toLowerCase()}
@@ -275,43 +289,46 @@ export const ViewKidInfomation = ({
                   <View
                     style={{
                       height: 2,
-                      width: '90.5%',
-                      marginTop: Platform.OS === 'ios' ? 5 : 10,
+                      width: "90.5%",
+                      marginTop: Platform.OS === "ios" ? 5 : 10,
                       backgroundColor: COLOR.borderColorSec,
                     }}
                   />
                 </View>
               </View>
             );
-          } else if (item.fieldType === 'Date') {
+          } else if (item.fieldType === "Date") {
             return (
               <View key={index} style={[styles.con_content_item]}>
                 <View style={styles.con_info_item_1}>
-                  <Icon
+                  {/* <Icon
                     name={item.icon}
                     size={20}
                     color="black"
-                    type={'regular'}
-                  />
+                    type={"regular"}
+                  /> */}
+                  <FontAwesome5 name={item.icon} size={20} color="black" />
                 </View>
 
                 <TouchableOpacity
-                  style={{width: '100%', alignItems: 'flex-start'}}
+                  style={{ width: "100%", alignItems: "flex-start" }}
                   activeOpacity={1}
-                  onPress={onPress.toggleDateChange}>
+                  onPress={onPress.toggleDateChange}
+                >
                   <Text
                     style={{
                       fontFamily: DEVICE.fontRegular,
                       fontSize: Helpers.fS(16),
-                      color: 'black',
-                    }}>
-                    {moment(state._dateOfBirth).format('DD/MM/YYYY')}
+                      color: "black",
+                    }}
+                  >
+                    {moment(state._dateOfBirth).format("DD/MM/YYYY")}
                   </Text>
                   <View
                     style={{
                       height: 2,
-                      width: '90.5%',
-                      marginTop: Platform.OS === 'ios' ? 5 : 10,
+                      width: "90.5%",
+                      marginTop: Platform.OS === "ios" ? 5 : 10,
                       backgroundColor: COLOR.borderColorSec,
                     }}
                   />
@@ -324,13 +341,23 @@ export const ViewKidInfomation = ({
 
         {(state._error || state._success) && (
           <View
-            style={{marginTop: 10, flexDirection: 'row', alignItems: 'center'}}>
+            style={{
+              marginTop: 10,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <View style={styles.con_info_item_1}>
-              <Icon
-                name={state._error ? 'times-circle' : 'check-circle'}
+              {/* <Icon
+                name={state._error ? "times-circle" : "check-circle"}
                 size={20}
-                type={'regular'}
-                color={state._error ? 'red' : COLOR.primaryApp}
+                type={"regular"}
+                color={state._error ? "red" : COLOR.primaryApp}
+              /> */}
+              <FontAwesome5
+                name={state._error ? "times-circle" : "check-circle"}
+                size={20}
+                color={state._error ? "red" : COLOR.primaryApp}
               />
             </View>
             <CText
@@ -338,7 +365,7 @@ export const ViewKidInfomation = ({
                 marginLeft: 10,
                 fontFamily: DEVICE.fontRegular,
                 fontSize: Helpers.fS(16),
-                color: state._error ? 'red' : COLOR.primaryApp,
+                color: state._error ? "red" : COLOR.primaryApp,
               }}
               i18nKey={state._error ? state._errorText : state._successText}
             />
@@ -350,67 +377,72 @@ export const ViewKidInfomation = ({
       <CButton
         style={styles.submit_group_submit}
         onPress={onPress.submit}
-        loading={state._loadingSubmit}>
-        {props.language === 'vi' ? 'Lưu' : 'Save'}
+        loading={state._loadingSubmit}
+      >
+        {props.language === "vi" ? "Lưu" : "Save"}
       </CButton>
 
-      {Platform.OS === 'ios' && (
+      {Platform.OS === "ios" && (
         <Modal
           visible={state._showChooseDate}
-          animationType={'fade'}
+          animationType={"fade"}
           onRequestClose={() => {}}
-          transparent>
+          transparent
+        >
           <TouchableOpacity
             style={{
               flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'rgba(0,0,0,.5)',
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,.5)",
             }}
             activeOpacity={1}
-            onPress={onPress.toggleDateChange}>
+            onPress={onPress.toggleDateChange}
+          >
             <View
               style={{
-                height: Helpers.hS('45%'),
-                width: Helpers.wS('80%'),
-                backgroundColor: '#ffffff',
+                height: Helpers.hS("45%"),
+                width: Helpers.wS("80%"),
+                backgroundColor: "#ffffff",
                 borderRadius: 8,
-              }}>
+              }}
+            >
               <View
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: "row",
                   paddingHorizontal: 10,
-                  height: '15%',
-                  width: '100%',
+                  height: "15%",
+                  width: "100%",
                   backgroundColor: COLOR.primaryApp,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   borderTopLeftRadius: 8,
                   borderTopRightRadius: 8,
-                }}>
+                }}
+              >
                 <CText
                   style={{
                     fontFamily: DEVICE.fontMedium,
                     fontSize: Helpers.fS(16),
-                    color: '#ffffff',
+                    color: "#ffffff",
                   }}
-                  i18nKey={'cancel'}
+                  i18nKey={"cancel"}
                   onPress={onPress.toggleDateChange}
                 />
                 <CText
                   style={{
                     fontFamily: DEVICE.fontBold,
                     fontSize: Helpers.fS(16),
-                    color: '#ffffff',
+                    color: "#ffffff",
                   }}
-                  i18nKey={'ok'}
+                  i18nKey={"ok"}
                   onPress={onPress.toggleDateChange}
                 />
               </View>
 
               <DateTimePicker
                 value={new Date(state._dateOfBirth)}
-                mode={'date'}
+                mode={"date"}
                 onChange={onPress.chooseDate}
                 maximumDate={new Date()}
               />
@@ -419,11 +451,11 @@ export const ViewKidInfomation = ({
         </Modal>
       )}
 
-      {Platform.OS === 'android' && state._showChooseDate && (
+      {Platform.OS === "android" && state._showChooseDate && (
         <DateTimePicker
           value={new Date(state._dateOfBirth)}
-          mode={'date'}
-          display={'calendar'}
+          mode={"date"}
+          display={"calendar"}
           onChange={onPress.chooseDate}
           maximumDate={new Date()}
         />

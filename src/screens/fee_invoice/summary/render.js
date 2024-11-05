@@ -5,7 +5,7 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -18,20 +18,21 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   FlatList,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import QRCode from 'react-native-qrcode-svg';
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import QRCode from "react-native-qrcode-svg";
 /* COMPONENTS */
-import HeaderBar from '../../partials/header_bar';
-import CText from '../../../components/CText';
-import CButton from '../../../components/CButton';
+import HeaderBar from "../../partials/header_bar";
+import CText from "../../../components/CText";
+import CButton from "../../../components/CButton";
 /** COMMON */
-import {COLOR, LANG, CONFIG, DEVICE, ASSETS} from '../../../config';
-import Helpers from '../../../helpers';
+import { COLOR, LANG, CONFIG, DEVICE, ASSETS } from "../../../config";
+import Helpers from "../../../helpers";
 /** STYLE */
-import styles from './style';
-import CImage from '../../../components/CImage';
-import {customFormatMoney} from '../../../utils/formatPrice';
+import styles from "./style";
+import CImage from "../../../components/CImage";
+import { customFormatMoney } from "../../../utils/formatPrice";
 
 export const ViewFeeInvoiceSummary = ({
   state = null,
@@ -45,7 +46,7 @@ export const ViewFeeInvoiceSummary = ({
     handleConfirmPayment: () => {},
     onPressDownload: () => {},
     onPressShare: () => {},
-    setSvgRef: c => {},
+    setSvgRef: (c) => {},
   },
 }) => {
   // let transferNote =
@@ -56,30 +57,30 @@ export const ViewFeeInvoiceSummary = ({
   const columnWidth = (DEVICE.width - 20 - 10 * 2) / 3;
 
   let bankObj = state._banksData?.filter(
-    item => item.appId.toLowerCase() === state._bank.bankCode.toLowerCase(),
+    (item) => item.appId.toLowerCase() === state._bank.bankCode.toLowerCase()
   )?.[0];
 
   let paymentInfos = [
     {
-      name: 'accountName',
+      name: "accountName",
       value: state._bank.accountName,
       copyable: false,
       isNumber: false,
     },
     {
-      name: 'accountNumber',
+      name: "accountNumber",
       value: state._bank.accountNumber,
       copyable: true,
       isNumber: false,
     },
     {
-      name: 'paidAmount',
+      name: "paidAmount",
       value: state._dataFeeInvoice.totalAmount,
       copyable: true,
       isNumber: true,
     },
     {
-      name: 'content',
+      name: "content",
       value: state._dataFeeInvoice.code,
       copyable: true,
       isNumber: false,
@@ -94,10 +95,11 @@ export const ViewFeeInvoiceSummary = ({
           borderBottomColor: COLOR.borderColorSec,
           borderBottomWidth: index < paymentInfos.length - 1 ? 1 : 0,
           paddingBottom: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <View>
           <CText
             style={[
@@ -105,21 +107,22 @@ export const ViewFeeInvoiceSummary = ({
                 fontSize: Helpers.fS(10),
                 fontFamily: DEVICE.fontRegular,
               },
-              {color: COLOR.text_2},
+              { color: COLOR.text_2 },
             ]}
             i18nKey={item.name}
           />
-          <View style={[styles.con_row_card, {marginTop: 2}]}>
+          <View style={[styles.con_row_card, { marginTop: 2 }]}>
             <CText
               style={[
                 styles.txtCard,
                 {
                   fontSize: Helpers.fS(14),
                   color: COLOR.txtColor,
-                  fontWeight: 'bold',
+                  fontWeight: "bold",
                 },
               ]}
-              numberOfLines={1}>
+              numberOfLines={1}
+            >
               {item.isNumber ? customFormatMoney(item.value) : item.value}
             </CText>
           </View>
@@ -128,15 +131,21 @@ export const ViewFeeInvoiceSummary = ({
         {item.copyable && (
           <TouchableOpacity
             style={{
-              backgroundColor: 'transparent',
+              backgroundColor: "transparent",
               marginLeft: 20,
             }}
-            onPress={() => onFunction.copyToClipboard(item.value.toString())}>
-            <Icon
-              name={'copy'}
+            onPress={() => onFunction.copyToClipboard(item.value.toString())}
+          >
+            {/* <Icon
+              name={"copy"}
               size={Helpers.fS(16)}
               color={COLOR.text_2}
-              type={'regular'}
+              type={"regular"}
+            /> */}
+            <FontAwesome5
+              name={"copy"}
+              size={Helpers.fS(16)}
+              color={COLOR.text_2}
             />
           </TouchableOpacity>
         )}
@@ -148,7 +157,7 @@ export const ViewFeeInvoiceSummary = ({
     <View style={styles.con}>
       {/* HEADER */}
       <HeaderBar
-        title={'bankTranfer'}
+        title={"bankTranfer"}
         hasBack
         onBack={() => onFunction.onPressBack(state._method)}
       />
@@ -160,32 +169,37 @@ export const ViewFeeInvoiceSummary = ({
           borderRadius: 10,
           padding: 10,
         }}
-        keyboardShouldPersistTaps={'handled'}>
+        keyboardShouldPersistTaps={"handled"}
+      >
         {/* QR Code */}
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
             gap: 30,
-          }}>
+          }}
+        >
           <TouchableOpacity onPress={onFunction.onPressDownload}>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name={'download'}
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* <Icon
+                name={"download"}
                 size={20}
                 color={COLOR.cor_xam}
-                type={'light'}
-              />
+                type={"light"}
+              /> */}
+              <FontAwesome5 name={"download"} size={20} color={COLOR.cor_xam} />
               <Text
                 style={{
                   fontSize: Helpers.fS(10),
                   marginTop: 2,
-                }}>
+                }}
+              >
                 {LANG[CONFIG.lang].download}
               </Text>
             </View>
@@ -193,25 +207,28 @@ export const ViewFeeInvoiceSummary = ({
           <QRCode
             value={state._bank.vietQR.qrCode}
             size={100}
-            getRef={c => onFunction.setSvgRef(c)}
+            getRef={(c) => onFunction.setSvgRef(c)}
           />
           <TouchableOpacity onPress={onFunction.onPressShare}>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name={'share'}
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* <Icon
+                name={"share"}
                 size={20}
                 color={COLOR.cor_xam}
-                type={'light'}
-              />
+                type={"light"}
+              /> */}
+              <FontAwesome5 name={"share"} size={20} color={COLOR.cor_xam} />
               <Text
                 style={{
                   fontSize: Helpers.fS(10),
                   marginTop: 2,
-                }}>
+                }}
+              >
                 {LANG[CONFIG.lang].share}
               </Text>
             </View>
@@ -222,16 +239,18 @@ export const ViewFeeInvoiceSummary = ({
         {bankObj && (
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
               gap: 10,
               marginTop: 10,
-            }}>
+            }}
+          >
             <View
               style={{
-                backgroundColor: 'white',
+                backgroundColor: "white",
                 borderRadius: 5,
-              }}>
+              }}
+            >
               <CImage
                 style={{
                   height: 40,
@@ -240,18 +259,19 @@ export const ViewFeeInvoiceSummary = ({
                 src={{
                   uri: bankObj?.appLogo,
                 }}
-                resizeMode={'cover'}
+                resizeMode={"cover"}
               />
             </View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Text
                 numberOfLines={2}
                 ellipsizeMode="tail"
                 style={{
                   fontSize: Helpers.fS(14),
                   color: COLOR.txtColor,
-                  fontWeight: 'bold',
-                }}>
+                  fontWeight: "bold",
+                }}
+              >
                 {state._bank.bankName}
               </Text>
             </View>
@@ -259,12 +279,12 @@ export const ViewFeeInvoiceSummary = ({
         )}
 
         <FlatList
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={{ flexGrow: 1 }}
           data={paymentInfos}
-          renderItem={({item, index}) => renderItem(item, index)}
+          renderItem={({ item, index }) => renderItem(item, index)}
           onEndReachedThreshold={0.05}
           stickyHeaderIndices={[0]}
-          scrollIndicatorInsets={{right: 1}}
+          scrollIndicatorInsets={{ right: 1 }}
         />
         {/* 
         <CText style={styles.txt_title} numberOfLines={3} upperCase>
@@ -356,7 +376,7 @@ export const ViewFeeInvoiceSummary = ({
         )} */}
       </View>
       <ScrollView>
-        <View style={{padding: 10, paddingHorizontal: 5}}>
+        <View style={{ padding: 10, paddingHorizontal: 5 }}>
           <CText
             style={{
               fontSize: Helpers.fS(10),
@@ -364,25 +384,27 @@ export const ViewFeeInvoiceSummary = ({
               color: COLOR.text_2,
               marginHorizontal: 5,
             }}
-            i18nKey={'txtscanPrompt'}
+            i18nKey={"txtscanPrompt"}
             numberOfLines={2}
           />
 
           <FlatList
-            contentContainerStyle={{paddingBottom: 10, marginTop: 5}}
+            contentContainerStyle={{ paddingBottom: 10, marginTop: 5 }}
             numColumns={3}
             data={state._banksData}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               return (
                 <TouchableOpacity
-                  onPress={() => onFunction.openDeepLinkApp(item.deeplink)}>
+                  onPress={() => onFunction.openDeepLinkApp(item.deeplink)}
+                >
                   <View
                     style={{
-                      backgroundColor: 'white',
+                      backgroundColor: "white",
                       borderRadius: 5,
                       margin: 5,
                       width: columnWidth,
-                    }}>
+                    }}
+                  >
                     <CImage
                       style={{
                         height: 48,
@@ -390,7 +412,7 @@ export const ViewFeeInvoiceSummary = ({
                       src={{
                         uri: item?.appLogo,
                       }}
-                      resizeMode={'contain'}
+                      resizeMode={"contain"}
                     />
                   </View>
                 </TouchableOpacity>
@@ -398,8 +420,8 @@ export const ViewFeeInvoiceSummary = ({
             }}
             onEndReachedThreshold={0.5}
             getItemLayout={(data, index) => ({
-              length: Helpers.wS('33.33%'),
-              offset: Helpers.wS('33.33%') * index,
+              length: Helpers.wS("33.33%"),
+              offset: Helpers.wS("33.33%") * index,
               index,
             })}
             keyExtractor={(item, index) => index.toString()}
@@ -412,22 +434,24 @@ export const ViewFeeInvoiceSummary = ({
             styles.ph_10,
             styles.pv_10,
             {
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "row",
               gap: 10,
             },
-          ]}>
+          ]}
+        >
           <CButton
             style={[
               styles.con_button,
               {
                 flex: 0.5,
-                backgroundColor: 'white',
+                backgroundColor: "white",
               },
             ]}
-            onPress={() => onFunction.onPressBack(state._method)}>
-            <CText i18nKey={'cancel'} style={{color: COLOR.txtColor}} />
+            onPress={() => onFunction.onPressBack(state._method)}
+          >
+            <CText i18nKey={"cancel"} style={{ color: COLOR.txtColor }} />
           </CButton>
           <CButton
             style={[
@@ -436,56 +460,67 @@ export const ViewFeeInvoiceSummary = ({
                 flex: 0.5,
               },
             ]}
-            onPress={() => onFunction.handleConfirmPayment(state._method)}>
-            <CText i18nKey={'takePayment'} />
+            onPress={() => onFunction.handleConfirmPayment(state._method)}
+          >
+            <CText i18nKey={"takePayment"} />
           </CButton>
         </View>
       )}
 
       {state._loading && (
         <View style={styles.loading}>
-          <ActivityIndicator size={'small'} color={COLOR.backgroundMain} />
+          <ActivityIndicator size={"small"} color={COLOR.backgroundMain} />
         </View>
       )}
 
       <Modal
-        animationType={'fade'}
+        animationType={"fade"}
         visible={state._success}
         transparent
-        onRequestClose={() => {}}>
+        onRequestClose={() => {}}
+      >
         <View
           style={{
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: "center",
+            justifyContent: "center",
             backgroundColor: COLOR.bgLoading,
-          }}>
+          }}
+        >
           <View
             style={{
               padding: 15,
               borderRadius: 5,
-              width: Helpers.wS('70%'),
+              width: Helpers.wS("70%"),
               backgroundColor: COLOR.backgroundMain,
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            <Icon
-              containerStyle={{paddingVertical: 10}}
-              name={'check-circle'}
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            {/* <Icon
+              containerStyle={{ paddingVertical: 10 }}
+              name={"check-circle"}
               color={COLOR.primaryApp}
               size={80}
-              type={'regular'}
+              type={"regular"}
+            /> */}
+            <FontAwesome5
+              style={{ paddingVertical: 10 }}
+              name={"check-circle"}
+              color={COLOR.primaryApp}
+              size={80}
             />
             <CText
               style={styles.txt_success}
-              i18nKey={'sendPaymentServiceSuccess'}
+              i18nKey={"sendPaymentServiceSuccess"}
               numberOfLines={2}
             />
 
             <CButton
-              style={{marginTop: 20}}
-              onPress={onFunction.onPressGoToHomepage}>
-              <CText i18nKey={'goToHomePage'} />
+              style={{ marginTop: 20 }}
+              onPress={onFunction.onPressGoToHomepage}
+            >
+              <CText i18nKey={"goToHomePage"} />
             </CButton>
           </View>
         </View>

@@ -4,32 +4,33 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   TouchableOpacity,
   ScrollView,
   Platform,
   RefreshControl,
-} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENT */
-import HeaderBar from '../../partials/header_bar';
-import HeaderInfoChildren from '../../partials/header_info_children';
-import CHealthInfomation from '../components/CHealthInfomation';
-import CHeightWeight from '../components/CHeightWeight';
-import CHealthHistory from '../components/CHealthHistory';
-import CText from '../../../components/CText';
+import HeaderBar from "../../partials/header_bar";
+import HeaderInfoChildren from "../../partials/header_info_children";
+import CHealthInfomation from "../components/CHealthInfomation";
+import CHeightWeight from "../components/CHeightWeight";
+import CHealthHistory from "../components/CHealthHistory";
+import CText from "../../../components/CText";
 /** COMMON */
-import {DEVICE, COLOR, CONFIG} from '../../../config';
-import Helpers from '../../../helpers';
-import Services from '../../../services';
+import { DEVICE, COLOR, CONFIG } from "../../../config";
+import Helpers from "../../../helpers";
+import Services from "../../../services";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 /** REDUX */
-import * as loginActions from '../../../redux/actions/login';
+import * as loginActions from "../../../redux/actions/login";
 
 class ParentHealthScreen extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class ParentHealthScreen extends React.Component {
       _loading: true,
       _loadForList: true,
       _isRefresh: false,
-      _renderTab: 'H_W', // INFO or H_W
+      _renderTab: "H_W", // INFO or H_W
       _dataStudents: props.login.data.students,
       _dataClasses: props.login.data.classes,
       _studentChoose: null,
@@ -54,10 +55,10 @@ class ParentHealthScreen extends React.Component {
     _studentChoose = await this._getDataStudent(_studentChoose.id);
     if (_studentChoose) {
       for (let classObj of this.state._dataClasses) {
-        find = classObj.students.find(f => f.id == _studentChoose.id);
+        find = classObj.students.find((f) => f.id == _studentChoose.id);
         if (find) {
           find = classObj;
-          let newAvatar = CONFIG.classes.find(f => f.id === find.thumbnail);
+          let newAvatar = CONFIG.classes.find((f) => f.id === find.thumbnail);
           if (newAvatar) find.newAvatar = newAvatar.path;
           break;
         }
@@ -73,7 +74,7 @@ class ParentHealthScreen extends React.Component {
   };
 
   _onRefresh = async () => {
-    this.setState({_isRefresh: true});
+    this.setState({ _isRefresh: true });
     let data = await this._getDataStudent(this.state._studentChoose.id);
     this.setState({
       _studentChoose: data,
@@ -81,23 +82,23 @@ class ParentHealthScreen extends React.Component {
     });
   };
 
-  _getDataStudent = async id => {
+  _getDataStudent = async (id) => {
     let res = await Services.Student.getStudent(id);
-    if (res && res.code == 'SUCCESS_200') {
+    if (res && res.code == "SUCCESS_200") {
       return res.data;
     } else {
       return null;
     }
   };
 
-  _onTab = slug => {
-    this.setState({_renderTab: slug});
+  _onTab = (slug) => {
+    this.setState({ _renderTab: slug });
   };
 
-  _onPressChooseStudent = async studentObj => {
+  _onPressChooseStudent = async (studentObj) => {
     if (studentObj.id !== this.state._studentChoose.id) {
       await Helpers.setAsyStrStudentChoosed(JSON.stringify(studentObj));
-      this.setState({_studentChoose: studentObj});
+      this.setState({ _studentChoose: studentObj });
     }
   };
 
@@ -114,72 +115,83 @@ class ParentHealthScreen extends React.Component {
 
   /** RENDER */
   render() {
-    let {_loading, _isRefresh, _renderTab, _studentChoose, _classChoose} =
+    let { _loading, _isRefresh, _renderTab, _studentChoose, _classChoose } =
       this.state;
 
     return (
-      <View style={[styles.con, {backgroundColor: COLOR.backgroundMain}]}>
+      <View style={[styles.con, { backgroundColor: COLOR.backgroundMain }]}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtHealthTitle'}
+          title={"txtHealthTitle"}
           hasBack
           onBack={this._onPressBack}
           titleCenter={false}
         />
 
         {!_loading && (
-          <View style={[DEVICE.gStyle.container, {paddingHorizontal: 10}]}>
+          <View style={[DEVICE.gStyle.container, { paddingHorizontal: 10 }]}>
             <View
               style={{
                 marginVertical: 10,
-              }}>
+              }}
+            >
               <HeaderInfoChildren
                 selectedStudent={_studentChoose}
                 dataClass={_classChoose}
               />
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
               <View
                 style={[
                   styles.con_tab,
-                  Platform.OS == 'android' ? {} : {zIndex: 5, marginBottom: 10},
-                ]}>
+                  Platform.OS == "android"
+                    ? {}
+                    : { zIndex: 5, marginBottom: 10 },
+                ]}
+              >
                 {/* TAB HEIGHT/WEIGHT */}
                 <TouchableOpacity
                   style={styles.con_tab_global}
-                  onPress={() => this._onTab('H_W')}>
+                  onPress={() => this._onTab("H_W")}
+                >
                   <View
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
                       backgroundColor:
-                        _renderTab === 'H_W'
+                        _renderTab === "H_W"
                           ? COLOR.primaryApp
                           : COLOR.backgroundSec,
                       borderRadius: 10,
-                      width: '100%',
-                      height: '100%',
-                    }}>
-                    <Icon
-                      name={'child'}
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    {/* <Icon
+                      name={"child"}
                       size={Helpers.fS(25)}
-                      color={_renderTab === 'H_W' ? '#ffffff' : COLOR.txtColor}
-                      type={'light'}
+                      color={_renderTab === "H_W" ? "#ffffff" : COLOR.txtColor}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      name={"child"}
+                      size={Helpers.fS(25)}
+                      color={_renderTab === "H_W" ? "#ffffff" : COLOR.txtColor}
                     />
                     <CText
                       style={[
                         styles.txt_title,
-                        _renderTab === 'H_W'
+                        _renderTab === "H_W"
                           ? {
-                              color: '#ffffff',
+                              color: "#ffffff",
                               fontFamily: DEVICE.fontBold,
                             }
-                          : {color: COLOR.txtColor},
+                          : { color: COLOR.txtColor },
                         ,
                       ]}
-                      i18nKey={'txtWH'}
+                      i18nKey={"txtWH"}
                     />
                   </View>
                 </TouchableOpacity>
@@ -187,45 +199,52 @@ class ParentHealthScreen extends React.Component {
                 {/* TAB INFOMATION */}
                 <TouchableOpacity
                   style={styles.con_tab_global}
-                  onPress={() => this._onTab('INFO')}>
+                  onPress={() => this._onTab("INFO")}
+                >
                   <View
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
                       backgroundColor:
-                        _renderTab === 'INFO'
+                        _renderTab === "INFO"
                           ? COLOR.primaryApp
                           : COLOR.backgroundSec,
                       borderRadius: 10,
-                      width: '100%',
-                      height: '100%',
-                    }}>
-                    <Icon
-                      name={'clipboard-list'}
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    {/* <Icon
+                      name={"clipboard-list"}
                       size={Helpers.fS(25)}
-                      color={_renderTab === 'INFO' ? '#ffffff' : COLOR.txtColor}
-                      type={'light'}
+                      color={_renderTab === "INFO" ? "#ffffff" : COLOR.txtColor}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      name={"clipboard-list"}
+                      size={Helpers.fS(25)}
+                      color={_renderTab === "INFO" ? "#ffffff" : COLOR.txtColor}
                     />
                     <CText
                       style={[
                         styles.txt_title,
-                        _renderTab === 'INFO'
+                        _renderTab === "INFO"
                           ? {
-                              color: '#ffffff',
+                              color: "#ffffff",
                               fontFamily: DEVICE.fontBold,
                             }
-                          : {color: COLOR.txtColor},
+                          : { color: COLOR.txtColor },
                         ,
                       ]}
-                      i18nKey={'txtInfo'}
+                      i18nKey={"txtInfo"}
                     />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
 
-            {_renderTab === 'INFO' && (
+            {_renderTab === "INFO" && (
               <ScrollView
                 refreshControl={
                   <RefreshControl
@@ -233,14 +252,15 @@ class ParentHealthScreen extends React.Component {
                     onRefresh={this._onRefresh}
                   />
                 }
-                keyboardShouldPersistTaps={'handled'}
-                showsVerticalScrollIndicator={false}>
+                keyboardShouldPersistTaps={"handled"}
+                showsVerticalScrollIndicator={false}
+              >
                 <CHealthInfomation dataStudent={_studentChoose} />
                 <CHealthHistory dataStudent={_studentChoose} />
               </ScrollView>
             )}
 
-            {_renderTab === 'H_W' && (
+            {_renderTab === "H_W" && (
               <ScrollView
                 refreshControl={
                   <RefreshControl
@@ -248,8 +268,9 @@ class ParentHealthScreen extends React.Component {
                     onRefresh={this._onRefresh}
                   />
                 }
-                keyboardShouldPersistTaps={'handled'}
-                showsVerticalScrollIndicator={false}>
+                keyboardShouldPersistTaps={"handled"}
+                showsVerticalScrollIndicator={false}
+              >
                 <CHeightWeight dataStudent={_studentChoose} />
               </ScrollView>
             )}
@@ -260,13 +281,13 @@ class ParentHealthScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
   };

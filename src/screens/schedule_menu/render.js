@@ -4,29 +4,30 @@
  * @Date create: 22/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, Text, FlatList, Image} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React from "react";
+import { View, Text, FlatList, Image } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMPONENT */
-import {LocaleConfig} from '../../components/CCalendar';
-import HeaderBar from '../partials/header_bar';
-import CCalendar from '../../components/CCalendar/agenda';
-import CImage from '../../components/CImage';
-import CText from '../../components/CText';
+import { LocaleConfig } from "../../components/CCalendar";
+import HeaderBar from "../partials/header_bar";
+import CCalendar from "../../components/CCalendar/agenda";
+import CImage from "../../components/CImage";
+import CText from "../../components/CText";
 /** COMMON */
-import {COLOR, CONFIG, LANG, DEVICE, ASSETS, KEY} from '../../config';
-import Helpers from '../../helpers';
+import { COLOR, CONFIG, LANG, DEVICE, ASSETS, KEY } from "../../config";
+import Helpers from "../../helpers";
 /** STYLES */
-import styles from './style';
-import {backgroundColor} from '../../components/CCalendar/style';
+import styles from "./style";
+import { backgroundColor } from "../../components/CCalendar/style";
 
 LocaleConfig.locales[CONFIG.lang] = LANG[CONFIG.lang].txtInfoCalendar;
 LocaleConfig.defaultLocale = CONFIG.lang;
 
 const TYPE_SCREEN = {
-  schedule: 'schedule',
-  menu: 'menu',
+  schedule: "schedule",
+  menu: "menu",
 };
 
 /**
@@ -49,8 +50,8 @@ class RenderScheduleMenuScreen extends React.Component {
     } = this.props;
     let titleScreen =
       typeScreen === TYPE_SCREEN.schedule
-        ? 'txtDrawerSchedule'
-        : 'txtDrawerMenu';
+        ? "txtDrawerSchedule"
+        : "txtDrawerMenu";
 
     return (
       <View style={styles.con}>
@@ -81,17 +82,17 @@ class RenderScheduleMenuScreen extends React.Component {
           <CCalendar
             showCalendar={true}
             theme={{
-              textMonthFontWeight: 'bold',
+              textMonthFontWeight: "bold",
               textDayFontFamily: DEVICE.fontMedium,
               textMonthFontFamily: DEVICE.fontBold,
               textDayHeaderFontFamily: DEVICE.fontBold,
               backgroundColor: COLOR.backgroundMain,
             }}
-            minDate={'2018-01-01'}
-            maxDate={'2030-01-01'}
-            monthFormat={'MMMM - yyyy'}
+            minDate={"2018-01-01"}
+            maxDate={"2030-01-01"}
+            monthFormat={"MMMM - yyyy"}
             items={data.dataRender || null}
-            loadItemsForMonth={day =>
+            loadItemsForMonth={(day) =>
               calendar.loadItems(day, data.currentDate === day.dateString)
             }
             renderItem={
@@ -109,13 +110,13 @@ class RenderScheduleMenuScreen extends React.Component {
             renderKnobOpen={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'openCalendar'}
+                i18nKey={"openCalendar"}
               />
             )}
             renderKnobClose={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'closeCalendar'}
+                i18nKey={"closeCalendar"}
               />
             )}
             renderFooterContent={() => null}
@@ -139,22 +140,22 @@ export const RenderItemMenu = (item = {}, firstItemInDay = false) => {
         <CText style={styles.txt_title_group} upperCase>
           {item.name}
         </CText>
-        <Text style={[styles.txt_title_group, {color: COLOR.primaryButton}]}>
-          {item.timeStart + ' - ' + item.timeEnd}
+        <Text style={[styles.txt_title_group, { color: COLOR.primaryButton }]}>
+          {item.timeStart + " - " + item.timeEnd}
         </Text>
       </View>
 
       {/* Foods */}
       <FlatList
         data={item.foods}
-        renderItem={objFood => {
+        renderItem={(objFood) => {
           return (
             <View style={styles.con_content_item_food}>
               <View style={styles.imageFood}>
                 <Image
                   style={styles.img_item_group}
                   source={objFood.item.path}
-                  resizeMode={'contain'}
+                  resizeMode={"contain"}
                 />
               </View>
 
@@ -164,7 +165,8 @@ export const RenderItemMenu = (item = {}, firstItemInDay = false) => {
                   objFood.index === item.foods.length - 1 && {
                     borderBottomWidth: 0,
                   },
-                ]}>
+                ]}
+              >
                 <Text style={styles.txt_food_name} numberOfLines={2}>
                   {objFood.item.data.title}
                 </Text>
@@ -178,9 +180,9 @@ export const RenderItemMenu = (item = {}, firstItemInDay = false) => {
             <CText
               style={[
                 styles.txt_food_name,
-                {color: COLOR.placeholderTextColor},
+                { color: COLOR.placeholderTextColor },
               ]}
-              i18nKey={'txtMenuNoData'}
+              i18nKey={"txtMenuNoData"}
             />
           </View>
         )}
@@ -203,19 +205,21 @@ export const RenderItemSchedule = (item = {}, firstItemInDay = false) => {
       <View
         style={[
           styles.con_title_item_schedule,
-          isFlag ? {backgroundColor: COLOR.primaryApp} : {},
-        ]}>
+          isFlag ? { backgroundColor: COLOR.primaryApp } : {},
+        ]}
+      >
         <Text
           style={[
             styles.txt_title_item_schedule,
             isFlag
-              ? {fontFamily: DEVICE.fontBold, color: '#ffffff'}
+              ? { fontFamily: DEVICE.fontBold, color: "#ffffff" }
               : notFlag
-              ? {color: COLOR.inactiveTintColor}
-              : {color: COLOR.txtColor},
+              ? { color: COLOR.inactiveTintColor }
+              : { color: COLOR.txtColor },
             ,
-          ]}>
-          {item.timeStart + ' - ' + item.timeEnd}
+          ]}
+        >
+          {item.timeStart + " - " + item.timeEnd}
         </Text>
       </View>
 
@@ -225,26 +229,28 @@ export const RenderItemSchedule = (item = {}, firstItemInDay = false) => {
           style={[
             styles.txt_subject_name,
             isFlag
-              ? {fontFamily: DEVICE.fontBold, color: COLOR.primaryApp}
+              ? { fontFamily: DEVICE.fontBold, color: COLOR.primaryApp }
               : notFlag
-              ? {color: COLOR.inactiveTintColor}
-              : {color: COLOR.txtColor},
+              ? { color: COLOR.inactiveTintColor }
+              : { color: COLOR.txtColor },
             ,
-          ]}>
+          ]}
+        >
           {item.subject.toUpperCase()}
         </Text>
-        {item.topic !== '' && (
+        {item.topic !== "" && (
           <CText
             style={[
               styles.txt_topic,
               isFlag
-                ? {color: COLOR.primaryApp}
+                ? { color: COLOR.primaryApp }
                 : notFlag
-                ? {color: COLOR.inactiveTintColor}
-                : {color: COLOR.text_2},
+                ? { color: COLOR.inactiveTintColor }
+                : { color: COLOR.text_2 },
               ,
             ]}
-            numberOfLines={100}>
+            numberOfLines={100}
+          >
             {item.topic}
           </CText>
         )}
@@ -263,27 +269,29 @@ export const RenderHeaderSchedule = () => {
       style={[
         styles.item_schedule,
         {
-          borderBottomColor: 'black',
+          borderBottomColor: "black",
           borderBottomWidth: 1,
           backgroundColor: COLOR.backgroundColorNote,
         },
-      ]}>
+      ]}
+    >
       <View
         style={[
           styles.con_title_item_schedule,
-          {borderRightColor: COLOR.borderColor},
-        ]}>
+          { borderRightColor: COLOR.borderColor },
+        ]}
+      >
         <CText
-          style={[styles.txt_title_item_schedule, {textAlign: 'center'}]}
-          i18nKey={'time'}
+          style={[styles.txt_title_item_schedule, { textAlign: "center" }]}
+          i18nKey={"time"}
           numberOfLines={2}
         />
       </View>
 
       <View style={styles.con_title_item_schedule_2}>
         <CText
-          style={[styles.txt_title_item_schedule, {textAlign: 'center'}]}
-          i18nKey={'subject'}
+          style={[styles.txt_title_item_schedule, { textAlign: "center" }]}
+          i18nKey={"subject"}
           numberOfLines={2}
         />
       </View>
@@ -296,13 +304,12 @@ export const RenderHeaderSchedule = () => {
  */
 export const RenderScheduleEmptyDate = () => (
   <View style={styles.emptyDate}>
-    <Icon
-      name={'clipboard-list'}
+    <FontAwesome5
+      name="clipboard-list"
       size={Helpers.fS(50)}
       color={COLOR.placeholderTextColor}
-      type={'light'}
     />
-    <CText style={styles.txt_no_data} i18nKey={'txtEmptyOfDay'} />
+    <CText style={styles.txt_no_data} i18nKey={"txtEmptyOfDay"} />
   </View>
 );
 
@@ -311,44 +318,43 @@ export const RenderScheduleEmptyDate = () => (
  */
 export const RenderMenuEmptyDate = () => (
   <View style={styles.emptyDate}>
-    <Icon
-      name={'burger-soda'}
+    <FontAwesome5
+      name="hamburger"
       size={Helpers.fS(50)}
       color={COLOR.placeholderTextColor}
-      type={'light'}
     />
-    <CText style={styles.txt_no_data} i18nKey={'txtEmptyOfDay'} />
+    <CText style={styles.txt_no_data} i18nKey={"txtEmptyOfDay"} />
   </View>
 );
 
 /**
  * RENDER HEADER SCHEDULE
  */
-export const RenderHeaderContent = data => {
+export const RenderHeaderContent = (data) => {
   let avatar = null,
-    newFullName = '';
+    newFullName = "";
   if (CONFIG.USER_TYPE == KEY.TEACHER) {
-    avatar = CONFIG.classes.find(f => f.id === data.thumbnail);
+    avatar = CONFIG.classes.find((f) => f.id === data.thumbnail);
     if (avatar) {
       avatar = avatar.path;
     } else {
       avatar = ASSETS.imgFailed;
     }
   } else {
-    let gender = CONFIG.students.find(f => f.id === data.gender);
+    let gender = CONFIG.students.find((f) => f.id === data.gender);
     if (gender) {
       gender = gender.path;
     } else {
       gender = CONFIG.students[0].path;
     }
     avatar =
-      data.avatar && data.avatar != '' && data.avatar != null
-        ? {uri: CONFIG.host + data.avatar}
+      data.avatar && data.avatar != "" && data.avatar != null
+        ? { uri: CONFIG.host + data.avatar }
         : gender;
     newFullName = Helpers.capitalizeName(
       data.firstName,
       data.lastName,
-      CONFIG.settingLocal.softName,
+      CONFIG.settingLocal.softName
     );
   }
 
@@ -357,7 +363,7 @@ export const RenderHeaderContent = data => {
       <CImage
         style={styles.img_header_content}
         src={avatar}
-        resizeMode={'cover'}
+        resizeMode={"cover"}
       />
 
       <Text style={styles.txt_header_content}>

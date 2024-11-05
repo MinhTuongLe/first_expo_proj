@@ -5,7 +5,7 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   TouchableOpacity,
@@ -13,57 +13,58 @@ import {
   FlatList,
   ScrollView,
   ImageBackground,
-} from 'react-native';
-import Modal from 'react-native-modal';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import Modal from "react-native-modal";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /* COMPONENTS */
-import HeaderBar from '../../partials/header_bar';
-import CImage from '../../../components/CImage';
-import CButton from '../../../components/CButton';
-import CText from '../../../components/CText';
+import HeaderBar from "../../partials/header_bar";
+import CImage from "../../../components/CImage";
+import CButton from "../../../components/CButton";
+import CText from "../../../components/CText";
 /** COMMON */
-import Helpers from '../../../helpers';
-import {CONFIG, DEVICE, COLOR, KEY, LANG, ASSETS} from '../../../config';
+import Helpers from "../../../helpers";
+import { CONFIG, DEVICE, COLOR, KEY, LANG, ASSETS } from "../../../config";
 /** STYLES */
-import styles from './styles';
-import moment from 'moment';
-import {customFormatMoney} from '../../../utils/formatPrice';
+import styles from "./styles";
+import moment from "moment";
+import { customFormatMoney } from "../../../utils/formatPrice";
 
-const checkStatus = status => {
-  let i18nKey = 'unpaid';
+const checkStatus = (status) => {
+  let i18nKey = "unpaid";
   let bgColorStatus = COLOR.primaryTextNote;
   switch (status) {
     case CONFIG.FEE_INVOICE.PAID:
-      i18nKey = 'paid';
+      i18nKey = "paid";
       bgColorStatus = COLOR.chartStandard;
       break;
     case CONFIG.FEE_INVOICE.PENDING:
-      i18nKey = 'pending';
+      i18nKey = "pending";
       bgColorStatus = COLOR.inactiveTintColor;
       break;
     case CONFIG.FEE_INVOICE.INVOICE_DRAFT:
-      i18nKey = 'invoceDraft';
+      i18nKey = "invoceDraft";
       bgColorStatus = COLOR.placeholderTextColor;
       break;
     case CONFIG.FEE_INVOICE.IN_PROCESS:
-      i18nKey = 'inProcess';
+      i18nKey = "inProcess";
       bgColorStatus = COLOR.primaryButton;
       break;
     default:
-      i18nKey = 'unpaid';
+      i18nKey = "unpaid";
       bgColorStatus = COLOR.primaryTextNote;
   }
 
   return (
-    <View style={[styles.con_status, {backgroundColor: bgColorStatus}]}>
+    <View style={[styles.con_status, { backgroundColor: bgColorStatus }]}>
       <CText style={styles.txt_status} i18nKey={i18nKey} />
     </View>
   );
 };
 
-const ViewHeaderList = state => {
+const ViewHeaderList = (state) => {
   let gender = CONFIG.students.find(
-    f => f.id === state._selectedStudent.gender,
+    (f) => f.id === state._selectedStudent.gender
   );
   if (gender) {
     gender = gender.path;
@@ -72,14 +73,14 @@ const ViewHeaderList = state => {
   }
   let avatarChildren =
     state._selectedStudent.avatar &&
-    state._selectedStudent.avatar != '' &&
+    state._selectedStudent.avatar != "" &&
     state._selectedStudent.avatar != null
-      ? {uri: CONFIG.host + state._selectedStudent.avatar}
+      ? { uri: CONFIG.host + state._selectedStudent.avatar }
       : gender;
   let newFullName = Helpers.capitalizeName(
     state._selectedStudent.firstName,
     state._selectedStudent.lastName,
-    CONFIG.settingLocal.softName,
+    CONFIG.settingLocal.softName
   );
 
   return (
@@ -87,14 +88,14 @@ const ViewHeaderList = state => {
       <CImage
         style={styles.con_avatar}
         src={avatarChildren}
-        resizeMode={'cover'}
+        resizeMode={"cover"}
       />
       <Text style={styles.txtNameStudent}>{newFullName}</Text>
     </View>
   );
 };
 
-const renderFooter = state => {
+const renderFooter = (state) => {
   return (
     <View
       style={[
@@ -106,9 +107,10 @@ const renderFooter = state => {
           marginTop: state?._detailData?.length > 0 ? 0 : 10,
           borderBottomWidth: 0,
         },
-      ]}>
-      <CText style={styles.txt_total} i18nKey={'total'} />
-      <Text style={[styles.txt_total, {fontWeight: 700}]}>
+      ]}
+    >
+      <CText style={styles.txt_total} i18nKey={"total"} />
+      <Text style={[styles.txt_total, { fontWeight: 700 }]}>
         {customFormatMoney(state._dataFeeInvoice.totalAmount || 0)}
       </Text>
     </View>
@@ -120,14 +122,16 @@ const renderHeader = () => {
     <View
       style={{
         backgroundColor: COLOR.backgroundSec,
-      }}>
+      }}
+    >
       <Text
         style={[
           styles.txt_title_item,
           {
-            textTransform: 'none',
+            textTransform: "none",
           },
-        ]}>
+        ]}
+      >
         {LANG[CONFIG.lang].txtListOfFeeInvoice}
       </Text>
     </View>
@@ -144,13 +148,14 @@ const renderItem = (index, item) => {
           borderTopWidth: 1,
           marginTop: 15,
         },
-        {borderBottomWidth: 0},
-      ]}>
+        { borderBottomWidth: 0 },
+      ]}
+    >
       <View style={styles.con_title_left_item}>
         <CText style={styles.txt_title_left_item} numberOfLines={2}>
-          {item.itemTitle.trim()}{' '}
+          {item.itemTitle.trim()}{" "}
           <CText style={styles.txt_title_left_item}>
-            {item.numberOfItems > 1 && ' x ' + item.numberOfItems}
+            {item.numberOfItems > 1 && " x " + item.numberOfItems}
           </CText>
         </CText>
       </View>
@@ -184,7 +189,7 @@ export const ViewFeeInvoiceDetail = ({
   return (
     <View style={styles.con}>
       {/* HEADER */}
-      <HeaderBar title={'txtHomeFeeInvoice'} hasBack onBack={onPressBack} />
+      <HeaderBar title={"txtHomeFeeInvoice"} hasBack onBack={onPressBack} />
 
       {/* HEADER FeeInvoice */}
       {/* {ViewHeaderList(state)} */}
@@ -199,49 +204,55 @@ export const ViewFeeInvoiceDetail = ({
               backgroundColor: COLOR.backgroundSec,
               borderRadius: 10,
             },
-          ]}>
+          ]}
+        >
           <View
             style={{
               // borderBottomColor: COLOR.borderColorSec,
               // borderBottomWidth: 1,
               paddingBottom: 10,
-            }}>
+            }}
+          >
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
                 marginBottom: 4,
-              }}>
+              }}
+            >
               <Text
                 style={[
                   styles.txt_title_item,
                   {
-                    textTransform: 'none',
+                    textTransform: "none",
                   },
-                ]}>
+                ]}
+              >
                 #{state._dataFeeInvoice.title}
               </Text>
               {checkStatus(state._dataFeeInvoice?.status)}
             </View>
             <Text style={styles.txt_content_item}>
-              {LANG[CONFIG.lang].txtDeadline}:{' '}
-              {moment(state._dataFeeInvoice.deadline, 'YYYY-MM-DD').format(
-                'DD/MM',
+              {LANG[CONFIG.lang].txtDeadline}:{" "}
+              {moment(state._dataFeeInvoice.deadline, "YYYY-MM-DD").format(
+                "DD/MM"
               )}
             </Text>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
               <View
                 style={{
                   flex: 0.5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                   gap: 2,
-                }}>
+                }}
+              >
                 <Text
-                  style={[styles.txt_price_item, {fontWeight: 'bold'}]}
+                  style={[styles.txt_price_item, { fontWeight: "bold" }]}
                   ellipsizeMode="tail"
-                  numberOfLines={1}>
+                  numberOfLines={1}
+                >
                   {customFormatMoney(state?._dataFeeInvoice?.paidAmount || 0)}
                 </Text>
                 <Text style={styles.txt_content_item}>
@@ -251,17 +262,19 @@ export const ViewFeeInvoiceDetail = ({
               <View
                 style={{
                   flex: 0.5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                   gap: 2,
-                }}>
+                }}
+              >
                 <Text
-                  style={[styles.txt_price_item, {fontWeight: 'bold'}]}
+                  style={[styles.txt_price_item, { fontWeight: "bold" }]}
                   ellipsizeMode="tail"
-                  numberOfLines={1}>
+                  numberOfLines={1}
+                >
                   {customFormatMoney(
                     state?._dataFeeInvoice?.totalAmount -
-                      state?._dataFeeInvoice?.paidAmount || 0,
+                      state?._dataFeeInvoice?.paidAmount || 0
                   )}
                 </Text>
                 <Text style={styles.txt_content_item}>
@@ -274,13 +287,13 @@ export const ViewFeeInvoiceDetail = ({
           <FlatList
             contentContainerStyle={styles.pt_10}
             data={state._detailData}
-            renderItem={({item, index}) => renderItem(index, item)}
+            renderItem={({ item, index }) => renderItem(index, item)}
             keyExtractor={(item, index) => index.toString()}
             ListFooterComponent={renderFooter(state)}
             ListHeaderComponent={renderHeader()}
             stickyHeaderIndices={[0]}
             scrollEnabled={false}
-            scrollIndicatorInsets={{right: 1}}
+            scrollIndicatorInsets={{ right: 1 }}
           />
         </View>
 
@@ -335,20 +348,22 @@ export const ViewFeeInvoiceDetail = ({
           <View
             style={[
               styles.con_button_payment,
-              {backgroundColor: COLOR.backgroundMain},
-            ]}>
+              { backgroundColor: COLOR.backgroundMain },
+            ]}
+          >
             <CButton
               style={styles.submit_group_submit}
-              onPress={onFunction.addPayment}>
+              onPress={onFunction.addPayment}
+            >
               <CText
                 style={{
                   fontFamily: DEVICE.fontBold,
-                  color: '#ffffff',
+                  color: "#ffffff",
                 }}
                 i18nKey={
                   state._method === CONFIG.CASH
-                    ? 'verifyPayment'
-                    : 'choosePayment'
+                    ? "verifyPayment"
+                    : "choosePayment"
                 }
               />
             </CButton>
@@ -358,7 +373,7 @@ export const ViewFeeInvoiceDetail = ({
         !settingCash &&
         (!settingTransfer || dataBank.length <= 0) &&
         !settingPaypal && (
-          <CText style={styles.txt_error} i18nKey={'no_transfer_info'} />
+          <CText style={styles.txt_error} i18nKey={"no_transfer_info"} />
         )}
     </View>
   );
@@ -385,22 +400,24 @@ export const ViewModalList = ({
     bankSelected,
     method,
     onChangeBank,
-    viewableBank,
+    viewableBank
   ) => {
     let colorTextBankTitle =
-      state._method === CONFIG.BANK ? 'white' : COLOR.placeholderTextColor;
+      state._method === CONFIG.BANK ? "white" : COLOR.placeholderTextColor;
 
     return (
       <TouchableOpacity
         onPress={() => {
           onChangeBank(index);
-        }}>
+        }}
+      >
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             height: 180,
-          }}>
+          }}
+        >
           <ImageBackground
             style={[
               styles.card_info,
@@ -413,7 +430,8 @@ export const ViewModalList = ({
                 height: index === viewableBank ? 180 : 164,
               },
             ]}
-            source={ASSETS.card}>
+            source={ASSETS.card}
+          >
             <View
               style={[
                 styles.overlay,
@@ -424,22 +442,30 @@ export const ViewModalList = ({
                       : DEVICE.width - 36,
                   height: index === viewableBank ? 180 : 164,
                 },
-              ]}>
+              ]}
+            >
               <View style={styles.con_card}>
                 <TouchableOpacity
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                   onPress={() => {
                     onChangeBank(index);
                   }}
-                  disabled={method !== CONFIG.BANK}>
-                  <Icon
-                    name={bankSelected === index ? 'check-circle' : 'circle'}
+                  disabled={method !== CONFIG.BANK}
+                >
+                  {/* <Icon
+                    name={bankSelected === index ? "check-circle" : "circle"}
                     color={colorTextBankTitle}
                     size={18}
-                    type={bankSelected === index ? 'solid' : 'light'}
+                    type={bankSelected === index ? "solid" : "light"}
+                  /> */}
+                  <FontAwesome5
+                    name={bankSelected === index ? "check-circle" : "circle"}
+                    color={colorTextBankTitle}
+                    size={18}
+                    // type={bankSelected === index ? "solid" : "light"}
                   />
                   <Text
                     style={[
@@ -449,8 +475,9 @@ export const ViewModalList = ({
                         color: COLOR.text_1,
                         paddingHorizontal: 5,
                       },
-                      {color: colorTextBankTitle},
-                    ]}>
+                      { color: colorTextBankTitle },
+                    ]}
+                  >
                     {item.bankCode}
                   </Text>
                 </TouchableOpacity>
@@ -461,9 +488,9 @@ export const ViewModalList = ({
                         fontSize: Helpers.fS(12),
                         fontFamily: DEVICE.fontRegular,
                       },
-                      {color: colorTextBankDes},
+                      { color: colorTextBankDes },
                     ]}
-                    i18nKey={'accountName'}
+                    i18nKey={"accountName"}
                   />
                   <CText
                     style={[
@@ -471,11 +498,12 @@ export const ViewModalList = ({
                       {
                         fontSize: Helpers.fS(20),
                         color: colorTextBankTitle,
-                        fontWeight: 'bold',
+                        fontWeight: "bold",
                         lineHeight: 24,
                       },
                     ]}
-                    numberOfLines={2}>
+                    numberOfLines={2}
+                  >
                     {item.accountName}
                   </CText>
                 </View>
@@ -486,23 +514,24 @@ export const ViewModalList = ({
                         fontSize: Helpers.fS(12),
                         fontFamily: DEVICE.fontRegular,
                       },
-                      {color: colorTextBankDes},
+                      { color: colorTextBankDes },
                     ]}
-                    i18nKey={'accountNumber'}
+                    i18nKey={"accountNumber"}
                   />
                   <View style={styles.con_row_card}>
                     <View
                       style={{
-                        borderStyle: 'dashed',
+                        borderStyle: "dashed",
                         borderWidth: 1,
-                        borderColor: 'white',
+                        borderColor: "white",
                         height: 42,
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        justifyContent: "center",
+                        alignItems: "center",
                         borderRadius: 21,
                         paddingHorizontal: 25,
                         marginTop: 4,
-                      }}>
+                      }}
+                    >
                       <CText
                         style={[
                           styles.txtCard,
@@ -510,7 +539,7 @@ export const ViewModalList = ({
                             fontSize: Helpers.fS(20),
                             color: colorTextBankTitle,
                             letterSpacing: 4,
-                            fontWeight: 'bold',
+                            fontWeight: "bold",
                           },
                         ]}
                         numberOfLines={2}
@@ -521,17 +550,24 @@ export const ViewModalList = ({
                     </View>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: 'transparent',
+                        backgroundColor: "transparent",
                         marginLeft: 20,
                       }}
                       onPress={() =>
                         onFunction.copyToClipboard(item.accountNumber)
-                      }>
-                      <Icon
-                        name={'copy'}
+                      }
+                    >
+                      {/* <Icon
+                        name={"copy"}
                         size={Helpers.fS(22)}
-                        color={'white'}
-                        type={'regular'}
+                        color={"white"}
+                        type={"regular"}
+                      /> */}
+                      <FontAwesome5
+                        name={"copy"}
+                        size={Helpers.fS(22)}
+                        color={"white"}
+                        // type={"regular"}
                       />
                     </TouchableOpacity>
                   </View>
@@ -547,19 +583,19 @@ export const ViewModalList = ({
   const colorTextBankTitle =
     state._method === CONFIG.BANK ? COLOR.text_1 : COLOR.placeholderTextColor;
   const colorTextBankDes =
-    state._method === CONFIG.BANK ? 'white' : COLOR.placeholderTextColor;
+    state._method === CONFIG.BANK ? "white" : COLOR.placeholderTextColor;
 
   const colorTextCashTitle =
-    state._method === CONFIG.CASH ? 'white' : COLOR.placeholderTextColor;
+    state._method === CONFIG.CASH ? "white" : COLOR.placeholderTextColor;
   const colorTextCashDes =
-    state._method === CONFIG.CASH ? 'white' : COLOR.placeholderTextColor;
+    state._method === CONFIG.CASH ? "white" : COLOR.placeholderTextColor;
 
   return (
     <View style={styles.con_modal}>
       {settingCash ||
         (settingTransfer && dataBank.length > 0) ||
         (settingPaypal && (
-          <View style={{backgroundColor: COLOR.backgroundMain}}>
+          <View style={{ backgroundColor: COLOR.backgroundMain }}>
             <Text style={styles.modal_title}>
               {LANG[CONFIG.lang].txtSelectPaymentMethod}
             </Text>
@@ -569,25 +605,33 @@ export const ViewModalList = ({
         <>
           <TouchableOpacity
             style={styles.modal_method}
-            onPress={() => onFunction.onChangeMethod(CONFIG.CASH)}>
-            <Icon
-              name={state._method === CONFIG.CASH ? 'scrubber' : 'circle'}
+            onPress={() => onFunction.onChangeMethod(CONFIG.CASH)}
+          >
+            {/* <Icon
+              name={state._method === CONFIG.CASH ? "scrubber" : "circle"}
               size={Helpers.fS(20)}
               color={COLOR.txt_3}
-              type={state._method === CONFIG.CASH ? 'solid' : 'regular'}
+              type={state._method === CONFIG.CASH ? "solid" : "regular"}
+            /> */}
+            <FontAwesome5
+              name={state._method === CONFIG.CASH ? "scrubber" : "circle"}
+              size={Helpers.fS(20)}
+              color={COLOR.txt_3}
+              // type={state._method === CONFIG.CASH ? "solid" : "regular"}
             />
             <CText
-              style={[styles.textMethod, {color: COLOR.txt_3}]}
-              i18nKey={'cash'}
+              style={[styles.textMethod, { color: COLOR.txt_3 }]}
+              i18nKey={"cash"}
             />
           </TouchableOpacity>
 
           {state._method === CONFIG.CASH && (
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <ImageBackground
                 style={[
                   styles.card_info,
@@ -597,7 +641,8 @@ export const ViewModalList = ({
                     marginVertical: 10,
                   },
                 ]}
-                source={ASSETS.card}>
+                source={ASSETS.card}
+              >
                 <View
                   style={[
                     styles.overlay,
@@ -605,7 +650,8 @@ export const ViewModalList = ({
                       width: DEVICE.width - 24,
                       height: 180,
                     },
-                  ]}>
+                  ]}
+                >
                   <View style={styles.con_card}>
                     <Text
                       style={[
@@ -616,8 +662,9 @@ export const ViewModalList = ({
                           paddingHorizontal: 5,
                           lineHeight: 24,
                         },
-                        {color: colorTextCashTitle},
-                      ]}>
+                        { color: colorTextCashTitle },
+                      ]}
+                    >
                       {CONFIG.CASH_MESSAGE}
                     </Text>
                   </View>
@@ -632,16 +679,23 @@ export const ViewModalList = ({
         <>
           <TouchableOpacity
             style={styles.modal_method}
-            onPress={() => onFunction.onChangeMethod(CONFIG.BANK)}>
-            <Icon
-              name={state._method === CONFIG.BANK ? 'scrubber' : 'circle'}
+            onPress={() => onFunction.onChangeMethod(CONFIG.BANK)}
+          >
+            {/* <Icon
+              name={state._method === CONFIG.BANK ? "scrubber" : "circle"}
               size={Helpers.fS(20)}
               color={COLOR.txt_3}
-              type={state._method === CONFIG.BANK ? 'solid' : 'regular'}
+              type={state._method === CONFIG.BANK ? "solid" : "regular"}
+            /> */}
+            <FontAwesome5
+              name={state._method === CONFIG.BANK ? "scrubber" : "circle"}
+              size={Helpers.fS(20)}
+              color={COLOR.txt_3}
+              // type={state._method === CONFIG.BANK ? "solid" : "regular"}
             />
             <CText
-              style={[styles.textMethod, {color: COLOR.txt_3}]}
-              i18nKey={'bankTranfer'}
+              style={[styles.textMethod, { color: COLOR.txt_3 }]}
+              i18nKey={"bankTranfer"}
             />
           </TouchableOpacity>
 
@@ -649,19 +703,20 @@ export const ViewModalList = ({
             <View
               style={[
                 styles.bankInfo,
-                {backgroundColor: COLOR.backgroundMain},
-              ]}>
+                { backgroundColor: COLOR.backgroundMain },
+              ]}
+            >
               <FlatList
                 data={dataBank}
-                contentContainerStyle={{paddingVertical: 10}}
-                renderItem={({item, index}) =>
+                contentContainerStyle={{ paddingVertical: 10 }}
+                renderItem={({ item, index }) =>
                   renderItemBank(
                     item,
                     index,
                     state._bank,
                     state._method,
                     onFunction.onChangeBank,
-                    state._viewableBank,
+                    state._viewableBank
                   )
                 }
                 keyExtractor={(item, index) => index.toString()}
@@ -738,17 +793,24 @@ export const ViewModalList = ({
 
       {settingPaypal && (
         <TouchableOpacity
-          style={[styles.modal_method, {borderBottomWidth: 0}]}
-          onPress={() => onFunction.onChangeMethod(CONFIG.PAYPAL)}>
-          <Icon
-            name={state._method === CONFIG.PAYPAL ? 'scrubber' : 'circle'}
+          style={[styles.modal_method, { borderBottomWidth: 0 }]}
+          onPress={() => onFunction.onChangeMethod(CONFIG.PAYPAL)}
+        >
+          {/* <Icon
+            name={state._method === CONFIG.PAYPAL ? "scrubber" : "circle"}
             size={Helpers.fS(20)}
             color={COLOR.txt_3}
-            type={state._method === CONFIG.PAYPAL ? 'solid' : 'regular'}
+            type={state._method === CONFIG.PAYPAL ? "solid" : "regular"}
+          /> */}
+          <FontAwesome5
+            name={state._method === CONFIG.PAYPAL ? "scrubber" : "circle"}
+            size={Helpers.fS(20)}
+            color={COLOR.txt_3}
+            // type={state._method === CONFIG.PAYPAL ? "solid" : "regular"}
           />
           <CText
-            style={[styles.textMethod, {color: COLOR.txt_3}]}
-            i18nKey={'paypalPayment'}
+            style={[styles.textMethod, { color: COLOR.txt_3 }]}
+            i18nKey={"paypalPayment"}
           />
         </TouchableOpacity>
       )}

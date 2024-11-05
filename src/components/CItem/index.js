@@ -4,21 +4,22 @@
  * @Date create: 21/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 // import moment from 'moment';
 // import 'moment/locale/vi';
 // moment.locale('vi');
-import {View, Text, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-fontawesome-pro';
+import { View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMMON */
-import {DEVICE, CONFIG, ASSETS, COLOR} from '../../config';
-import Helpers from '../../helpers';
+import { DEVICE, CONFIG, ASSETS, COLOR } from "../../config";
+import Helpers from "../../helpers";
 /** COMPONENT */
-import CImage from '../CImage';
-import CText from '../CText';
+import CImage from "../CImage";
+import CText from "../CText";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 
 class CItem extends React.PureComponent {
   render() {
@@ -38,7 +39,7 @@ class CItem extends React.PureComponent {
     let time = hasSocial
       ? Helpers.getShortTimeWithNow(data.createdAt)
       : Helpers.getShortTimeWithNow(
-          hasNews ? data.createdAt : data.photos[0].createdAt,
+          hasNews ? data.createdAt : data.photos[0].createdAt
         );
     let _src = null;
 
@@ -48,7 +49,7 @@ class CItem extends React.PureComponent {
         ? {
             uri:
               CONFIG.host +
-              data.media.thumbnail.sizes.thumbnail.path.replace('assets', ''),
+              data.media.thumbnail.sizes.thumbnail.path.replace("assets", ""),
           }
         : ASSETS.imgFailed;
     } else {
@@ -58,18 +59,18 @@ class CItem extends React.PureComponent {
               uri:
                 CONFIG.host +
                 data.photos[0].thumbnail.sizes.medium_large.path.replace(
-                  'assets',
-                  '',
+                  "assets",
+                  ""
                 ),
             }
           : ASSETS.imgFailed;
     }
-    let newFullNameOwner = '';
-    if (hasSocial && typeof data.owner === 'object') {
+    let newFullNameOwner = "";
+    if (hasSocial && typeof data.owner === "object") {
       newFullNameOwner = Helpers.capitalizeName(
         data.owner.firstName,
         data.owner.lastName,
-        CONFIG.settingLocal?.softName,
+        CONFIG.settingLocal?.softName
       );
     }
 
@@ -83,14 +84,15 @@ class CItem extends React.PureComponent {
                 containerStyle,
               ]
             : [styles.con_item, containerStyle]
-        }>
+        }
+      >
         {/** THUMBNAIL */}
         {hasNews && (
           <View style={styles.con_image}>
             <CImage
               style={[styles.img_item, styleImage]}
               src={_src}
-              resizeMode={'cover'}
+              resizeMode={"cover"}
             />
           </View>
         )}
@@ -102,37 +104,40 @@ class CItem extends React.PureComponent {
               conTitleStyle,
               {
                 padding: 10,
-                height: '100%',
+                height: "100%",
               },
-            ]}>
+            ]}
+          >
             <CText
               style={[
                 DEVICE.initFont.XX_SMALL,
                 styles.txtTitleItem,
                 titleStyle,
                 {
-                  fontWeight: 'normal',
+                  fontWeight: "normal",
                 },
               ]}
-              numberOfLines={2}>
+              numberOfLines={2}
+            >
               {data.title}
             </CText>
             {!hasNews && (
               <CText
                 style={[DEVICE.initFont.XXX_SMALL, styles.txtMotto]}
-                numberOfLines={2}>
+                numberOfLines={2}
+              >
                 {data.motto}
               </CText>
             )}
-            <View style={[DEVICE.gStyle.row_align_center, {marginTop: 5}]}>
+            <View style={[DEVICE.gStyle.row_align_center, { marginTop: 5 }]}>
               {time.type !== time.des ? (
                 <CText style={[DEVICE.initFont.XXXX_SMALL, styles.txtTime]}>
-                  {time.des}{' '}
+                  {time.des}{" "}
                 </CText>
               ) : (
                 <>
                   <CText style={[DEVICE.initFont.XXXX_SMALL, styles.txtTime]}>
-                    {time.time}{' '}
+                    {time.time}{" "}
                   </CText>
                   <CText
                     style={[DEVICE.initFont.XXXX_SMALL, styles.txtTime]}
@@ -155,7 +160,7 @@ class CItem extends React.PureComponent {
           <CImage
             style={[styles.img_item, styleImage]}
             src={_src}
-            resizeMode={'cover'}
+            resizeMode={"cover"}
           />
         )}
 
@@ -166,36 +171,40 @@ class CItem extends React.PureComponent {
             <View style={styles.con_title}>
               <Text
                 style={[styles.txt_title_item, titleStyle]}
-                numberOfLines={1}>
+                numberOfLines={1}
+              >
                 {data.title}
               </Text>
               <View
                 style={[
                   DEVICE.gStyle.space_between,
                   DEVICE.gStyle.row_align_center,
-                ]}>
+                ]}
+              >
                 <View style={DEVICE.gStyle.row_align_center}>
-                  {hasOwner && newFullNameOwner !== '' && (
+                  {hasOwner && newFullNameOwner !== "" && (
                     <View style={DEVICE.gStyle.row_align_center}>
-                      <CText style={styles.txt_info_item} i18nKey={'by'} />
+                      <CText style={styles.txt_info_item} i18nKey={"by"} />
                       <Text
                         style={[
                           styles.txt_info_result_item,
                           {
                             marginLeft: 5,
                           },
-                        ]}>
+                        ]}
+                      >
                         {newFullNameOwner}
                       </Text>
-                      <CText style={styles.d_txt_time}>{' - '}</CText>
+                      <CText style={styles.d_txt_time}>{" - "}</CText>
                     </View>
                   )}
                   {time.type !== time.des ? (
                     <Text
                       style={[
                         styles.txt_info_result_item,
-                        {color: COLOR.inactiveTintColor},
-                      ]}>
+                        { color: COLOR.inactiveTintColor },
+                      ]}
+                    >
                       {time.des}
                     </Text>
                   ) : (
@@ -203,14 +212,15 @@ class CItem extends React.PureComponent {
                       <Text
                         style={[
                           styles.txt_info_result_item,
-                          {color: COLOR.inactiveTintColor},
-                        ]}>
-                        {time.time}{' '}
+                          { color: COLOR.inactiveTintColor },
+                        ]}
+                      >
+                        {time.time}{" "}
                       </Text>
                       <CText
                         style={[
                           styles.txt_info_result_item,
-                          {color: COLOR.inactiveTintColor},
+                          { color: COLOR.inactiveTintColor },
                         ]}
                         i18nKey={time.type}
                       />
@@ -223,16 +233,22 @@ class CItem extends React.PureComponent {
                     <Text
                       style={[
                         styles.txt_info_result_item,
-                        {color: COLOR.txt_3},
-                      ]}>
-                      {' '}
-                      {data && data.whoLike.length}{' '}
+                        { color: COLOR.txt_3 },
+                      ]}
+                    >
+                      {" "}
+                      {data && data.whoLike.length}{" "}
                     </Text>
-                    <Icon
-                      name={'thumbs-up'}
+                    {/* <Icon
+                      name={"thumbs-up"}
                       color={COLOR.txt_3}
                       size={Helpers.fS(12)}
-                      type={'light'}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      name={"thumbs-up"}
+                      color={COLOR.txt_3}
+                      size={Helpers.fS(12)}
                     />
                   </View>
                 )}

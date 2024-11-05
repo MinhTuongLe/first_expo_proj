@@ -5,7 +5,7 @@
  * @Date create: 17/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
@@ -13,27 +13,29 @@ import {
   Linking,
   ActivityIndicator,
   Image,
-} from 'react-native';
-import {connect} from 'react-redux';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+  Pressable,
+} from "react-native";
+import { connect } from "react-redux";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import CText from '../../components/CText';
-import CImage from '../../components/CImage';
+import HeaderBar from "../partials/header_bar";
+import CText from "../../components/CText";
+import CImage from "../../components/CImage";
 /** COMMON */
-import {LANG, CONFIG, DEVICE, COLOR, KEY, ASSETS} from '../../config';
-import Helpers from '../../helpers';
-import Services from '../../services';
-import sailsApi from '../../config/sails.api';
+import { LANG, CONFIG, DEVICE, COLOR, KEY, ASSETS } from "../../config";
+import Helpers from "../../helpers";
+import Services from "../../services";
+import sailsApi from "../../config/sails.api";
 
 /** STYLES */
-import styles from './style';
-import {bindActionCreators} from 'redux';
+import styles from "./style";
+import { bindActionCreators } from "redux";
 /** REDUX */
-import * as classActions from '../../redux/actions/activeClass';
-import * as studentActions from '../../redux/actions/activeStudent';
-import * as loadingActions from '../../redux/actions/loading';
+import * as classActions from "../../redux/actions/activeClass";
+import * as studentActions from "../../redux/actions/activeStudent";
+import * as loadingActions from "../../redux/actions/loading";
 
 class ContactListScreen extends React.Component {
   constructor(props) {
@@ -66,16 +68,19 @@ class ContactListScreen extends React.Component {
   };
 
   _checkStudents = async () => {
-    let {_studentChoose, _dataStudent, _classChoose, _dataClasses} = this.state;
+    let { _studentChoose, _dataStudent, _classChoose, _dataClasses } =
+      this.state;
 
     if (this.props.activeStudent) {
       _studentChoose = this.props.activeStudent;
       _classChoose = _dataClasses.find(
-        f => f.id === this.props.activeStudent.class.id,
+        (f) => f.id === this.props.activeStudent.class.id
       );
     } else {
       _studentChoose = _dataStudent[0];
-      _classChoose = _dataClasses.find(f => f.id === _dataStudent[0].class.id);
+      _classChoose = _dataClasses.find(
+        (f) => f.id === _dataStudent[0].class.id
+      );
     }
 
     this.setState({
@@ -90,13 +95,13 @@ class ContactListScreen extends React.Component {
     await this._getDataFromServer();
   };
 
-  _getParentByClassId = async _classChoose => {
-    let {_dataParent} = this.state;
+  _getParentByClassId = async (_classChoose) => {
+    let { _dataParent } = this.state;
     _dataParent = [];
     let resParent = await Services.Parent.getParentsFromClass(_classChoose.id);
 
     if (resParent) {
-      if (resParent.code === 'PARENT_ERR_ID_REQUIRED') {
+      if (resParent.code === "PARENT_ERR_ID_REQUIRED") {
         _dataParent = [];
       } else if (resParent.length > 0) {
         _dataParent = resParent.sort(function (a, b) {
@@ -114,7 +119,7 @@ class ContactListScreen extends React.Component {
   };
 
   _onRefresh = () => {
-    this.setState({_refreshing: true});
+    this.setState({ _refreshing: true });
     if (CONFIG.USER_TYPE === KEY.PARENT) {
       this._checkStudents();
     } else if (CONFIG.USER_TYPE === KEY.TEACHER) {
@@ -129,10 +134,10 @@ class ContactListScreen extends React.Component {
   };
 
   _renderClass = () => {
-    let {_classChoose, _dataParent} = this.state;
+    let { _classChoose, _dataParent } = this.state;
     let icClass = ASSETS.imgFailed;
     let newAvatar = _classChoose.newAvatar || null;
-    newAvatar = CONFIG.classes.find(f => f.id === _classChoose.thumbnail);
+    newAvatar = CONFIG.classes.find((f) => f.id === _classChoose.thumbnail);
     if (newAvatar) {
       newAvatar = newAvatar.path;
     }
@@ -142,7 +147,7 @@ class ContactListScreen extends React.Component {
         <View style={styles.titleBox}>
           <CText
             style={styles.txtTitleBox}
-            i18nKey={'txtClassTitle'}
+            i18nKey={"txtClassTitle"}
             upperCase
           />
         </View>
@@ -150,40 +155,56 @@ class ContactListScreen extends React.Component {
           <View style={styles.avatarArea}>
             <Image
               style={styles.avatarStudent}
-              resizeMode={'cover'}
+              resizeMode={"cover"}
               source={newAvatar ? newAvatar : icClass}
             />
           </View>
           <View style={styles.nameArea}>
-            <View style={{paddingVertical: 10}}>
+            <View style={{ paddingVertical: 10 }}>
               <Text
                 style={[
                   styles.txtNameStudent,
-                  {fontFamily: DEVICE.fontMedium},
-                ]}>
+                  { fontFamily: DEVICE.fontMedium },
+                ]}
+              >
                 {_classChoose.title}
               </Text>
             </View>
-            <View style={[styles.parentRight, {justifyContent: 'flex-end'}]}>
-              <Icon
-                name={'comment-lines'}
+            <View style={[styles.parentRight, { justifyContent: "flex-end" }]}>
+              {/* <Icon
+                name={"comment-lines"}
                 size={Helpers.fS(20)}
                 color={COLOR.primaryApp}
-                type={'light'}
+                type={"light"}
                 onPress={() =>
                   this._onPressItem(
                     _classChoose.id,
                     _classChoose.title,
-                    'class',
+                    "class"
                   )
                 }
-              />
+              /> */}
+              <Pressable
+                onPress={() =>
+                  this._onPressItem(
+                    _classChoose.id,
+                    _classChoose.title,
+                    "class"
+                  )
+                }
+              >
+                <FontAwesome5
+                  name={"comment-lines"}
+                  size={Helpers.fS(20)}
+                  color={COLOR.primaryApp}
+                />
+              </Pressable>
             </View>
           </View>
         </View>
         {_dataParent.length > 0 && (
           <View style={styles.titleBox}>
-            <CText style={styles.txtTitleBox} i18nKey={'txtParent'} upperCase />
+            <CText style={styles.txtTitleBox} i18nKey={"txtParent"} upperCase />
           </View>
         )}
       </View>
@@ -192,10 +213,10 @@ class ContactListScreen extends React.Component {
 
   _renderParent = (item, index) => {
     let uriAvatar =
-      item.avatar != '' && item.avatar != null
+      item.avatar != "" && item.avatar != null
         ? CONFIG.host + item.avatar
         : null;
-    let gender = CONFIG.users.find(f => f.id === item.gender);
+    let gender = CONFIG.users.find((f) => f.id === item.gender);
     if (gender) {
       gender = gender.path;
     } else {
@@ -204,12 +225,12 @@ class ContactListScreen extends React.Component {
     let newParentFullName = Helpers.capitalizeName(
       item.firstName,
       item.lastName,
-      CONFIG.settingLocal.softName,
+      CONFIG.settingLocal.softName
     );
     let newStudentFullName = Helpers.capitalizeName(
       item.students[0].firstName,
       item.students[0].lastName,
-      CONFIG.settingLocal.softName,
+      CONFIG.settingLocal.softName
     );
 
     return (
@@ -217,18 +238,19 @@ class ContactListScreen extends React.Component {
         <View style={styles.avatarArea}>
           <CImage
             style={styles.avatarStudent}
-            resizeMode={'cover'}
-            src={uriAvatar ? {uri: uriAvatar} : gender}
-            type={'avatar'}
+            resizeMode={"cover"}
+            src={uriAvatar ? { uri: uriAvatar } : gender}
+            type={"avatar"}
           />
         </View>
         <View style={styles.nameArea}>
-          <View style={{paddingVertical: 10}}>
+          <View style={{ paddingVertical: 10 }}>
             <Text
-              style={[styles.txtNameStudent, {fontFamily: DEVICE.fontMedium}]}>
+              style={[styles.txtNameStudent, { fontFamily: DEVICE.fontMedium }]}
+            >
               {newParentFullName}
             </Text>
-            <Text style={[styles.txtNameStudent, {fontSize: Helpers.fS(12)}]}>
+            <Text style={[styles.txtNameStudent, { fontSize: Helpers.fS(12) }]}>
               {`${
                 item.gender === 0
                   ? LANG[CONFIG.lang].momOf
@@ -237,16 +259,18 @@ class ContactListScreen extends React.Component {
             </Text>
           </View>
           {CONFIG.USER_TYPE === KEY.TEACHER && (
-            <View style={[styles.parentRight, {justifyContent: 'flex-end'}]}>
-              <Icon
-                name={'comment-lines'}
-                size={Helpers.fS(20)}
-                color={COLOR.primaryApp}
-                type={'light'}
+            <View style={[styles.parentRight, { justifyContent: "flex-end" }]}>
+              <Pressable
                 onPress={() =>
-                  this._onPressItem(item.id, newParentFullName, 'parent')
+                  this._onPressItem(item.id, newParentFullName, "parent")
                 }
-              />
+              >
+                <FontAwesome5
+                  name={"comment-lines"}
+                  size={Helpers.fS(20)}
+                  color={COLOR.primaryApp}
+                />
+              </Pressable>
             </View>
           )}
         </View>
@@ -256,52 +280,59 @@ class ContactListScreen extends React.Component {
 
   _renderEmptyList = () => {
     return (
-      <View style={{marginTop: 100, alignItems: 'center'}}>
-        <Icon
-          containerStyle={{marginTop: 10}}
-          name={'search'}
+      <View style={{ marginTop: 100, alignItems: "center" }}>
+        {/* <Icon
+          containerStyle={{ marginTop: 10 }}
+          name={"search"}
           size={50}
           color={COLOR.placeholderTextColor}
-          type={'solid'}
+          type={"solid"}
+        /> */}
+        <FontAwesome5
+          containerStyle={{ marginTop: 10 }}
+          name={"search"}
+          size={50}
+          color={COLOR.placeholderTextColor}
+          solid
         />
-        <CText style={styles.txt_no_data} i18nKey={'noDataParents'} />
+        <CText style={styles.txt_no_data} i18nKey={"noDataParents"} />
       </View>
     );
   };
 
   /** HANDLE FUNCTIONS */
-  _onPressChooseClass = async classObj => {
+  _onPressChooseClass = async (classObj) => {
     if (classObj.id !== this.state._classChoose.id) {
       this.props.classActions.changeClass(classObj);
     }
   };
 
-  _onPressChooseStudent = async studentObj => {
+  _onPressChooseStudent = async (studentObj) => {
     if (studentObj.id !== this.state._studentChoose.id) {
       this.props.studentActions.changeStudent(studentObj);
     }
   };
 
-  _onPressPhone = phone => {
+  _onPressPhone = (phone) => {
     if (phone) {
-      Linking.openURL('tel:' + phone).catch(error =>
-        console.log('Error call to ', phone),
+      Linking.openURL("tel:" + phone).catch((error) =>
+        console.log("Error call to ", phone)
       );
     }
   };
 
   _onPressItem = async (id, fullName, type) => {
     let filter = [];
-    let {_arrChat} = this.state;
+    let { _arrChat } = this.state;
 
-    if (type === 'class') {
-      filter = _arrChat.find(f => f.dataGroup.id === id);
-    } else if (type === 'parent') {
-      filter = _arrChat.find(f => f.dataChat?.parentObj?.id === id);
+    if (type === "class") {
+      filter = _arrChat.find((f) => f.dataGroup.id === id);
+    } else if (type === "parent") {
+      filter = _arrChat.find((f) => f.dataChat?.parentObj?.id === id);
     }
 
     if (filter) {
-      let typeGroup = filter.dataGroup.hasOwnProperty('totalStudent')
+      let typeGroup = filter.dataGroup.hasOwnProperty("totalStudent")
         ? KEY.GROUP
         : KEY.PERSONAL;
 
@@ -309,18 +340,18 @@ class ContactListScreen extends React.Component {
         filter.dataChat.id,
         typeGroup === KEY.PERSONAL ? fullName : filter.dataGroup.title,
         typeGroup,
-        filter.dataGroup.avatar,
+        filter.dataGroup.avatar
       );
     }
   };
 
-  _onWaitMessage = messageId => {
-    let {login} = this.props;
-    this._socket.on('CHAT_' + messageId, async newMessage => {
-      if (newMessage.hasOwnProperty('data')) {
-        this.setState({_loading: true});
-        let {_arrChat} = this.state;
-        let find = _arrChat.findIndex(f => f.dataChat?.id === messageId);
+  _onWaitMessage = (messageId) => {
+    let { login } = this.props;
+    this._socket.on("CHAT_" + messageId, async (newMessage) => {
+      if (newMessage.hasOwnProperty("data")) {
+        this.setState({ _loading: true });
+        let { _arrChat } = this.state;
+        let find = _arrChat.findIndex((f) => f.dataChat?.id === messageId);
         if (find !== -1) {
           if (
             _arrChat[find].dataChat.lastestMessage.createdAt !==
@@ -330,7 +361,7 @@ class ContactListScreen extends React.Component {
           }
         }
         let timeLastSeen = _arrChat[find].dataChat.lastSeen.find(
-          mess => mess.user === login.data.id,
+          (mess) => mess.user === login.data.id
         );
         let params = {
           messageId: messageId,
@@ -344,14 +375,14 @@ class ContactListScreen extends React.Component {
         // _arrChat.sort(
         //   (a, b) => b.dataChat.timeLastMessage - a.dataChat.timeLastMessage,
         // );
-        this.setState({_arrChat, _loading: false});
+        this.setState({ _arrChat, _loading: false });
       }
     });
   };
 
   _getDataFromServer = async () => {
-    let {login} = this.props;
-    let {_arrChat} = this.state;
+    let { login } = this.props;
+    let { _arrChat } = this.state;
     let i,
       j,
       dataRequest = {};
@@ -362,16 +393,16 @@ class ContactListScreen extends React.Component {
         school: login.data.school,
         classId: this.state._classChoose?.id,
         userId: login.data.id,
-        dateUse: moment().format('YYYY-MM-DD'),
+        dateUse: moment().format("YYYY-MM-DD"),
       };
 
       this._socket = this.props.io.sails.connect(CONFIG.hostSocket);
-      this._socket.on('connect', () => {
-        console.log('SOCKET IS CONNECTED');
+      this._socket.on("connect", () => {
+        console.log("SOCKET IS CONNECTED");
         this._socket.get(
-          '/api/v4/mobile' + sailsApi.message.listGroupOfClass,
+          "/api/v4/mobile" + sailsApi.message.listGroupOfClass,
           dataRequest,
-          async rs => {
+          async (rs) => {
             if (rs?.data?.length > 0) {
               for (j = 0; j < rs?.data?.length; j++) {
                 // let tmp = _arrChat[i];
@@ -379,7 +410,7 @@ class ContactListScreen extends React.Component {
                 _arrChat[j].dataGroup = rs.data[j].classObj;
                 _arrChat[j].dataChat = rs.data[j];
                 let timeLastSeen = rs.data[j].lastSeen.find(
-                  mess => mess.user === login.data.id,
+                  (mess) => mess.user === login.data.id
                 );
                 let params = {
                   messageId: rs.data[j].id,
@@ -388,7 +419,7 @@ class ContactListScreen extends React.Component {
                 };
 
                 let resultData = await Services.Message.countUnreadMessage(
-                  params,
+                  params
                 );
                 // let resultData = this._countUnreadMessage(rs.data[i].id, timeLastSeen)
                 _arrChat[j].dataChat.unreadMessages = resultData.countUnread;
@@ -397,16 +428,16 @@ class ContactListScreen extends React.Component {
                 this._onWaitMessage(rs.data[j].id);
               }
 
-              this.setState({_arrChat, _loading: false});
+              this.setState({ _arrChat, _loading: false });
               this.props.loadingActions.setLoading(false);
             }
-          },
+          }
         );
         if (CONFIG.USER_TYPE === KEY.TEACHER) {
           this._socket.get(
-            '/api/v4/mobile' + sailsApi.message.listGroupOfParent,
+            "/api/v4/mobile" + sailsApi.message.listGroupOfParent,
             dataRequest,
-            rs => {
+            (rs) => {
               if (rs?.data?.length > 0) {
                 for (i = 0; i < rs?.data?.length; i++) {
                   // let tmp = _arrChat[i];
@@ -420,21 +451,21 @@ class ContactListScreen extends React.Component {
                   this._onWaitMessage(rs.data[i].id);
                 }
 
-                this.setState({_arrChat, _loading: false});
+                this.setState({ _arrChat, _loading: false });
                 this.props.loadingActions.setLoading(false);
               }
-            },
+            }
           );
         } else {
           this._socket.get(
-            '/api/v4/mobile' + sailsApi.message.listGroupOfTeacher,
+            "/api/v4/mobile" + sailsApi.message.listGroupOfTeacher,
             {
               school: login.data.school,
               classId: this.state._studentChoose?.class?.id,
               parentId: login.data.id,
-              dateUse: moment().format('YYYY-MM-DD'),
+              dateUse: moment().format("YYYY-MM-DD"),
             },
-            rs => {
+            (rs) => {
               if (rs?.data?.length > 0) {
                 for (i = 0; i < rs?.data?.length; i++) {
                   // let tmp = _arrChat[i];
@@ -448,10 +479,10 @@ class ContactListScreen extends React.Component {
                   this._onWaitMessage(rs.data[i].id);
                 }
 
-                this.setState({_arrChat, _loading: false});
+                this.setState({ _arrChat, _loading: false });
                 this.props.loadingActions.setLoading(false);
               }
-            },
+            }
           );
         }
       });
@@ -498,8 +529,10 @@ class ContactListScreen extends React.Component {
     } = this.state;
     if (this.state._loading) {
       return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size={'small'} color={COLOR.primaryApp} />
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size={"small"} color={COLOR.primaryApp} />
         </View>
       );
     }
@@ -507,7 +540,7 @@ class ContactListScreen extends React.Component {
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtContactList'}
+          title={"txtContactList"}
           hasBack
           onBack={this._onPressBack}
           hasCustomHeaderRight={true}
@@ -527,19 +560,20 @@ class ContactListScreen extends React.Component {
 
         {_loadForList ? (
           <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator size={'small'} color={'black'} />
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size={"small"} color={"black"} />
           </View>
         ) : (
           <FlatList
-            contentContainerStyle={{paddingHorizontal: 10}}
+            contentContainerStyle={{ paddingHorizontal: 10 }}
             data={_dataParent}
-            renderItem={({item, index}) => this._renderParent(item, index)}
+            renderItem={({ item, index }) => this._renderParent(item, index)}
             keyExtractor={(item, index) => index.toString()}
             refreshing={_refreshing}
             onRefresh={this._onRefresh}
             ListEmptyComponent={this._renderEmptyList}
-            scrollIndicatorInsets={{right: 1}}
+            scrollIndicatorInsets={{ right: 1 }}
             ListHeaderComponent={this._renderClass}
           />
         )}
@@ -548,7 +582,7 @@ class ContactListScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,
@@ -558,7 +592,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     classActions: bindActionCreators(classActions, dispatch),
     studentActions: bindActionCreators(studentActions, dispatch),

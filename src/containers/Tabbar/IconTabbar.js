@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, View } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Dot } from "../Pagination";
 import { red } from "../../components/config/colors";
@@ -21,7 +22,8 @@ class IconTabbar extends React.Component {
 
     return (
       <View>
-        <Icon name="home" size={22} {...rest} />
+        {/* <Icon name="home" size={22} {...rest} /> */}
+        <FontAwesome5 name="home" size={22} {...rest} />
         {isDot ? <Dot size={9} color={red} style={styles.dot} /> : null}
       </View>
     );

@@ -4,84 +4,96 @@
  * @Date create: 14/05/2020
  */
 /** LIBRARY */
-import React from 'react';
-import {View, ScrollView, Text, FlatList} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, ScrollView, Text, FlatList } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENTS */
-import Header_bar from '../../partials/header_bar';
-import CText from '../../../components/CText';
+import Header_bar from "../../partials/header_bar";
+import CText from "../../../components/CText";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 /** COMMON */
-import {COLOR, DEVICE, CONFIG, LANG} from '../../../config';
-import Helpers from '../../../helpers';
-import CLoading from '../../../components/CLoading';
-import {extractDate} from '../../../utils/dateTime';
+import { COLOR, DEVICE, CONFIG, LANG } from "../../../config";
+import Helpers from "../../../helpers";
+import CLoading from "../../../components/CLoading";
+import { extractDate } from "../../../utils/dateTime";
 
 const ViewListEmpty = () => {
   return (
-    <View style={{alignItems: 'center'}}>
-      <Icon
-        containerStyle={{marginTop: 10}}
-        name={'search'}
+    <View style={{ alignItems: "center" }}>
+      {/* <Icon
+        containerStyle={{ marginTop: 10 }}
+        name={"search"}
         size={50}
         color={COLOR.placeholderTextColor}
-        type={'solid'}
+        type={"solid"}
+      /> */}
+      <FontAwesome5
+        style={{ marginTop: 10 }}
+        name={"search"}
+        size={50}
+        color={COLOR.placeholderTextColor}
+        solid
       />
       <CText
         style={styles.txt_no_data}
         numberOfLines={2}
-        i18nKey={'txtNoDataAttendance'}
+        i18nKey={"txtNoDataAttendance"}
       />
     </View>
   );
 };
 
 const renderItem = (item, index, length) => {
-  const {day, month} = extractDate(item.date);
+  const { day, month } = extractDate(item.date);
   return (
     <View
       style={{
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: index === 0 ? 10 : 0,
         borderBottomColor: COLOR.borderColorSec,
         borderBottomWidth: index < length - 1 ? 1 : 0,
         paddingBottom: index < length - 1 ? 10 : 0,
         paddingTop: index > 0 ? 15 : 0,
-      }}>
+      }}
+    >
       {index === 0 && (
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View
             style={[
               styles.historyBoxChild,
               {
-                alignItems: 'flex-start',
+                alignItems: "flex-start",
                 flex: 1 / 2,
                 marginTop: 0,
               },
-            ]}>
+            ]}
+          >
             <View
               style={{
-                width: Helpers.wS('13.33%'),
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+                width: Helpers.wS("13.33%"),
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Text style={styles.todayContentDesc}>
                 {LANG[CONFIG.lang].day}
               </Text>
             </View>
           </View>
-          <View style={[styles.historyBoxChild, {marginTop: 0}]}>
+          <View style={[styles.historyBoxChild, { marginTop: 0 }]}>
             <Text style={styles.todayContentDesc}>
               {LANG[CONFIG.lang].txtInClass}
             </Text>
           </View>
-          <View style={[styles.historyBoxChild, {marginTop: 0}]}>
+          <View style={[styles.historyBoxChild, { marginTop: 0 }]}>
             <Text style={styles.todayContentDesc}>
               {LANG[CONFIG.lang].txtOutClass}
             </Text>
@@ -90,18 +102,20 @@ const renderItem = (item, index, length) => {
       )}
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <View
           style={[
             styles.historyBoxChild,
             {
-              alignItems: 'flex-start',
+              alignItems: "flex-start",
               flex: 1 / 2,
             },
-          ]}>
+          ]}
+        >
           <View style={styles.circelDate}>
             <Text style={styles.dateContent}>{day}</Text>
             <Text style={styles.monthContent}>
@@ -127,12 +141,12 @@ export const ViewHistoryTeacher = ({
     onBack: () => {},
   },
 }) => {
-  const {_data} = state;
+  const { _data } = state;
 
   return (
     <View style={styles.con}>
       <Header_bar
-        title={'statistics'}
+        title={"statistics"}
         hasBack
         onBack={onFunction.onBack}
         hasCustomHeaderRight={true}
@@ -142,7 +156,9 @@ export const ViewHistoryTeacher = ({
         onCustomHeaderRight={onFunction.onPressChooseClass}
       />
 
-      <ScrollView style={[styles.con, {backgroundColor: COLOR.backgroundMain}]}>
+      <ScrollView
+        style={[styles.con, { backgroundColor: COLOR.backgroundMain }]}
+      >
         {!state._loading && (
           <View style={styles.con_detail}>
             <View style={styles.box}>
@@ -158,10 +174,11 @@ export const ViewHistoryTeacher = ({
                 </View>
                 <View
                   style={{
-                    height: '100%',
+                    height: "100%",
                     width: 1,
                     backgroundColor: COLOR.borderColorSec,
-                  }}></View>
+                  }}
+                ></View>
                 <View style={styles.todayBoxChild}>
                   <Text style={styles.todayContentTitle}>
                     {_data.countTodayAbsent}
@@ -173,7 +190,7 @@ export const ViewHistoryTeacher = ({
               </View>
             </View>
 
-            <View style={[styles.box, {marginTop: 10}]}>
+            <View style={[styles.box, { marginTop: 10 }]}>
               <Text style={styles.title}>{LANG[CONFIG.lang].history}</Text>
               <View style={styles.todayBox}>
                 <FlatList
@@ -181,13 +198,13 @@ export const ViewHistoryTeacher = ({
                     flexGrow: 1,
                   }}
                   data={_data.historyData}
-                  renderItem={({item, index}) =>
+                  renderItem={({ item, index }) =>
                     renderItem(item, index, _data.historyData.length)
                   }
                   onEndReachedThreshold={0.05}
                   ListEmptyComponent={ViewListEmpty}
                   stickyHeaderIndices={[0]}
-                  scrollIndicatorInsets={{right: 1}}
+                  scrollIndicatorInsets={{ right: 1 }}
                 />
               </View>
             </View>

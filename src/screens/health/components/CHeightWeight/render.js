@@ -16,7 +16,8 @@ import {
 } from "react-native";
 // import {LineChart} from 'react-native-charts-wrapper';
 import { Picker } from "@react-native-picker/picker";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
 /** COMMON */
 import { DEVICE, COLOR, LANG, CONFIG } from "../../../../config";
@@ -546,12 +547,19 @@ class ViewHeightWeight extends React.Component {
           DEVICE.gStyle.center,
         ]}
       >
-        <Icon
+        {/* <Icon
           containerStyle={{ marginTop: 10 }}
           name={"exclamation-circle"}
           size={DEVICE.s * 50}
           color={COLOR.placeholderTextColor}
           type={"solid"}
+        /> */}
+        <FontAwesome5
+          style={{ marginTop: 10 }}
+          name={"exclamation-circle"}
+          size={DEVICE.s * 50}
+          color={COLOR.placeholderTextColor}
+          solid
         />
         <Text style={styles.con_empty}>{LANG[CONFIG.lang].txtEmptyOfDay}</Text>
       </View>

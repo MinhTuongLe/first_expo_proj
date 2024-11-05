@@ -151,11 +151,11 @@ class ViewLogin extends React.PureComponent {
                       style={[styles.input_group, { marginTop: 30 }]}
                     >
                       <FontAwesome5
-                        style={styles.input_group_icon} // thay containerStyle bằng style
+                        style={styles.input_group_icon}
                         name="user-alt"
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        solid // thay type={'solid'} bằng solid
+                        solid
                       />
                       <CInput
                         ref={"email"}
@@ -173,10 +173,10 @@ class ViewLogin extends React.PureComponent {
                     <View key="password-group" style={styles.input_group}>
                       <FontAwesome5
                         style={styles.input_group_icon}
-                        name="lock" // hoặc "lock-alt" tùy icon có sẵn
+                        name="lock"
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        solid // thay cho type={'solid'}
+                        solid
                       />
                       <CInput
                         ref={"password"}

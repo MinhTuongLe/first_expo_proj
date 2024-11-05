@@ -12,7 +12,8 @@ import {
 
 import { withTheme, ViewPropTypes } from "../config";
 import { renderNode, nodeType, conditionalStyle, color } from "../helpers";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+// import { FontAwesome5 } from "@expo/vector-icons";
 import Text from "../text/Text";
 
 const defaultLoadingProps = (type, theme) => ({
@@ -124,7 +125,7 @@ class Button extends Component {
               />
             )}
 
-            {!loading &&
+            {/* {!loading &&
               icon &&
               !iconRight &&
               renderNode(Icon, icon, {
@@ -132,7 +133,7 @@ class Button extends Component {
                   styles.iconContainer,
                   iconContainerStyle,
                 ]),
-              })}
+              })} */}
 
             {!loading && !!title && (
               <Text
@@ -149,7 +150,7 @@ class Button extends Component {
               </Text>
             )}
 
-            {!loading &&
+            {/* {!loading &&
               icon &&
               iconRight &&
               renderNode(Icon, icon, {
@@ -157,7 +158,7 @@ class Button extends Component {
                   styles.iconContainer,
                   iconContainerStyle,
                 ]),
-              })}
+              })} */}
           </ViewComponent>
         </TouchableComponent>
       </View>

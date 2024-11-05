@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Switch, TouchableHighlight, View } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { renderNode, nodeType } from "../helpers";
 import { ViewPropTypes, TextPropTypes, withTheme } from "../config";
@@ -43,10 +44,10 @@ const renderAvatar = (content) =>
     rounded: true,
   });
 
-const renderIcon = (content) =>
-  renderNode(Icon, content, {
-    size: 24,
-  });
+// const renderIcon = (content) =>
+//   renderNode(Icon, content, {
+//     size: 24,
+//   });
 
 const ListItem = (props) => {
   const {
@@ -124,7 +125,7 @@ const ListItem = (props) => {
         pad={pad}
       >
         {renderNode(Text, leftElement)}
-        {renderIcon(leftIcon)}
+        {/* {renderIcon(leftIcon)} */}
         {renderAvatar(leftAvatar)}
 
         {(typeof title !== "undefined" || subtitle) && (
@@ -214,10 +215,10 @@ const ListItem = (props) => {
           />
         )}
         {renderAvatar(rightAvatar)}
-        {renderIcon(rightIcon)}
+        {/* {renderIcon(rightIcon)} */}
         {renderNode(Text, rightElement)}
-        {renderNode(Icon, checkmark, checkmarkDefaultProps(theme))}
-        {renderNode(Icon, chevron, chevronDefaultProps)}
+        {/* {renderNode(Icon, checkmark, checkmarkDefaultProps(theme))}
+        {renderNode(Icon, chevron, chevronDefaultProps)} */}
       </PadView>
     </Component>
   );

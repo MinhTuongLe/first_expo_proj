@@ -4,26 +4,27 @@
  * @Date create: 15/01/2020
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {Text, View, TouchableOpacity, FlatList} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import {bindActionCreators} from 'redux';
+import React from "react";
+import { connect } from "react-redux";
+import { Text, View, TouchableOpacity, FlatList } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { bindActionCreators } from "redux";
 /** COMMON */
-import {CONFIG, COLOR, DEVICE, LANG} from '../../../config';
-import Services from '../../../services';
-import Helpers from '../../../helpers';
+import { CONFIG, COLOR, DEVICE, LANG } from "../../../config";
+import Services from "../../../services";
+import Helpers from "../../../helpers";
 /** COMPONENT */
-import HeaderBar from '../../partials/header_bar';
-import CImage from '../../../components/CImage';
-import CLoading from '../../../components/CLoading';
-import CText from '../../../components/CText';
+import HeaderBar from "../../partials/header_bar";
+import CImage from "../../../components/CImage";
+import CLoading from "../../../components/CLoading";
+import CText from "../../../components/CText";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 /** REDUX */
-import * as loginActions from '../../../redux/actions/login';
-import * as loadingActions from '../../../redux/actions/loading';
-import {customFormatMoney} from '../../../utils/formatPrice';
+import * as loginActions from "../../../redux/actions/login";
+import * as loadingActions from "../../../redux/actions/loading";
+import { customFormatMoney } from "../../../utils/formatPrice";
 
 class TeacherFeeInvoice extends React.Component {
   constructor(props) {
@@ -46,8 +47,8 @@ class TeacherFeeInvoice extends React.Component {
     this._getListStudentByClassID(_classChoose);
   };
 
-  _getListStudentByClassID = async classObj => {
-    let {_dataStudents} = this.state;
+  _getListStudentByClassID = async (classObj) => {
+    let { _dataStudents } = this.state;
     let resultClassInfo = await Services.Class.fetchClassInfo(classObj.id);
     if (resultClassInfo) {
       _dataStudents = resultClassInfo.data.students;
@@ -61,16 +62,16 @@ class TeacherFeeInvoice extends React.Component {
     });
   };
 
-  _onPressChooseClass = async classObj => {
+  _onPressChooseClass = async (classObj) => {
     if (classObj.id !== this.state._classChoose.id) {
-      this.setState({_loading: true});
+      this.setState({ _loading: true });
       await Helpers.setAsyStrClassChoosed(JSON.stringify(classObj));
       this._getListStudentByClassID(classObj);
     }
   };
 
-  _onPressItemStudent = item => {
-    this.props.navigation.navigate('TeacherFeeInvoiceList', {
+  _onPressItemStudent = (item) => {
+    this.props.navigation.navigate("TeacherFeeInvoiceList", {
       selectedStudent: item,
       dataClass: this.state._classChoose,
       onRefresh: () => this._onRefresh(),
@@ -90,15 +91,20 @@ class TeacherFeeInvoice extends React.Component {
   _viewNoItemStudent = () => {
     return (
       <View style={styles.con_not_info}>
-        <Icon
-          name={'search'}
+        {/* <Icon
+          name={"search"}
           size={Helpers.fS(50)}
           color={COLOR.placeholderTextColor}
-          type={'light'}
+          type={"light"}
+        /> */}
+        <FontAwesome5
+          name={"search"}
+          size={Helpers.fS(50)}
+          color={COLOR.placeholderTextColor}
         />
         <CText
           style={styles.txt_empty_student}
-          i18nKey={'txtEmptySearchStudent'}
+          i18nKey={"txtEmptySearchStudent"}
         />
       </View>
     );
@@ -111,13 +117,13 @@ class TeacherFeeInvoice extends React.Component {
 
   /** RENDER */
   render() {
-    const {_loading, _dataStudents} = this.state;
+    const { _loading, _dataStudents } = this.state;
     // console.log('_dataStudents: ', _dataStudents);
     return (
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtHomeFeeInvoice'}
+          title={"txtHomeFeeInvoice"}
           hasBack
           onBack={this._onPressBack}
           hasCustomHeaderRight={true}
@@ -136,8 +142,8 @@ class TeacherFeeInvoice extends React.Component {
               styles.listStudentContent,
             ]}
             data={_dataStudents}
-            renderItem={({item, index}) => {
-              let gender = CONFIG.students.find(f => f.id === item.gender);
+            renderItem={({ item, index }) => {
+              let gender = CONFIG.students.find((f) => f.id === item.gender);
               if (gender) {
                 gender = gender.path;
               } else {
@@ -146,20 +152,21 @@ class TeacherFeeInvoice extends React.Component {
               let newFullName = Helpers.capitalizeName(
                 item.firstName,
                 item.lastName,
-                CONFIG.settingLocal.softName,
+                CONFIG.settingLocal.softName
               );
 
               return (
                 <TouchableOpacity
                   style={styles.rowItemStudent}
-                  onPress={() => this._onPressItemStudent(item)}>
+                  onPress={() => this._onPressItemStudent(item)}
+                >
                   <View style={styles.con_left_row_student}>
                     <CImage
                       style={styles.con_avatar}
-                      resizeMode={'contain'}
+                      resizeMode={"contain"}
                       src={
-                        item.avatar != '' && item.avatar != null
-                          ? {uri: CONFIG.host + item.avatar}
+                        item.avatar != "" && item.avatar != null
+                          ? { uri: CONFIG.host + item.avatar }
                           : gender
                       }
                     />
@@ -167,10 +174,11 @@ class TeacherFeeInvoice extends React.Component {
                       style={[
                         styles.nameArea,
                         index == _dataStudents.length - 1
-                          ? {borderBottomWidth: 0}
+                          ? { borderBottomWidth: 0 }
                           : {},
-                        {marginLeft: 15},
-                      ]}>
+                        { marginLeft: 15 },
+                      ]}
+                    >
                       <View>
                         <Text style={styles.txtNameStudent}>{newFullName}</Text>
                         <Text style={styles.txtInfoStudent}>
@@ -178,14 +186,19 @@ class TeacherFeeInvoice extends React.Component {
                             ? `${
                                 LANG[CONFIG.lang].txtHomeFeeInvoice
                               }:\u00A0${customFormatMoney(item.totalUnpaid)}`
-                            : ''}
+                            : ""}
                         </Text>
                       </View>
-                      <Icon
-                        name={'chevron-right'}
+                      {/* <Icon
+                        name={"chevron-right"}
                         color={COLOR.txtColor}
                         size={20}
-                        type={'light'}
+                        type={"light"}
+                      /> */}
+                      <FontAwesome5
+                        name={"chevron-right"}
+                        color={COLOR.txtColor}
+                        size={20}
                       />
                     </View>
                   </View>
@@ -194,8 +207,8 @@ class TeacherFeeInvoice extends React.Component {
             }}
             ListEmptyComponent={this._viewNoItemStudent}
             keyExtractor={(item, index) => index.toString()}
-            keyboardShouldPersistTaps={'handled'}
-            scrollIndicatorInsets={{right: 1}}
+            keyboardShouldPersistTaps={"handled"}
+            scrollIndicatorInsets={{ right: 1 }}
           />
         )}
 
@@ -209,14 +222,14 @@ class TeacherFeeInvoice extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
     loadingActions: bindActionCreators(loadingActions, dispatch),

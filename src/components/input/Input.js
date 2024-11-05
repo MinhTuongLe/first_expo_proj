@@ -8,7 +8,8 @@ import {
   Easing,
   StyleSheet,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+// import { FontAwesome5 } from "@expo/vector-icons";
 
 import { nodeType, renderNode } from "../helpers";
 import { fonts, withTheme, ViewPropTypes, TextPropTypes } from "../config";
@@ -95,7 +96,7 @@ class Input extends React.Component {
             { transform: [{ translateX }] },
           ])}
         >
-          {leftIcon && (
+          {/* {leftIcon && (
             <View
               style={StyleSheet.flatten([
                 styles.iconContainer,
@@ -104,7 +105,7 @@ class Input extends React.Component {
             >
               {renderNode(Icon, leftIcon)}
             </View>
-          )}
+          )} */}
 
           <InputComponent
             testID="RNE__Input__text-input"
@@ -116,7 +117,7 @@ class Input extends React.Component {
             style={StyleSheet.flatten([styles.input, inputStyle])}
           />
 
-          {rightIcon && (
+          {/* {rightIcon && (
             <View
               style={StyleSheet.flatten([
                 styles.iconContainer,
@@ -125,7 +126,7 @@ class Input extends React.Component {
             >
               {renderNode(Icon, rightIcon)}
             </View>
-          )}
+          )} */}
         </Animated.View>
 
         {!!errorMessage && (

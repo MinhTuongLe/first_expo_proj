@@ -20,7 +20,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 /** LIBRARY */
 // import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import {
   View,
@@ -170,7 +171,7 @@ export class TabBarMain extends React.PureComponent {
                 activeOpacity={0.8}
                 onPress={() => onPress(e.name)}
               >
-                <Icon
+                {/* <Icon
                   name={e.params.icon}
                   color={
                     state.index === i
@@ -179,6 +180,16 @@ export class TabBarMain extends React.PureComponent {
                   }
                   size={Helpers.fS(25)}
                   type={"solid"}
+                /> */}
+                <FontAwesome5
+                  name={e.params.icon}
+                  color={
+                    state.index === i
+                      ? COLOR.primaryApp
+                      : COLOR.inactiveTintColor
+                  }
+                  size={Helpers.fS(25)}
+                  solid
                 />
                 <CText
                   style={[

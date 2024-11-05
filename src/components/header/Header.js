@@ -7,7 +7,8 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+// import { FontAwesome5 } from "@expo/vector-icons";
 
 import {
   ViewPropTypes,
@@ -33,16 +34,16 @@ const Children = ({ style, placement, children }) => (
       ? null
       : children.text
       ? renderNode(Text, children.text, { numberOfLines: 1, ...children })
-      : children.icon
-      ? renderNode(Icon, {
-          ...children,
-          name: children.icon,
-          containerStyle: StyleSheet.flatten([
-            { alignItems: ALIGN_STYLE[placement] },
-            children.containerStyle,
-          ]),
-        })
-      : renderNode(Text, children)}
+      : // : children.icon
+        // ? renderNode(Icon, {
+        //     ...children,
+        //     name: children.icon,
+        //     containerStyle: StyleSheet.flatten([
+        //       { alignItems: ALIGN_STYLE[placement] },
+        //       children.containerStyle,
+        //     ]),
+        //   })
+        renderNode(Text, children)}
   </View>
 );
 

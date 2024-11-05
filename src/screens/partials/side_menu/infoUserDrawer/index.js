@@ -4,25 +4,26 @@
  * @Date create: 14/02/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {Text, Image, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React from "react";
+import { Text, Image, TouchableOpacity, View } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 /** COMPONENTS */
-import CText from '../../../../components/CText';
+import CText from "../../../../components/CText";
 /** COMMON **/
-import {CONFIG, KEY, ASSETS, DEVICE, COLOR} from '../../../../config';
+import { CONFIG, KEY, ASSETS, DEVICE, COLOR } from "../../../../config";
 /** STYLES */
-import styles from '../style';
-import Helpers from '../../../../helpers';
+import styles from "../style";
+import Helpers from "../../../../helpers";
 
 class InfoUserDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       avatar: props.login.data
-        ? {uri: CONFIG.host + props.login.data.avatar}
+        ? { uri: CONFIG.host + props.login.data.avatar }
         : ASSETS.avatar,
     };
   }
@@ -31,21 +32,21 @@ class InfoUserDrawer extends React.Component {
   _onError = () => {
     let find = CONFIG.users[0].path;
     if (this.props.login.data) {
-      if (this.props.login.data.hasOwnProperty('gender')) {
-        find = CONFIG.users.find(f => f.id === this.props.login.data.gender);
+      if (this.props.login.data.hasOwnProperty("gender")) {
+        find = CONFIG.users.find((f) => f.id === this.props.login.data.gender);
         if (find) find = find.path;
       }
     }
 
-    this.setState({avatar: find});
+    this.setState({ avatar: find });
   };
 
   _userType = () => {
-    let userType = '';
+    let userType = "";
     if (CONFIG.USER_TYPE == KEY.TEACHER)
-      return (userType = 'txtMessageTitleTeacher');
-    else if (CONFIG.USER_TYPE == KEY.PARENT) return (userType = 'txtParent');
-    else if (CONFIG.USER_TYPE == KEY.DRIVER) return (userType = 'driver');
+      return (userType = "txtMessageTitleTeacher");
+    else if (CONFIG.USER_TYPE == KEY.PARENT) return (userType = "txtParent");
+    else if (CONFIG.USER_TYPE == KEY.DRIVER) return (userType = "driver");
   };
 
   /** LIFE CYCLE */
@@ -53,7 +54,7 @@ class InfoUserDrawer extends React.Component {
     if (prevProps.login.data && this.props.login.data) {
       if (prevProps.login.data.avatar != this.props.login.data.avatar) {
         this.setState({
-          avatar: {uri: CONFIG.host + this.props.login.data.avatar},
+          avatar: { uri: CONFIG.host + this.props.login.data.avatar },
         });
       }
     }
@@ -61,22 +62,23 @@ class InfoUserDrawer extends React.Component {
 
   /** RENDER */
   render() {
-    let {onPress, fullName} = this.props;
-    let {avatar} = this.state;
+    let { onPress, fullName } = this.props;
+    let { avatar } = this.state;
 
     return (
       <TouchableOpacity style={styles.con_header_bar} onPress={onPress}>
         <View
           style={{
             flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           {/** Avatar  */}
           <Image
             style={styles.image_avatar}
-            resizeMode={'cover'}
+            resizeMode={"cover"}
             source={avatar}
             onError={this._onError}
           />
@@ -85,29 +87,25 @@ class InfoUserDrawer extends React.Component {
             style={{
               flex: 1,
               marginLeft: 10,
-            }}>
+            }}
+          >
             <Text
               style={styles.txt_name}
               numberOfLines={1}
-              ellipsizeMode="tail">
+              ellipsizeMode="tail"
+            >
               {fullName}
             </Text>
             <CText style={styles.txt_sub} i18nKey={this._userType()} />
           </View>
-
-          <Icon
-            name={'bars'}
-            size={Helpers.fS(23)}
-            color={'#ffffff'}
-            type={'regular'}
-          />
+          <FontAwesome5 name="bars" size={Helpers.fS(23)} color={"#ffffff"} />
         </View>
       </TouchableOpacity>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
   };

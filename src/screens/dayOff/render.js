@@ -4,7 +4,7 @@
  * @Date create: 23/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -13,20 +13,21 @@ import {
   Animated,
   ScrollView,
   Platform,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 /** COMMON */
-import {COLOR, LANG, CONFIG, DEVICE} from '../../config';
-import Helpers from '../../helpers';
+import { COLOR, LANG, CONFIG, DEVICE } from "../../config";
+import Helpers from "../../helpers";
 /** COMPONENT */
-import CButton from '../../components/CButton';
-import CInput from '../../components/CInput/CInput';
-import HeaderBar from '../partials/header_bar';
-import CCalendar from '../../components/CCalendar/calendar';
-import CText from '../../components/CText';
+import CButton from "../../components/CButton";
+import CInput from "../../components/CInput/CInput";
+import HeaderBar from "../partials/header_bar";
+import CCalendar from "../../components/CCalendar/calendar";
+import CText from "../../components/CText";
 
 class ViewDayOffScreen extends React.Component {
   render() {
@@ -41,20 +42,20 @@ class ViewDayOffScreen extends React.Component {
       loadForHeader,
       state,
     } = this.props;
-    let currDay = moment().format('YYYY-MM-DD');
-    let mFromDay = moment(data.fromDay, 'YYYY-MM-DD').format('DD/MM/YYYY');
-    let mToDay = moment(data.toDay, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    let currDay = moment().format("YYYY-MM-DD");
+    let mFromDay = moment(data.fromDay, "YYYY-MM-DD").format("DD/MM/YYYY");
+    let mToDay = moment(data.toDay, "YYYY-MM-DD").format("DD/MM/YYYY");
     let mSumDayOff =
-      moment(data.toDay, 'YYYY-MM-DD').diff(
-        moment(data.fromDay, 'YYYY-MM-DD'),
-        'days',
+      moment(data.toDay, "YYYY-MM-DD").diff(
+        moment(data.fromDay, "YYYY-MM-DD"),
+        "days"
       ) + 1;
 
     return (
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtDrawerDayOff'}
+          title={"txtDrawerDayOff"}
           hasBack
           hasCustomHeaderRight={true}
           loadCustomHeaderRight={loadForHeader}
@@ -67,52 +68,71 @@ class ViewDayOffScreen extends React.Component {
         {/* CONTENT */}
         <KeyboardAvoidingView
           style={DEVICE.gStyle.container}
-          behavior={'padding'}
+          behavior={"padding"}
           enabled
           keyboardVerticalOffset={Platform.select({
             ios: Helpers.isIphoneX() ? 15 : 0,
             android: -500,
-          })}>
+          })}
+        >
           <View style={DEVICE.gStyle.container}>
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <ScrollView keyboardShouldPersistTaps={"handled"}>
               <View style={styles.con_content}>
                 {/* TOGGLE FULL DAY or HALF DAY */}
                 <View style={styles.con_choose_option}>
                   <TouchableOpacity
                     style={DEVICE.gStyle.row}
-                    onPress={!isMoreDay ? () => onPress.toggleDay() : null}>
+                    onPress={!isMoreDay ? () => onPress.toggleDay() : null}
+                  >
                     <CText
                       style={[
                         styles.txt_fromto_title,
-                        {color: isMoreDay ? 'black' : COLOR.inactiveTintColor},
+                        {
+                          color: isMoreDay ? "black" : COLOR.inactiveTintColor,
+                        },
                       ]}
-                      i18nKey={'multiDay'}
+                      i18nKey={"multiDay"}
                     />
-                    <Icon
+                    {/* <Icon
                       containerStyle={styles.ml_10}
-                      name={isMoreDay ? 'check-circle' : 'circle'}
+                      name={isMoreDay ? "check-circle" : "circle"}
                       size={DEVICE.s * 25}
-                      color={isMoreDay ? 'black' : COLOR.inactiveTintColor}
-                      type={'light'}
+                      color={isMoreDay ? "black" : COLOR.inactiveTintColor}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      style={styles.ml_10}
+                      name={isMoreDay ? "check-circle" : "circle"}
+                      size={DEVICE.s * 25}
+                      color={isMoreDay ? "black" : COLOR.inactiveTintColor}
                     />
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={DEVICE.gStyle.row}
-                    onPress={isMoreDay ? () => onPress.toggleDay() : null}>
+                    onPress={isMoreDay ? () => onPress.toggleDay() : null}
+                  >
                     <CText
                       style={[
                         styles.txt_fromto_title,
-                        {color: isMoreDay ? COLOR.inactiveTintColor : 'black'},
+                        {
+                          color: isMoreDay ? COLOR.inactiveTintColor : "black",
+                        },
                       ]}
-                      i18nKey={'oneDay'}
+                      i18nKey={"oneDay"}
                     />
-                    <Icon
+                    {/* <Icon
                       containerStyle={styles.ml_10}
-                      name={isMoreDay ? 'circle' : 'check-circle'}
+                      name={isMoreDay ? "circle" : "check-circle"}
                       size={DEVICE.s * 25}
-                      color={isMoreDay ? COLOR.inactiveTintColor : 'black'}
-                      type={'light'}
+                      color={isMoreDay ? COLOR.inactiveTintColor : "black"}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      style={styles.ml_10}
+                      name={isMoreDay ? "circle" : "check-circle"}
+                      size={DEVICE.s * 25}
+                      color={isMoreDay ? COLOR.inactiveTintColor : "black"}
                     />
                   </TouchableOpacity>
                 </View>
@@ -122,21 +142,29 @@ class ViewDayOffScreen extends React.Component {
                   <TouchableOpacity
                     style={{
                       height: Helpers.fS(50),
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
-                    onPress={() => onPress.fromDay()}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Icon
-                        name={'calendar-alt'}
+                    onPress={() => onPress.fromDay()}
+                  >
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      {/* <Icon
+                        name={"calendar-alt"}
                         size={Helpers.fS(20)}
-                        color={'black'}
-                        type={'light'}
+                        color={"black"}
+                        type={"light"}
+                      /> */}
+                      <FontAwesome5
+                        name={"calendar-alt"}
+                        size={Helpers.fS(20)}
+                        color={"black"}
                       />
                       <CText
                         style={[styles.txt_fromto_title, styles.ml_10]}
-                        i18nKey={'txtAbsentFrom'}
+                        i18nKey={"txtAbsentFrom"}
                       />
                     </View>
                     <Text style={styles.txt_fromto_title}>{mFromDay}</Text>
@@ -150,36 +178,44 @@ class ViewDayOffScreen extends React.Component {
                         textDayHeaderFontFamily: DEVICE.fontMedium,
                       }}
                       minDate={currDay}
-                      maxDate={'2030-01-01'}
-                      monthFormat={'MMMM - yyyy'}
-                      onPressArrowLeft={substractMonth => substractMonth()}
-                      onPressArrowRight={addMonth => addMonth()}
-                      onDayPress={day => onPress.fDay(day)}
+                      maxDate={"2030-01-01"}
+                      monthFormat={"MMMM - yyyy"}
+                      onPressArrowLeft={(substractMonth) => substractMonth()}
+                      onPressArrowRight={(addMonth) => addMonth()}
+                      onDayPress={(day) => onPress.fDay(day)}
                     />
                   )}
 
                   <Animated.View
-                    style={{height: Helpers.fS(50), opacity: anim.opacity}}>
+                    style={{ height: Helpers.fS(50), opacity: anim.opacity }}
+                  >
                     <TouchableOpacity
                       style={{
-                        height: '100%',
-                        width: '100%',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        height: "100%",
+                        width: "100%",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
                       }}
-                      onPress={() => onPress.toDay()}>
+                      onPress={() => onPress.toDay()}
+                    >
                       <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Icon
-                          name={'calendar-alt'}
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
+                        {/* <Icon
+                          name={"calendar-alt"}
                           size={Helpers.fS(20)}
-                          color={'black'}
-                          type={'light'}
+                          color={"black"}
+                          type={"light"}
+                        /> */}
+                        <FontAwesome5
+                          name={"calendar-alt"}
+                          size={Helpers.fS(20)}
+                          color={"black"}
                         />
                         <CText
-                          style={[styles.txt_fromto_title, {marginLeft: 10}]}
-                          i18nKey={'txtAbsentTo'}
+                          style={[styles.txt_fromto_title, { marginLeft: 10 }]}
+                          i18nKey={"txtAbsentTo"}
                         />
                       </View>
                       <Text style={styles.txt_fromto_title}>{mToDay}</Text>
@@ -194,11 +230,11 @@ class ViewDayOffScreen extends React.Component {
                         textDayHeaderFontFamily: DEVICE.fontMedium,
                       }}
                       minDate={currDay}
-                      maxDate={'2030-01-01'}
-                      monthFormat={'MMMM - yyyy'}
-                      onPressArrowLeft={substractMonth => substractMonth()}
-                      onPressArrowRight={addMonth => addMonth()}
-                      onDayPress={day => onPress.tDay(day)}
+                      maxDate={"2030-01-01"}
+                      monthFormat={"MMMM - yyyy"}
+                      onPressArrowLeft={(substractMonth) => substractMonth()}
+                      onPressArrowRight={(addMonth) => addMonth()}
+                      onDayPress={(day) => onPress.tDay(day)}
                     />
                   )}
                 </View>
@@ -209,18 +245,19 @@ class ViewDayOffScreen extends React.Component {
                     styles.con_info_day_off,
                     {
                       opacity: anim.opacity,
-                      flexDirection: 'row',
-                      alignItems: 'center',
+                      flexDirection: "row",
+                      alignItems: "center",
                     },
-                  ]}>
+                  ]}
+                >
                   <CText
                     style={styles.txt_fromto_title}
-                    i18nKey={'txtInfoDayOff'}
+                    i18nKey={"txtInfoDayOff"}
                   />
                   {invalidDay ? (
                     <CText
                       style={styles.txt_count_day_off}
-                      i18nKey={'txtInvalidDateOff'}
+                      i18nKey={"txtInvalidDateOff"}
                     />
                   ) : (
                     <Text style={styles.txt_count_day_off}>{mSumDayOff}</Text>
@@ -243,9 +280,10 @@ class ViewDayOffScreen extends React.Component {
                             ],
                       }),
                     },
-                  ]}>
+                  ]}
+                >
                   <CInput
-                    ref={'reason'}
+                    ref={"reason"}
                     style={styles.txt_message}
                     placeholder={LANG[CONFIG.lang].txtAbsentMessage}
                     multiline
@@ -261,13 +299,19 @@ class ViewDayOffScreen extends React.Component {
 
             {/* SUBMIT BUTTON */}
             <View
-              style={{paddingHorizontal: 10, paddingBottom: 10, width: '100%'}}>
-              {state._txtError !== '' && (
+              style={{
+                paddingHorizontal: 10,
+                paddingBottom: 10,
+                width: "100%",
+              }}
+            >
+              {state._txtError !== "" && (
                 <CText style={styles.txt_error}>{state._txtError}</CText>
               )}
               <CButton
                 style={styles.submit_group_submit}
-                onPress={onPress.send}>
+                onPress={onPress.send}
+              >
                 {LANG[CONFIG.lang].txtAbsentSend}
               </CButton>
             </View>
@@ -285,8 +329,8 @@ ViewDayOffScreen.defaultProps = {
   isShowFCalendar: false,
   isShowTCalendar: false,
   data: {
-    fromDay: moment().format('YYYY-MM-DD'),
-    toDay: moment().format('YYYY-MM-DD'),
+    fromDay: moment().format("YYYY-MM-DD"),
+    toDay: moment().format("YYYY-MM-DD"),
   },
   onPress: {
     send: () => {},

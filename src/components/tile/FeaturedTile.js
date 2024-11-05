@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { ViewPropTypes, BackgroundImage, withTheme } from "../config";
 import { renderNode } from "../helpers";
@@ -108,7 +109,8 @@ const FeaturedTile = (props) => {
               iconContainerStyle && iconContainerStyle,
             ])}
           >
-            {icon && <Icon {...icon} />}
+            {/* {icon && <Icon {...icon} />} */}
+            {icon && <FontAwesome5 {...icon} />}
           </View>
           <Text
             testID="featuredTileTitle"

@@ -7,7 +7,8 @@ import { fonts, ViewPropTypes, withTheme } from "../config";
 
 import Text from "../text/Text";
 import Button from "../buttons/Button";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const PricingCard = (props) => {
   const { theme, ...rest } = props;
@@ -73,7 +74,10 @@ const PricingCard = (props) => {
             { backgroundColor: color },
           ])}
           onPress={onButtonPress}
-          icon={<Icon name={button.icon} size={15} color="white" />}
+          icon={
+            // <Icon name={button.icon} size={15} color="white" />
+            <FontAwesome5 name={button.icon} size={15} color="white" />
+          }
         />
       </View>
     </View>

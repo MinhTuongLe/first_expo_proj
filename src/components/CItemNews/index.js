@@ -4,36 +4,37 @@
  * @Date create: 21/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMMON */
-import {DEVICE, CONFIG} from '../../config';
-import Helpers from '../../helpers';
+import { DEVICE, CONFIG } from "../../config";
+import Helpers from "../../helpers";
 /** COMPONENT */
-import CImage from '../CImage';
-import CText from '../CText';
+import CImage from "../CImage";
+import CText from "../CText";
 /** STYLE */
-import styles from './styles';
+import styles from "./styles";
 
 const regex = /(<([^>]+)>)/gi;
 const postFormat = [
   {
-    name: 'standard',
-    icon: '',
+    name: "standard",
+    icon: "",
   },
   {
-    name: 'video',
-    icon: 'video',
+    name: "video",
+    icon: "video",
   },
   {
-    name: 'audio',
-    icon: 'headphones-alt',
+    name: "audio",
+    icon: "headphones-alt",
   },
   {
-    name: 'gallery',
-    icon: 'images',
+    name: "gallery",
+    icon: "images",
   },
 ];
 
@@ -42,7 +43,7 @@ export default class CItemNews extends React.Component {
     super(props);
     this.state = {
       _loading: true,
-      _title: '',
+      _title: "",
       _postFormat: postFormat[0], // standard, video, audio, gallery
       _featuredMedia: null,
       _time: null,
@@ -52,15 +53,16 @@ export default class CItemNews extends React.Component {
 
   /** LIFE CYCLE */
   async componentDidMount() {
-    let {data} = this.props;
-    let {_title, _featuredMedia, _time, _categories, _postFormat} = this.state;
+    let { data } = this.props;
+    let { _title, _featuredMedia, _time, _categories, _postFormat } =
+      this.state;
 
     /** Prepare Title */
-    _title = decode(data.title.rendered.replace(regex, ''));
+    _title = decode(data.title.rendered.replace(regex, ""));
     /** Prepare Time create */
     _time = await Helpers.parseTimeNews(data.date);
     /** Prepare Featured media */
-    if (typeof data.featured_media === 'object' && data.featured_media.sizes) {
+    if (typeof data.featured_media === "object" && data.featured_media.sizes) {
       _featuredMedia = data.featured_media.sizes.medium;
     }
     /** Prepare Categories */
@@ -69,7 +71,7 @@ export default class CItemNews extends React.Component {
     }
     /** Prepare Format post */
     if (data.format) {
-      _postFormat = postFormat.find(f => f.name === data.format);
+      _postFormat = postFormat.find((f) => f.name === data.format);
     }
 
     this.setState({
@@ -92,12 +94,12 @@ export default class CItemNews extends React.Component {
       typeShow,
       onPressCategory,
     } = this.props;
-    let {_loading, _title, _time, _featuredMedia, _categories, _postFormat} =
+    let { _loading, _title, _time, _featuredMedia, _categories, _postFormat } =
       this.state;
 
     if (_loading) return null;
 
-    if (typeShow === 'image_left') {
+    if (typeShow === "image_left") {
       return (
         <View
           style={[
@@ -105,29 +107,32 @@ export default class CItemNews extends React.Component {
             DEVICE.gStyle.row_align_start,
             index === 0 ? styles.pb_10 : styles.pv_10,
             containerStyle,
-          ]}>
+          ]}
+        >
           <View style={styles.con_image}>
             <CImage
               style={[styles.image, imageStyle]}
-              src={{uri: _featuredMedia}}
-              resizeMode={'cover'}
+              src={{ uri: _featuredMedia }}
+              resizeMode={"cover"}
             />
-            {_postFormat.name !== 'standard' && (
+            {_postFormat.name !== "standard" && (
               <View
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 5,
                   right: 5,
-                  backgroundColor: 'black',
+                  backgroundColor: "black",
                   paddingHorizontal: 4,
                   paddingVertical: 2,
-                }}>
+                }}
+              >
                 <CText
                   style={[
                     DEVICE.initFont.XX_SMALL,
-                    {fontSize: Helpers.fS(2), color: '#ffffff'},
-                  ]}>
-                  {'02:00'}
+                    { fontSize: Helpers.fS(2), color: "#ffffff" },
+                  ]}
+                >
+                  {"02:00"}
                 </CText>
               </View>
             )}
@@ -136,14 +141,22 @@ export default class CItemNews extends React.Component {
           <View style={styles.con_infor}>
             <CText
               style={[DEVICE.initFont.XX_SMALL, styles.txt_title, titleStyle]}
-              numberOfLines={2}>
-              {_postFormat.name !== 'standard' && (
-                <Icon
-                  containerStyle={[styles.pr_5]}
+              numberOfLines={2}
+            >
+              {_postFormat.name !== "standard" && (
+                // <Icon
+                //   containerStyle={[styles.pr_5]}
+                //   name={_postFormat.icon}
+                //   color={"black"}
+                //   size={Helpers.fS(12)}
+                //   type={"solid"}
+                // />
+                <FontAwesome5
+                  style={[styles.pr_5]}
                   name={_postFormat.icon}
-                  color={'black'}
+                  color={"black"}
                   size={Helpers.fS(12)}
-                  type={'solid'}
+                  solid
                 />
               )}
               {_title}
@@ -151,7 +164,7 @@ export default class CItemNews extends React.Component {
 
             <View style={[DEVICE.gStyle.row_align_center]}>
               <CText style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
-                {_time.data + ' '}
+                {_time.data + " "}
               </CText>
               <CText
                 style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
@@ -166,22 +179,25 @@ export default class CItemNews extends React.Component {
                   return (
                     <TouchableOpacity
                       key={index.toString()}
-                      onPress={() => onPressCategory(item)}>
+                      onPress={() => onPressCategory(item)}
+                    >
                       <View style={DEVICE.gStyle.row_align_center}>
                         <CText
                           style={[
                             DEVICE.initFont.XX_SMALL,
                             styles.txt_category,
-                          ]}>
-                          {item.name + (index == 1 ? '...' : '')}
+                          ]}
+                        >
+                          {item.name + (index == 1 ? "..." : "")}
                         </CText>
                         {index < 1 && index !== _categories.length - 1 && (
                           <CText
                             style={[
                               DEVICE.initFont.XX_SMALL,
                               styles.txt_category,
-                            ]}>
-                            {' | '}
+                            ]}
+                          >
+                            {" | "}
                           </CText>
                         )}
                       </View>
@@ -195,26 +211,37 @@ export default class CItemNews extends React.Component {
       );
     }
 
-    if (typeShow === 'image_right') {
+    if (typeShow === "image_right") {
       return (
         <View
           style={[
             DEVICE.gStyle.flex_1,
             DEVICE.gStyle.row_align_start,
-            index === 0 ? {paddingBottom: 10} : {paddingVertical: 10},
+            index === 0 ? { paddingBottom: 10 } : { paddingVertical: 10 },
             containerStyle,
-          ]}>
-          <View style={[styles.con_infor, {paddingLeft: 0, paddingRight: 10}]}>
+          ]}
+        >
+          <View
+            style={[styles.con_infor, { paddingLeft: 0, paddingRight: 10 }]}
+          >
             <CText
               style={[DEVICE.initFont.XX_SMALL, styles.txt_title, titleStyle]}
-              numberOfLines={2}>
-              {_postFormat.name !== 'standard' && (
-                <Icon
-                  containerStyle={[styles.pr_5]}
+              numberOfLines={2}
+            >
+              {_postFormat.name !== "standard" && (
+                // <Icon
+                //   containerStyle={[styles.pr_5]}
+                //   name={_postFormat.icon}
+                //   color={"black"}
+                //   size={Helpers.fS(12)}
+                //   type={"solid"}
+                // />
+                <FontAwesome5
+                  style={[styles.pr_5]}
                   name={_postFormat.icon}
-                  color={'black'}
+                  color={"black"}
                   size={Helpers.fS(12)}
-                  type={'solid'}
+                  solid
                 />
               )}
               {_title}
@@ -222,7 +249,7 @@ export default class CItemNews extends React.Component {
 
             <View style={[DEVICE.gStyle.row_align_center]}>
               <CText style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
-                {_time.data + ' '}
+                {_time.data + " "}
               </CText>
               <CText
                 style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
@@ -241,16 +268,18 @@ export default class CItemNews extends React.Component {
                           style={[
                             DEVICE.initFont.XX_SMALL,
                             styles.txt_category,
-                          ]}>
-                          {item.name + (index == 1 ? '...' : '')}
+                          ]}
+                        >
+                          {item.name + (index == 1 ? "..." : "")}
                         </CText>
                         {index < 1 && index !== _categories.length - 1 && (
                           <CText
                             style={[
                               DEVICE.initFont.XX_SMALL,
                               styles.txt_category,
-                            ]}>
-                            {' | '}
+                            ]}
+                          >
+                            {" | "}
                           </CText>
                         )}
                       </View>
@@ -264,25 +293,27 @@ export default class CItemNews extends React.Component {
           <View style={styles.con_image}>
             <CImage
               style={[styles.image, imageStyle]}
-              src={{uri: _featuredMedia}}
-              resizeMode={'cover'}
+              src={{ uri: _featuredMedia }}
+              resizeMode={"cover"}
             />
-            {_postFormat.name !== 'standard' && (
+            {_postFormat.name !== "standard" && (
               <View
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 5,
                   right: 5,
-                  backgroundColor: 'black',
+                  backgroundColor: "black",
                   paddingHorizontal: 4,
                   paddingVertical: 2,
-                }}>
+                }}
+              >
                 <CText
                   style={[
                     DEVICE.initFont.XXX_SMALL,
-                    {fontSize: Helpers.fS(10), color: '#ffffff'},
-                  ]}>
-                  {'02:00'}
+                    { fontSize: Helpers.fS(10), color: "#ffffff" },
+                  ]}
+                >
+                  {"02:00"}
                 </CText>
               </View>
             )}
@@ -291,7 +322,7 @@ export default class CItemNews extends React.Component {
       );
     }
 
-    if (typeShow === 'column') {
+    if (typeShow === "column") {
       return (
         <View
           style={[
@@ -302,25 +333,29 @@ export default class CItemNews extends React.Component {
             styles.pb_5,
             styles.con_cul_container,
             containerStyle,
-          ]}>
+          ]}
+        >
           <View style={styles.con_cul_image}>
             <CImage
               style={[styles.image_cul, imageStyle]}
-              src={{uri: _featuredMedia}}
-              resizeMode={'cover'}
+              src={{ uri: _featuredMedia }}
+              resizeMode={"cover"}
             />
-            {_postFormat.name !== 'standard' && (
+            {_postFormat.name !== "standard" && (
               <View
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 5,
                   right: 5,
-                  backgroundColor: 'black',
+                  backgroundColor: "black",
                   paddingHorizontal: 4,
                   paddingVertical: 2,
-                }}>
-                <CText style={[DEVICE.initFont.XXX_SMALL, {color: '#ffffff'}]}>
-                  {'02:00'}
+                }}
+              >
+                <CText
+                  style={[DEVICE.initFont.XXX_SMALL, { color: "#ffffff" }]}
+                >
+                  {"02:00"}
                 </CText>
               </View>
             )}
@@ -333,14 +368,22 @@ export default class CItemNews extends React.Component {
                 styles.txt_cul_title,
                 titleStyle,
               ]}
-              numberOfLines={2}>
-              {_postFormat.name !== 'standard' && (
-                <Icon
-                  containerStyle={[styles.pr_5]}
+              numberOfLines={2}
+            >
+              {_postFormat.name !== "standard" && (
+                // <Icon
+                //   containerStyle={[styles.pr_5]}
+                //   name={_postFormat.icon}
+                //   color={"black"}
+                //   size={Helpers.fS(12)}
+                //   type={"solid"}
+                // />
+                <FontAwesome5
+                  style={[styles.pr_5]}
                   name={_postFormat.icon}
-                  color={'black'}
+                  color={"black"}
                   size={Helpers.fS(12)}
-                  type={'solid'}
+                  solid
                 />
               )}
               {_title}
@@ -348,7 +391,7 @@ export default class CItemNews extends React.Component {
 
             <View style={[DEVICE.gStyle.row_align_center]}>
               <CText style={[DEVICE.initFont.XXX_SMALL, styles.txt_cul_time]}>
-                {_time.data + ' '}
+                {_time.data + " "}
               </CText>
               <CText
                 style={[DEVICE.initFont.XXX_SMALL, styles.txt_cul_time]}
@@ -367,16 +410,18 @@ export default class CItemNews extends React.Component {
                           style={[
                             DEVICE.initFont.XX_SMALL,
                             styles.txt_cul_category,
-                          ]}>
-                          {item.name + (index == 1 ? '...' : '')}
+                          ]}
+                        >
+                          {item.name + (index == 1 ? "..." : "")}
                         </CText>
                         {index < 1 && index !== _categories.length - 1 && (
                           <CText
                             style={[
                               DEVICE.initFont.XX_SMALL,
                               styles.txt_cul_category,
-                            ]}>
-                            {' | '}
+                            ]}
+                          >
+                            {" | "}
                           </CText>
                         )}
                       </View>
@@ -390,7 +435,7 @@ export default class CItemNews extends React.Component {
       );
     }
 
-    if (typeShow === 'card') {
+    if (typeShow === "card") {
       return (
         <View
           style={[
@@ -400,25 +445,29 @@ export default class CItemNews extends React.Component {
             index !== 0 && styles.mt_20,
             styles.con_card_container,
             containerStyle,
-          ]}>
+          ]}
+        >
           <View style={styles.con_card_image}>
             <CImage
               style={[styles.image_card, imageStyle]}
-              src={{uri: _featuredMedia}}
-              resizeMode={'cover'}
+              src={{ uri: _featuredMedia }}
+              resizeMode={"cover"}
             />
-            {_postFormat.name !== 'standard' && (
+            {_postFormat.name !== "standard" && (
               <View
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 10,
                   right: 10,
-                  backgroundColor: 'black',
+                  backgroundColor: "black",
                   paddingHorizontal: 4,
                   paddingVertical: 2,
-                }}>
-                <CText style={[DEVICE.initFont.XXX_SMALL, {color: '#ffffff'}]}>
-                  {'02:00'}
+                }}
+              >
+                <CText
+                  style={[DEVICE.initFont.XXX_SMALL, { color: "#ffffff" }]}
+                >
+                  {"02:00"}
                 </CText>
               </View>
             )}
@@ -431,14 +480,22 @@ export default class CItemNews extends React.Component {
                 styles.txt_card_title,
                 titleStyle,
               ]}
-              numberOfLines={2}>
-              {_postFormat.name !== 'standard' && (
-                <Icon
+              numberOfLines={2}
+            >
+              {_postFormat.name !== "standard" && (
+                // <Icon
+                //   containerStyle={[styles.pr_5]}
+                //   name={_postFormat.icon}
+                //   color={"black"}
+                //   size={Helpers.fS(12)}
+                //   type={"solid"}
+                // />
+                <FontAwesome5
                   containerStyle={[styles.pr_5]}
                   name={_postFormat.icon}
-                  color={'black'}
+                  color={"black"}
                   size={Helpers.fS(12)}
-                  type={'solid'}
+                  solid
                 />
               )}
               {_title}
@@ -446,7 +503,7 @@ export default class CItemNews extends React.Component {
 
             <View style={[DEVICE.gStyle.row_align_center]}>
               <CText style={[DEVICE.initFont.XXX_SMALL, styles.txt_card_time]}>
-                {_time.data + ' '}
+                {_time.data + " "}
               </CText>
               <CText
                 style={[DEVICE.initFont.XXX_SMALL, styles.txt_card_time]}
@@ -465,16 +522,18 @@ export default class CItemNews extends React.Component {
                           style={[
                             DEVICE.initFont.XX_SMALL,
                             styles.txt_card_category,
-                          ]}>
-                          {item.name + (index == 3 ? '...' : '')}
+                          ]}
+                        >
+                          {item.name + (index == 3 ? "..." : "")}
                         </CText>
                         {index < 3 && index !== _categories.length - 1 && (
                           <CText
                             style={[
                               DEVICE.initFont.XX_SMALL,
                               styles.txt_card_category,
-                            ]}>
-                            {' | '}
+                            ]}
+                          >
+                            {" | "}
                           </CText>
                         )}
                       </View>

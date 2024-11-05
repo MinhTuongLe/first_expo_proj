@@ -6,38 +6,44 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React from 'react';
-import {View, Text, TextInput, ScrollView} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React from "react";
+import { View, Text, TextInput, ScrollView } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /* COMPONENTS */
-import HeaderBar from '../../partials/header_bar';
-import HeaderInfoChildren from '../../partials/header_info_children';
-import CImage from '../../../components/CImage';
-import CText from '../../../components/CText';
-import CLoading from '../../../components/CLoading';
+import HeaderBar from "../../partials/header_bar";
+import HeaderInfoChildren from "../../partials/header_info_children";
+import CImage from "../../../components/CImage";
+import CText from "../../../components/CText";
+import CLoading from "../../../components/CLoading";
 /** COMMON */
-import Helpers from '../../../helpers';
-import {CONFIG, DEVICE, COLOR, LANG, KEY, activeSteps} from '../../../config';
+import Helpers from "../../../helpers";
+import { CONFIG, DEVICE, COLOR, LANG, KEY, activeSteps } from "../../../config";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 
 const ViewNoData = () => {
   return (
-    <View style={[styles.con_not_info, {marginTop: (DEVICE.width * 1) / 3}]}>
-      <Icon
-        name={'search'}
+    <View style={[styles.con_not_info, { marginTop: (DEVICE.width * 1) / 3 }]}>
+      {/* <Icon
+        name={"search"}
         size={Helpers.fS(50)}
         color={COLOR.placeholderTextColor}
-        type={'light'}
+        type={"light"}
+      /> */}
+      <FontAwesome5
+        name={"search"}
+        size={Helpers.fS(50)}
+        color={COLOR.placeholderTextColor}
       />
-      <CText style={styles.txt_no_data} i18nKey={'txtEmptyOfDay'} />
+      <CText style={styles.txt_no_data} i18nKey={"txtEmptyOfDay"} />
     </View>
   );
 };
 
-const configAvt = id => {
-  let gender = CONFIG.users.find(f => f.id === id);
+const configAvt = (id) => {
+  let gender = CONFIG.users.find((f) => f.id === id);
   if (gender) {
     return gender.path;
   } else {
@@ -45,18 +51,18 @@ const configAvt = id => {
   }
 };
 
-const newFullName = parent => {
+const newFullName = (parent) => {
   let newFullName = Helpers.capitalizeName(
     parent.firstName,
     parent.lastName,
-    CONFIG.settingLocal.softName,
+    CONFIG.settingLocal.softName
   );
   return newFullName;
 };
 
-const family = id => {
-  let res = '';
-  let gender = CONFIG.users.find(f => f.id === id);
+const family = (id) => {
+  let res = "";
+  let gender = CONFIG.users.find((f) => f.id === id);
   if (gender) {
     res = gender.family;
   } else {
@@ -66,9 +72,9 @@ const family = id => {
   return LANG[CONFIG.lang][res];
 };
 
-const userType = id => {
-  let res = '';
-  let type = CONFIG.userType.find(f => f.id === id);
+const userType = (id) => {
+  let res = "";
+  let type = CONFIG.userType.find((f) => f.id === id);
   if (type) {
     res = type.name;
   } else {
@@ -106,7 +112,7 @@ export const ViewHistoryAttendance = ({
         <View style={DEVICE.gStyle.flex_1}>
           {!attendance ||
           Object.keys(attendance).length === 0 ||
-          attendance?.activeStep === '' ? (
+          attendance?.activeStep === "" ? (
             ViewNoData()
           ) : (
             <ScrollView
@@ -120,27 +126,30 @@ export const ViewHistoryAttendance = ({
                   paddingTop: 10,
                   borderRadius: 10,
                 },
-              ]}>
+              ]}
+            >
               <View style={styles.con_drove_kid}>
                 <View style={DEVICE.gStyle.column_align_center}>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'flex-start',
-                    }}>
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                    }}
+                  >
                     <View
                       style={[
                         DEVICE.gStyle.center,
                         {
-                          width: '49%',
+                          width: "49%",
                           paddingHorizontal: 5,
-                          alignItems: 'flex-end',
+                          alignItems: "flex-end",
                           marginRight: 10,
                         },
-                      ]}>
+                      ]}
+                    >
                       <CText
                         style={styles.txtListStudent}
-                        i18nKey={'txtAbsentFrom'}
+                        i18nKey={"txtAbsentFrom"}
                         upperCase
                       />
                     </View>
@@ -149,15 +158,16 @@ export const ViewHistoryAttendance = ({
                       style={[
                         DEVICE.gStyle.center,
                         {
-                          width: '49%',
+                          width: "49%",
                           paddingHorizontal: 5,
-                          alignItems: 'flex-start',
+                          alignItems: "flex-start",
                           marginLeft: 10,
                         },
-                      ]}>
+                      ]}
+                    >
                       <CText
                         style={styles.txtListStudent}
-                        i18nKey={'txtAbsentTo'}
+                        i18nKey={"txtAbsentTo"}
                         numberOfLines={1}
                         upperCase
                       />
@@ -168,29 +178,32 @@ export const ViewHistoryAttendance = ({
 
               <View style={styles.con_drove_kid}>
                 {Object.values(activeSteps).includes(attendance.activeStep) &&
-                  attendance.onBusIn !== '' && (
+                  attendance.onBusIn !== "" && (
                     <View style={DEVICE.gStyle.column_align_center}>
                       <View style={[DEVICE.gStyle.center, styles.con_time]}>
                         <CText
-                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
+                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
+                        >
                           {attendance.onBusIn}
                         </CText>
                       </View>
 
                       <View
                         style={{
-                          flexDirection: 'row',
-                          alignItems: 'flex-start',
-                        }}>
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                        }}
+                      >
                         <View
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <View
                               style={[
@@ -198,23 +211,25 @@ export const ViewHistoryAttendance = ({
                                 {
                                   marginRight: 10,
                                 },
-                              ]}>
+                              ]}
+                            >
                               <View
                                 style={[
                                   styles.nameArea,
                                   {
-                                    alignItems: 'flex-end',
+                                    alignItems: "flex-end",
                                   },
-                                ]}>
+                                ]}
+                              >
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(
-                                    attendance.onBusInData.personFrom,
+                                    attendance.onBusInData.personFrom
                                   )}
                                 </Text>
                                 <Text style={styles.txtNamePickup}>
                                   {family(
                                     attendance.checkInData.personFrom.gender ??
-                                      1,
+                                      1
                                   )}
                                 </Text>
                               </View>
@@ -222,12 +237,12 @@ export const ViewHistoryAttendance = ({
 
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.onBusInData.personFrom &&
                                 attendance.onBusInData.personFrom?.avatar !==
                                   null &&
-                                attendance.onBusInData.personFrom?.avatar !== ''
+                                attendance.onBusInData.personFrom?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -238,7 +253,7 @@ export const ViewHistoryAttendance = ({
                                     attendance.onBusInData.personFrom
                                       ?.gender === 0
                                   ? configAvt(
-                                      attendance.onBusInData.personFrom?.gender,
+                                      attendance.onBusInData.personFrom?.gender
                                     )
                                   : configAvt(1)
                               }
@@ -252,20 +267,21 @@ export const ViewHistoryAttendance = ({
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.onBusInData.personTo &&
                                 attendance.onBusInData.personTo?.avatar !==
                                   null &&
-                                attendance.onBusInData.personTo?.avatar !== ''
+                                attendance.onBusInData.personTo?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -275,14 +291,15 @@ export const ViewHistoryAttendance = ({
                                     attendance.onBusInData.personTo?.gender ===
                                       0
                                   ? configAvt(
-                                      attendance.onBusInData.personTo?.gender,
+                                      attendance.onBusInData.personTo?.gender
                                     )
                                   : configAvt(1)
                               }
                             />
 
                             <View
-                              style={[styles.nameIconArea, {marginLeft: 10}]}>
+                              style={[styles.nameIconArea, { marginLeft: 10 }]}
+                            >
                               <View style={styles.nameArea}>
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(attendance.onBusInData.personTo)}
@@ -300,45 +317,50 @@ export const ViewHistoryAttendance = ({
 
                 {Object.values(activeSteps).includes(attendance.activeStep) &&
                   attendance.activeStep !== activeSteps.ON_BUS_IN &&
-                  attendance.checkIn !== '' && (
+                  attendance.checkIn !== "" && (
                     <View style={DEVICE.gStyle.column_align_center}>
                       <View style={[DEVICE.gStyle.center, styles.con_time]}>
                         <CText
-                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
+                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
+                        >
                           {attendance.checkIn}
                         </CText>
                       </View>
 
                       <View
                         style={{
-                          flexDirection: 'row',
-                          alignItems: 'flex-start',
-                        }}>
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                        }}
+                      >
                         <View
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <View
-                              style={[styles.nameIconArea, {marginRight: 10}]}>
+                              style={[styles.nameIconArea, { marginRight: 10 }]}
+                            >
                               {attendance.checkInData.personFrom &&
                               typeof attendance.checkInData.personFrom ===
-                                'object' ? (
+                                "object" ? (
                                 <View
                                   style={[
                                     styles.nameArea,
                                     {
-                                      alignItems: 'flex-end',
+                                      alignItems: "flex-end",
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   <Text style={styles.txtNameStudent}>
                                     {newFullName(
-                                      attendance.checkInData.personFrom,
+                                      attendance.checkInData.personFrom
                                     )}
                                   </Text>
                                   <Text style={styles.txtNamePickup}>
@@ -350,15 +372,16 @@ export const ViewHistoryAttendance = ({
                                   style={[
                                     styles.nameArea,
                                     {
-                                      alignItems: 'flex-end',
+                                      alignItems: "flex-end",
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   <Text style={styles.txtNameStudent}>
                                     {attendance.checkInData.hasOwnProperty(
-                                      'note',
+                                      "note"
                                     )
                                       ? attendance.checkInData.note
-                                      : 'No Name'}
+                                      : "No Name"}
                                   </Text>
                                 </View>
                               )}
@@ -366,12 +389,12 @@ export const ViewHistoryAttendance = ({
 
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.checkInData.personFrom &&
                                 attendance.checkInData.personFrom?.avatar !==
                                   null &&
-                                attendance.checkInData.personFrom?.avatar !== ''
+                                attendance.checkInData.personFrom?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -382,7 +405,7 @@ export const ViewHistoryAttendance = ({
                                     attendance.checkInData.personFrom
                                       ?.gender === 0
                                   ? configAvt(
-                                      attendance.checkInData.personFrom?.gender,
+                                      attendance.checkInData.personFrom?.gender
                                     )
                                   : configAvt(1)
                               }
@@ -396,20 +419,21 @@ export const ViewHistoryAttendance = ({
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.checkInData.personTo &&
                                 attendance.checkInData.personTo?.avatar !==
                                   null &&
-                                attendance.checkInData.personTo?.avatar !== ''
+                                attendance.checkInData.personTo?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -419,14 +443,15 @@ export const ViewHistoryAttendance = ({
                                     attendance.checkInData.personTo?.gender ===
                                       0
                                   ? configAvt(
-                                      attendance.checkInData.persion?.gender,
+                                      attendance.checkInData.persion?.gender
                                     )
                                   : configAvt(1)
                               }
                             />
 
                             <View
-                              style={[styles.nameIconArea, {marginLeft: 10}]}>
+                              style={[styles.nameIconArea, { marginLeft: 10 }]}
+                            >
                               <View style={styles.nameArea}>
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(attendance.checkInData.personTo)}
@@ -447,45 +472,50 @@ export const ViewHistoryAttendance = ({
                 {(attendance.activeStep === activeSteps.ON_BUS_IN ||
                   attendance.activeStep === activeSteps.ON_BUS_OUT ||
                   attendance.activeStep === activeSteps.CHECK_OUT) &&
-                  attendance.onBusIn !== '' && (
+                  attendance.onBusIn !== "" && (
                     <View style={DEVICE.gStyle.column_align_center}>
                       <View style={[DEVICE.gStyle.center, styles.con_time]}>
                         <CText
-                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
+                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
+                        >
                           {attendance.onBusOut}
                         </CText>
                       </View>
 
                       <View
                         style={{
-                          flexDirection: 'row',
-                          alignItems: 'flex-start',
-                        }}>
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                        }}
+                      >
                         <View
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <View
-                              style={[styles.nameIconArea, {marginRight: 10}]}>
+                              style={[styles.nameIconArea, { marginRight: 10 }]}
+                            >
                               {attendance.onBusOutData.personFrom &&
                               typeof attendance.onBusOutData.personFrom ===
-                                'object' ? (
+                                "object" ? (
                                 <View
                                   style={[
                                     styles.nameArea,
                                     {
-                                      alignItems: 'flex-end',
+                                      alignItems: "flex-end",
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   <Text style={styles.txtNameStudent}>
                                     {newFullName(
-                                      attendance.onBusOutData.personFrom,
+                                      attendance.onBusOutData.personFrom
                                     )}
                                   </Text>
                                   <Text style={styles.txtNamePickup}>
@@ -497,15 +527,16 @@ export const ViewHistoryAttendance = ({
                                   style={[
                                     styles.nameArea,
                                     {
-                                      alignItems: 'flex-end',
+                                      alignItems: "flex-end",
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   <Text style={styles.txtNameStudent}>
                                     {attendance.onBusOutData.hasOwnProperty(
-                                      'note',
+                                      "note"
                                     )
                                       ? attendance.onBusOutData.note
-                                      : 'No Name'}
+                                      : "No Name"}
                                   </Text>
                                 </View>
                               )}
@@ -513,13 +544,13 @@ export const ViewHistoryAttendance = ({
 
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.onBusOutData.personFrom &&
                                 attendance.onBusOutData.personFrom?.avatar !==
                                   null &&
                                 attendance.onBusOutData.personFrom?.avatar !==
-                                  ''
+                                  ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -530,7 +561,7 @@ export const ViewHistoryAttendance = ({
                                     attendance.onBusOutData.personFrom
                                       .gender === 0
                                   ? configAvt(
-                                      attendance.onBusInData.personFrom.gender,
+                                      attendance.onBusInData.personFrom.gender
                                     )
                                   : configAvt(1)
                               }
@@ -544,20 +575,21 @@ export const ViewHistoryAttendance = ({
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.onBusOutData.personTo &&
                                 attendance.onBusOutData.personTo?.avatar !==
                                   null &&
-                                attendance.onBusOutData.personTo?.avatar !== ''
+                                attendance.onBusOutData.personTo?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -568,18 +600,19 @@ export const ViewHistoryAttendance = ({
                                     attendance.onBusOutData.personTo.gender ===
                                       0
                                   ? configAvt(
-                                      attendance.onBusOutData.personTo.gender,
+                                      attendance.onBusOutData.personTo.gender
                                     )
                                   : configAvt(1)
                               }
                             />
 
                             <View
-                              style={[styles.nameIconArea, {marginLeft: 10}]}>
+                              style={[styles.nameIconArea, { marginLeft: 10 }]}
+                            >
                               <View style={styles.nameArea}>
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(
-                                    attendance.onBusOutData.personTo,
+                                    attendance.onBusOutData.personTo
                                   )}
                                 </Text>
                                 <Text style={styles.txtNamePickup}>
@@ -594,42 +627,47 @@ export const ViewHistoryAttendance = ({
                   )}
 
                 {attendance.activeStep === activeSteps.CHECK_OUT &&
-                  attendance.checkOut !== '' && (
+                  attendance.checkOut !== "" && (
                     <View style={DEVICE.gStyle.column_align_center}>
                       <View style={[DEVICE.gStyle.center, styles.con_time]}>
                         <CText
-                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}>
+                          style={[DEVICE.initFont.XXX_SMALL, styles.txt_time]}
+                        >
                           {attendance.checkOut}
                         </CText>
                       </View>
 
                       <View
                         style={{
-                          flexDirection: 'row',
-                          alignItems: 'flex-start',
-                        }}>
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                        }}
+                      >
                         <View
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <View
-                              style={[styles.nameIconArea, {marginRight: 10}]}>
+                              style={[styles.nameIconArea, { marginRight: 10 }]}
+                            >
                               <View
                                 style={[
                                   styles.nameArea,
                                   {
-                                    alignItems: 'flex-end',
+                                    alignItems: "flex-end",
                                   },
-                                ]}>
+                                ]}
+                              >
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(
-                                    attendance.checkOutData.personFrom,
+                                    attendance.checkOutData.personFrom
                                   )}
                                 </Text>
                                 <Text style={styles.txtNamePickup}>
@@ -640,13 +678,13 @@ export const ViewHistoryAttendance = ({
 
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.checkOutData.personFrom &&
                                 attendance.checkOutData.personFrom?.avatar !==
                                   null &&
                                 attendance.checkOutData.personFrom?.avatar !==
-                                  ''
+                                  ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -658,8 +696,7 @@ export const ViewHistoryAttendance = ({
                                     attendance.checkOutData.personFrom
                                       ?.gender === 0
                                   ? configAvt(
-                                      attendance.checkOutData.personFrom
-                                        ?.gender,
+                                      attendance.checkOutData.personFrom?.gender
                                     )
                                   : configAvt(1)
                               }
@@ -673,20 +710,21 @@ export const ViewHistoryAttendance = ({
                           style={[
                             DEVICE.gStyle.center,
                             {
-                              width: '49%',
+                              width: "49%",
                               paddingHorizontal: 5,
                               paddingBottom: 10,
                             },
-                          ]}>
+                          ]}
+                        >
                           <View style={styles.rowItemStudent}>
                             <CImage
                               style={styles.con_avatar}
-                              resizeMode={'contain'}
+                              resizeMode={"contain"}
                               src={
                                 attendance.checkOutData.personTo &&
                                 attendance.checkOutData.personTo?.avatar !==
                                   null &&
-                                attendance.checkOutData.personTo?.avatar !== ''
+                                attendance.checkOutData.personTo?.avatar !== ""
                                   ? {
                                       uri:
                                         CONFIG.host +
@@ -697,24 +735,25 @@ export const ViewHistoryAttendance = ({
                                     attendance.checkOutData.personTo.gender ===
                                       0
                                   ? configAvt(
-                                      attendance.checkOutData.personTo.gender,
+                                      attendance.checkOutData.personTo.gender
                                     )
                                   : configAvt(1)
                               }
                             />
 
                             <View
-                              style={[styles.nameIconArea, {marginLeft: 10}]}>
+                              style={[styles.nameIconArea, { marginLeft: 10 }]}
+                            >
                               <View style={styles.nameArea}>
                                 <Text style={styles.txtNameStudent}>
                                   {newFullName(
-                                    attendance.checkOutData.personTo,
+                                    attendance.checkOutData.personTo
                                   )}
                                 </Text>
                                 <Text style={styles.txtNamePickup}>
                                   {family(
                                     attendance.checkOutData.personFrom.gender ??
-                                      1,
+                                      1
                                   )}
                                 </Text>
                               </View>
@@ -727,13 +766,19 @@ export const ViewHistoryAttendance = ({
               </View>
 
               {attendance.activeStep === activeSteps.CHECK_OUT &&
-                attendance.checkOut !== '' && (
+                attendance.checkOut !== "" && (
                   <View style={[DEVICE.gStyle.center, styles.con_pick_up_kid]}>
-                    <Icon
+                    {/* <Icon
                       name="home-lg"
                       color={COLOR.primaryButton}
                       size={Helpers.fS(28)}
-                      type={'solid'}
+                      type={"solid"}
+                    /> */}
+                    <FontAwesome5
+                      name="home-lg"
+                      color={COLOR.primaryButton}
+                      size={Helpers.fS(28)}
+                      solid
                     />
                   </View>
                 )}

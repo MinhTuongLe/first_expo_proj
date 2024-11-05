@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import Text from "../text/Text";
 import Input from "../input/Input";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import ViewPropTypes from "../config/ViewPropTypes";
 
 import { withTheme } from "../config";
@@ -129,7 +130,7 @@ class Search extends React.Component<Props> {
             styles.inputContainer(colors.bgColor),
             inputContainerStyle,
           ])}
-          leftIcon={renderNode(Icon, searchIcon, defaultSearchIcon)}
+          // leftIcon={renderNode(Icon, searchIcon, defaultSearchIcon)}
           leftIconContainerStyle={StyleSheet.flatten([
             styles.leftIconContainerStyle,
             leftIconContainerStyle,
@@ -144,13 +145,13 @@ class Search extends React.Component<Props> {
                   {...otherLoadingProps}
                 />
               )}
-              {!isEmpty &&
+              {/* {!isEmpty &&
                 renderNode(Icon, clearIcon, {
                   ...defaultClearIcon,
                   color: theme.colors.secondary,
                   key: "cancel",
                   onPress: this.clear,
-                })}
+                })} */}
             </View>
           }
           rightIconContainerStyle={StyleSheet.flatten([

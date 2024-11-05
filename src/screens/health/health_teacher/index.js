@@ -6,25 +6,26 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, TouchableOpacity, Text, FlatList} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, TouchableOpacity, Text, FlatList } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENT */
-import HeaderBar from '../../partials/header_bar';
-import CImage from '../../../components/CImage';
-import CLoading from '../../../components/CLoading';
-import CText from '../../../components/CText';
+import HeaderBar from "../../partials/header_bar";
+import CImage from "../../../components/CImage";
+import CLoading from "../../../components/CLoading";
+import CText from "../../../components/CText";
 /** COMMON */
-import * as loginActions from '../../../redux/actions/login';
-import * as loadingActions from '../../../redux/actions/loading';
-import Helpers from '../../../helpers';
-import {CONFIG, DEVICE, COLOR, LANG} from '../../../config';
-import Services from '../../../services';
+import * as loginActions from "../../../redux/actions/login";
+import * as loadingActions from "../../../redux/actions/loading";
+import Helpers from "../../../helpers";
+import { CONFIG, DEVICE, COLOR, LANG } from "../../../config";
+import Services from "../../../services";
 /** STYLES */
-import styles from './style';
-import {getMonthsDifference} from '../../../utils/dateTime';
+import styles from "./style";
+import { getMonthsDifference } from "../../../utils/dateTime";
 
 class TeacherHealthScreen extends React.PureComponent {
   constructor(props) {
@@ -38,7 +39,7 @@ class TeacherHealthScreen extends React.PureComponent {
     };
     this._arrayholder = [];
     this.inputRef = {
-      value: '',
+      value: "",
     };
   }
 
@@ -51,8 +52,8 @@ class TeacherHealthScreen extends React.PureComponent {
     this._getListStudentByClassID(_classChoose);
   };
 
-  _getListStudentByClassID = async classObj => {
-    let {_dataStudents} = this.state;
+  _getListStudentByClassID = async (classObj) => {
+    let { _dataStudents } = this.state;
     let resultClassInfo = await Services.Class.fetchClassInfo(classObj.id);
     if (resultClassInfo) {
       _dataStudents = resultClassInfo.data.students;
@@ -67,8 +68,8 @@ class TeacherHealthScreen extends React.PureComponent {
     });
   };
 
-  _onPressItemStudent = item => {
-    this.props.navigation.navigate('InfoHealthStudent', {
+  _onPressItemStudent = (item) => {
+    this.props.navigation.navigate("InfoHealthStudent", {
       dataStudent: item,
       dataClass: this.state._classChoose,
     });
@@ -76,11 +77,11 @@ class TeacherHealthScreen extends React.PureComponent {
 
   _onPressRemoveSearch = () => {
     this.inputRef.clear;
-    this.setState({_dataStudents: this._arrayholder});
+    this.setState({ _dataStudents: this._arrayholder });
   };
 
-  _onChangeSearch = text => {
-    const newData = this._arrayholder.filter(item => {
+  _onChangeSearch = (text) => {
+    const newData = this._arrayholder.filter((item) => {
       const firstNameData = `${item.firstName.toUpperCase()}`;
       const lastNameData = `${item.lastName.toUpperCase()}`;
       const textData = text.toUpperCase();
@@ -91,32 +92,39 @@ class TeacherHealthScreen extends React.PureComponent {
       }
       return false;
     });
-    this.setState({_dataStudents: newData});
+    this.setState({ _dataStudents: newData });
   };
 
   _viewNoItemStudent = () => {
     return (
       <View style={styles.con_not_info}>
-        <Icon
-          containerStyle={{marginTop: 100}}
-          name={'search'}
+        {/* <Icon
+          containerStyle={{ marginTop: 100 }}
+          name={"search"}
           size={50}
           color={COLOR.placeholderTextColor}
-          type={'solid'}
+          type={"solid"}
+        /> */}
+        <FontAwesome5
+          style={{ marginTop: 100 }}
+          name={"search"}
+          size={50}
+          color={COLOR.placeholderTextColor}
+          solid
         />
         <CText
           style={styles.txt_empty_student}
-          i18nKey={'txtEmptySearchStudent'}
+          i18nKey={"txtEmptySearchStudent"}
         />
       </View>
     );
   };
 
-  _onPressChooseClass = async classObj => {
+  _onPressChooseClass = async (classObj) => {
     if (classObj.id !== this.state._classChoose.id) {
-      this.setState({_loading: true});
+      this.setState({ _loading: true });
       await Helpers.setAsyStrClassChoosed(JSON.stringify(classObj));
-      this.setState({_classChoose: classObj});
+      this.setState({ _classChoose: classObj });
       this._getListStudentByClassID(classObj);
     }
   };
@@ -134,14 +142,14 @@ class TeacherHealthScreen extends React.PureComponent {
 
   /** RENDER */
   render() {
-    let {_loading, _loadForList, _dataStudents, _dataClasses, _classChoose} =
+    let { _loading, _loadForList, _dataStudents, _dataClasses, _classChoose } =
       this.state;
 
     return (
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtHealth'}
+          title={"txtHealth"}
           hasBack
           hasCustomHeaderRight={true}
           loadCustomHeaderRight={_loadForList}
@@ -156,11 +164,13 @@ class TeacherHealthScreen extends React.PureComponent {
           <View style={DEVICE.gStyle.flex_1}>
             {this._arrayholder.length > 0 ? (
               <FlatList
-                style={{flex: 1, backgroundColor: COLOR.backgroundMain}}
+                style={{ flex: 1, backgroundColor: COLOR.backgroundMain }}
                 contentContainerStyle={styles.listStudentContent}
                 data={_dataStudents}
-                renderItem={({item, index}) => {
-                  let gender = CONFIG.students.find(f => f.id === item.gender);
+                renderItem={({ item, index }) => {
+                  let gender = CONFIG.students.find(
+                    (f) => f.id === item.gender
+                  );
                   if (gender) {
                     gender = gender.path;
                   } else {
@@ -169,20 +179,21 @@ class TeacherHealthScreen extends React.PureComponent {
                   let newFullName = Helpers.capitalizeName(
                     item.firstName,
                     item.lastName,
-                    CONFIG.settingLocal.softName,
+                    CONFIG.settingLocal.softName
                   );
 
                   return (
                     <TouchableOpacity
                       style={styles.rowItemStudent}
-                      onPress={() => this._onPressItemStudent(item)}>
+                      onPress={() => this._onPressItemStudent(item)}
+                    >
                       <View style={styles.con_left_row_student}>
                         <CImage
                           style={styles.con_avatar}
-                          resizeMode={'contain'}
+                          resizeMode={"contain"}
                           src={
-                            item.avatar != '' && item.avatar != null
-                              ? {uri: CONFIG.host + item.avatar}
+                            item.avatar != "" && item.avatar != null
+                              ? { uri: CONFIG.host + item.avatar }
                               : gender
                           }
                         />
@@ -190,57 +201,69 @@ class TeacherHealthScreen extends React.PureComponent {
                           style={[
                             styles.nameArea,
                             index == _dataStudents.length - 1
-                              ? {borderBottomWidth: 0}
+                              ? { borderBottomWidth: 0 }
                               : {},
-                            {marginLeft: 15},
-                          ]}>
+                            { marginLeft: 15 },
+                          ]}
+                        >
                           <Text style={styles.txtNameStudent}>
                             {newFullName}
                           </Text>
                           <Text style={styles.txtInfoStudent}>
                             {item?.dateOfBirth
                               ? getMonthsDifference(item.dateOfBirth) +
-                                '\u00A0tháng'
-                              : ''}
+                                "\u00A0tháng"
+                              : ""}
                             {item?.height
                               ? `, ${LANG[CONFIG.lang].txtHeight2}:\u00A0${
                                   item.height
                                 }\u00A0cm`
-                              : ''}
+                              : ""}
                             {item?.weight
                               ? `, ${LANG[CONFIG.lang].txtWeight2}:\u00A0${
                                   item.weight
                                 }\u00A0kg`
-                              : ''}
+                              : ""}
                           </Text>
                         </View>
                       </View>
 
-                      <Icon
-                        name={'chevron-right'}
+                      {/* <Icon
+                        name={"chevron-right"}
                         color={COLOR.txtColor}
                         size={20}
-                        type={'light'}
+                        type={"light"}
+                      /> */}
+                      <FontAwesome5
+                        name={"chevron-right"}
+                        color={COLOR.txtColor}
+                        size={20}
                       />
                     </TouchableOpacity>
                   );
                 }}
                 ListEmptyComponent={this._viewNoItemStudent}
                 keyExtractor={(item, index) => index.toString()}
-                keyboardShouldPersistTaps={'handled'}
-                scrollIndicatorInsets={{right: 1}}
+                keyboardShouldPersistTaps={"handled"}
+                scrollIndicatorInsets={{ right: 1 }}
               />
             ) : (
               <View style={styles.con_not_info}>
-                <Icon
-                  name={'search'}
+                {/* <Icon
+                  name={"search"}
                   size={50}
                   color={COLOR.placeholderTextColor}
-                  type={'solid'}
+                  type={"solid"}
+                /> */}
+                <FontAwesome5
+                  name={"search"}
+                  size={50}
+                  color={COLOR.placeholderTextColor}
+                  solid
                 />
                 <CText
                   style={styles.txt_empty_data}
-                  i18nKey={'txtEmptyStudent'}
+                  i18nKey={"txtEmptyStudent"}
                 />
               </View>
             )}
@@ -257,13 +280,13 @@ class TeacherHealthScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
     loadingActions: bindActionCreators(loadingActions, dispatch),
@@ -272,5 +295,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(TeacherHealthScreen);

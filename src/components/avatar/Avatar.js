@@ -15,7 +15,8 @@ import {
 import { withTheme, ViewPropTypes } from "../config";
 import { renderNode, nodeType } from "../helpers";
 
-import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+
 import Image from "../image/Image";
 
 const avatarSizes = {
@@ -82,7 +83,7 @@ const Avatar = ({
       onPress={onEditPress}
     >
       <View>
-        <Icon size={editButtonSize * 0.8} {...editButton} />
+        <FontAwesome5 size={editButtonSize * 0.8} {...editButton} />
       </View>
     </TouchableHighlight>
   );
@@ -102,13 +103,13 @@ const Avatar = ({
       </Text>
     )) ||
     (icon && (
-      <Icon
+      <FontAwesome5
         {...icon}
         style={iconStyle && iconStyle}
         color={icon.color || "#ffffff"}
         name={icon.name || "user"}
         size={icon.size || iconSize}
-        type={icon.type && icon.type}
+        // type={icon.type && icon.type}
       />
     ));
 

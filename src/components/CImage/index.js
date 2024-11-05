@@ -9,6 +9,7 @@ import React from "react";
 import { Image } from "expo-image";
 /** COMMON */
 import { ASSETS } from "../../config";
+import { View } from "react-native";
 
 class CImage extends React.PureComponent {
   constructor(props) {

@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import {
   BackgroundImage,
@@ -91,7 +92,8 @@ const Tile = (props) => {
             iconContainerStyle && iconContainerStyle,
           ])}
         >
-          {icon && <Icon {...icon} />}
+          {/* {icon && <Icon {...icon} />} */}
+          {icon && <FontAwesome5 {...icon} />}
         </View>
       </ImageComponent>
       <View

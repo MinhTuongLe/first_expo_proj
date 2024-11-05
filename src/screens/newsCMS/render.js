@@ -4,28 +4,28 @@
  * @Date create: 23/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, FlatList, TouchableOpacity, Platform} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, FlatList, TouchableOpacity, Platform } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMMON **/
-import {DEVICE, COLOR} from '../../config';
+import { DEVICE, COLOR } from "../../config";
 /** COMPONENTS **/
-import CItemNews from '../../components/CItemNews';
-import CText from '../../components/CText';
+import CItemNews from "../../components/CItemNews";
+import CText from "../../components/CText";
 /** STYLES **/
-import styles from './style';
-import Helpers from '../../helpers';
+import styles from "./style";
+import Helpers from "../../helpers";
 
 const RenderEmptyList = () => {
   return (
     <View style={DEVICE.gStyle.full_center}>
-      <Icon
-        name={'newspaper'}
+      <FontAwesome5
+        name={"newspaper"}
         size={Helpers.fS(50)}
         color={COLOR.placeholderTextColor}
-        type={'light'}
       />
-      <CText style={styles.txt_no_item} i18nKey={'txtNoDataNews'} />
+      <CText style={styles.txt_no_item} i18nKey={"txtNoDataNews"} />
     </View>
   );
 };
@@ -42,26 +42,26 @@ export const ViewNewsCMSScreen = ({
 }) => {
   return (
     <FlatList
-      style={[DEVICE.gStyle.container, {backgroundColor: 'white'}]}
+      style={[DEVICE.gStyle.container, { backgroundColor: "white" }]}
       contentContainerStyle={[DEVICE.gStyle.grow, styles.ph_10, styles.pt_10]}
       refreshing={state._refreshingCMS}
       data={data}
-      renderItem={({item, index}) => (
+      renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => onPress.post(item)}>
           <CItemNews
             index={index}
             data={item}
-            typeShow={'image_left'}
+            typeShow={"image_left"}
             onPressCategory={onPress.category}
           />
         </TouchableOpacity>
       )}
       keyExtractor={(item, index) => index.toString()}
-      removeClippedSubviews={Platform.OS === 'android'}
+      removeClippedSubviews={Platform.OS === "android"}
       ListEmptyComponent={RenderEmptyList}
       ItemSeparatorComponent={() => (
         <View
-          style={{borderTopColor: COLOR.borderColor, borderTopWidth: 0.5}}
+          style={{ borderTopColor: COLOR.borderColor, borderTopWidth: 0.5 }}
         />
       )}
       onRefresh={onRefresh}

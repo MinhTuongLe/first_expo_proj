@@ -5,27 +5,34 @@
  * @Date create: 18/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, Text, TouchableOpacity, StatusBar, FlatList} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  FlatList,
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-} from 'react-native-popup-menu';
+} from "react-native-popup-menu";
 /** COMPONENT */
-import CImage from '../../../components/CImage';
-import CText from '../../../components/CText';
+import CImage from "../../../components/CImage";
+import CText from "../../../components/CText";
 /** COMMON */
-import {DEVICE, CONFIG, KEY, ASSETS, COLOR} from '../../../config';
-import Helpers from '../../../helpers';
+import { DEVICE, CONFIG, KEY, ASSETS, COLOR } from "../../../config";
+import Helpers from "../../../helpers";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 
 const optionsStyles = {
   optionsContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     padding: 2,
     borderRadius: 5,
   },
@@ -37,8 +44,8 @@ const triggerStyles = {
     // width: DEVICE.wS('50%'),
   },
   triggerWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     zIndex: 10,
     marginRight: 10,
     activeOpacity: 1,
@@ -50,7 +57,7 @@ const triggerStyles = {
 
 class ViewHeaderBar extends React.PureComponent {
   /** FUNCTIONS */
-  _onPressHeaderRight = obj => {
+  _onPressHeaderRight = (obj) => {
     this.props.onCustomHeaderRight(obj);
   };
 
@@ -77,12 +84,12 @@ class ViewHeaderBar extends React.PureComponent {
       hasMultiLang,
       titleCenter,
     } = this.props;
-    let newFullName = '';
+    let newFullName = "";
 
     if (!loadCustomHeaderRight && hasCustomHeaderRight) {
       if (CONFIG.USER_TYPE === KEY.PARENT) {
         let gender = CONFIG.students.find(
-          f => f.id === dataChooseCustomHeaderRight.gender,
+          (f) => f.id === dataChooseCustomHeaderRight.gender
         );
         if (gender) {
           gender = gender.path;
@@ -90,19 +97,19 @@ class ViewHeaderBar extends React.PureComponent {
           gender = CONFIG.students[0].path;
         }
         dataChooseCustomHeaderRight.newAvatar =
-          dataChooseCustomHeaderRight.avatar != '' &&
+          dataChooseCustomHeaderRight.avatar != "" &&
           dataChooseCustomHeaderRight.avatar != null
-            ? {uri: CONFIG.host + dataChooseCustomHeaderRight.avatar}
+            ? { uri: CONFIG.host + dataChooseCustomHeaderRight.avatar }
             : gender;
 
         newFullName = Helpers.capitalizeName(
           dataChooseCustomHeaderRight.firstName,
           dataChooseCustomHeaderRight.lastName,
-          CONFIG.settingLocal.softName,
+          CONFIG.settingLocal.softName
         );
       } else {
         let icClass = CONFIG.classes.find(
-          f => f.id === dataChooseCustomHeaderRight.thumbnail,
+          (f) => f.id === dataChooseCustomHeaderRight.thumbnail
         );
         if (icClass) {
           dataChooseCustomHeaderRight.newAvatar = icClass.path;
@@ -117,7 +124,7 @@ class ViewHeaderBar extends React.PureComponent {
         style={[
           styles.con,
           shadow && {
-            shadowColor: '#000',
+            shadowColor: "#000",
             shadowOffset: {
               width: 0,
               height: 1,
@@ -127,27 +134,29 @@ class ViewHeaderBar extends React.PureComponent {
             elevation: 3,
             zIndex: 100,
           },
-        ]}>
+        ]}
+      >
         <StatusBar barStyle="light-content" />
         <View style={styles.status_bar} />
         <View style={styles.con_header_bar}>
           <TouchableOpacity
             style={styles.con_header_left}
-            onPress={hasBack ? onBack : onMenu}>
-            <Icon
-              name={hasBack ? 'chevron-left' : 'bars'}
+            onPress={hasBack ? onBack : onMenu}
+          >
+            <FontAwesome5
+              name={hasBack ? "chevron-left" : "bars"}
               size={DEVICE.s * 30}
-              color="white"
-              type="light"
+              color={"white"}
             />
           </TouchableOpacity>
 
           <View
             style={[
               styles.con_header_center,
-              titleCenter && {alignItems: 'center', paddingLeft: 0},
+              titleCenter && { alignItems: "center", paddingLeft: 0 },
               // !hasCustomHeaderRight && {alignItems: 'center', paddingLeft: 0},
-            ]}>
+            ]}
+          >
             {hasMultiLang ? (
               <CText
                 style={styles.text_header_center}
@@ -161,27 +170,39 @@ class ViewHeaderBar extends React.PureComponent {
             )}
           </View>
 
-          {isAtRoute === 'NewsCMSDetail' && (
+          {isAtRoute === "NewsCMSDetail" && (
             <TouchableOpacity
               style={styles.con_header_right}
-              onPress={onPressShare}>
-              <Icon
-                name={'share-alt'}
+              onPress={onPressShare}
+            >
+              {/* <Icon
+                name={"share-alt"}
                 size={DEVICE.s * 30}
                 color="white"
                 type="light"
+              /> */}
+              <FontAwesome5
+                name={"share-alt"}
+                size={DEVICE.s * 30}
+                color={"white"}
               />
             </TouchableOpacity>
           )}
-          {iconRight !== '' && !hasCustomHeaderRight && (
+          {iconRight !== "" && !hasCustomHeaderRight && (
             <TouchableOpacity
               style={styles.con_header_right}
-              onPress={onPressNext}>
-              <Icon
+              onPress={onPressNext}
+            >
+              {/* <Icon
                 name={iconRight}
                 size={DEVICE.s * 30}
                 color="white"
                 type="light"
+              /> */}
+              <FontAwesome5
+                name={iconRight}
+                size={DEVICE.s * 30}
+                color={"white"}
               />
             </TouchableOpacity>
           )}
@@ -189,50 +210,62 @@ class ViewHeaderBar extends React.PureComponent {
             <TouchableOpacity
               style={styles.con_header_right}
               onPress={onPressPost}
-              activeOpacity={0.5}>
+              activeOpacity={0.5}
+            >
               <Text style={styles.txt_header_right} numberOfLines={1}>
                 {textRightValue}
               </Text>
             </TouchableOpacity>
           )}
           {hasCustomHeaderRight && !loadCustomHeaderRight ? (
-            <View style={[DEVICE.gStyle.flex_1, {alignItems: 'flex-end'}]}>
+            <View style={[DEVICE.gStyle.flex_1, { alignItems: "flex-end" }]}>
               {dataCustomHeaderRight.length > 1 ? (
                 <View>
                   <Menu
                     style={{
-                      right: iconRight !== '' ? 50 : 0,
-                      zIndex: iconRight !== '' ? 20 : 0,
-                    }}>
+                      right: iconRight !== "" ? 50 : 0,
+                      zIndex: iconRight !== "" ? 20 : 0,
+                    }}
+                  >
                     <MenuTrigger customStyles={triggerStyles}>
                       <CImage
                         style={styles.con_avatar}
                         src={dataChooseCustomHeaderRight.newAvatar}
-                        resizeMode={'contain'}
+                        resizeMode={"contain"}
                       />
 
                       {CONFIG.USER_TYPE === KEY.PARENT ? (
                         <CText
-                          style={[styles.txt_name, {width: Helpers.wS('25%')}]}>
+                          style={[
+                            styles.txt_name,
+                            { width: Helpers.wS("25%") },
+                          ]}
+                        >
                           {dataChooseCustomHeaderRight.firstName}
                         </CText>
                       ) : null}
-                      <Icon
-                        name={'caret-down'}
-                        color={'#ffffff'}
+                      {/* <Icon
+                        name={"caret-down"}
+                        color={"#ffffff"}
                         size={20}
-                        type={'solid'}
+                        type={"solid"}
+                      /> */}
+                      <FontAwesome5
+                        name={"caret-down"}
+                        size={20}
+                        color={"#ffffff"}
+                        solid
                       />
                     </MenuTrigger>
                     <MenuOptions customStyles={optionsStyles}>
                       <FlatList
                         data={dataCustomHeaderRight}
-                        renderItem={({item, index}) => {
+                        renderItem={({ item, index }) => {
                           let avatar = null,
-                            newFullName = '';
+                            newFullName = "";
                           if (CONFIG.USER_TYPE === KEY.PARENT) {
                             let gender = CONFIG.students.find(
-                              f => f.id === item.gender,
+                              (f) => f.id === item.gender
                             );
                             if (gender) {
                               gender = gender.path;
@@ -240,18 +273,18 @@ class ViewHeaderBar extends React.PureComponent {
                               gender = CONFIG.students[0].path;
                             }
                             avatar =
-                              item.avatar != '' && item.avatar != null
-                                ? {uri: CONFIG.host + item.avatar}
+                              item.avatar != "" && item.avatar != null
+                                ? { uri: CONFIG.host + item.avatar }
                                 : gender;
 
                             newFullName = Helpers.capitalizeName(
                               item.firstName,
                               item.lastName,
-                              CONFIG.settingLocal.softName,
+                              CONFIG.settingLocal.softName
                             );
                           } else {
                             avatar = CONFIG.classes.find(
-                              f => f.id === item.thumbnail,
+                              (f) => f.id === item.thumbnail
                             );
                             if (avatar) {
                               avatar = avatar.path;
@@ -265,28 +298,31 @@ class ViewHeaderBar extends React.PureComponent {
                                 backgroundColor:
                                   dataChooseCustomHeaderRight.id === item.id
                                     ? COLOR.bgNoti
-                                    : '#ffffff',
+                                    : "#ffffff",
                               }}
-                              onSelect={() => this._onPressHeaderRight(item)}>
+                              onSelect={() => this._onPressHeaderRight(item)}
+                            >
                               <View
                                 style={[
                                   styles.con_custom_header_right,
                                   styles.ph_5,
-                                ]}>
+                                ]}
+                              >
                                 <CImage
                                   style={styles.con_avatar}
                                   src={avatar}
-                                  resizeMode={'contain'}
+                                  resizeMode={"contain"}
                                 />
 
                                 <Text
                                   style={[
                                     styles.txt_name,
                                     {
-                                      color: 'black',
-                                      width: Helpers.wS('35%'),
+                                      color: "black",
+                                      width: Helpers.wS("35%"),
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   {CONFIG.USER_TYPE === KEY.PARENT
                                     ? newFullName
                                     : item.title}
@@ -299,7 +335,7 @@ class ViewHeaderBar extends React.PureComponent {
                       />
                     </MenuOptions>
                   </Menu>
-                  {iconRight !== '' && (
+                  {iconRight !== "" && (
                     <TouchableOpacity
                       style={[
                         styles.con_header_right,
@@ -307,12 +343,12 @@ class ViewHeaderBar extends React.PureComponent {
                           zIndex: 0,
                         },
                       ]}
-                      onPress={onPressNext}>
-                      <Icon
+                      onPress={onPressNext}
+                    >
+                      <FontAwesome5
                         name={iconRight}
                         size={DEVICE.s * 30}
-                        color="white"
-                        type="light"
+                        color={"white"}
                       />
                     </TouchableOpacity>
                   )}
@@ -322,7 +358,7 @@ class ViewHeaderBar extends React.PureComponent {
                   <CImage
                     style={styles.con_avatar}
                     src={dataChooseCustomHeaderRight.newAvatar}
-                    resizeMode={'contain'}
+                    resizeMode={"contain"}
                   />
                 </View>
               )}
@@ -342,10 +378,10 @@ ViewHeaderBar.defaultProps = {
   textRight: false,
   titleCenter: false,
   titleUpperCase: false,
-  title: '',
-  textRightValue: '',
-  isAtRoute: '',
-  iconRight: '',
+  title: "",
+  textRightValue: "",
+  isAtRoute: "",
+  iconRight: "",
   dataLogin: {},
   dataChooseCustomHeaderRight: null,
   dataCustomHeaderRight: [],

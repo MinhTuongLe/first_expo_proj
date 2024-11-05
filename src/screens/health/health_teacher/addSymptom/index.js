@@ -4,9 +4,9 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   View,
   TouchableOpacity,
@@ -16,22 +16,23 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-} from 'react-native';
-import moment from 'moment';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+import moment from "moment";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENT */
-import HeaderBar from '../../../partials/header_bar';
-import HeaderInfoChildren from '../../../partials/header_info_children';
-import CCalendar from '../../../../components/CCalendar/calendar';
-import CButton from '../../../../components/CButton';
-import CText from '../../../../components/CText';
+import HeaderBar from "../../../partials/header_bar";
+import HeaderInfoChildren from "../../../partials/header_info_children";
+import CCalendar from "../../../../components/CCalendar/calendar";
+import CButton from "../../../../components/CButton";
+import CText from "../../../../components/CText";
 /** COMMON */
-import {LANG, CONFIG, DEVICE} from '../../../../config';
-import Services from '../../../../services';
-import Helpers from '../../../../helpers';
-import * as loadingActions from '../../../../redux/actions/loading';
+import { LANG, CONFIG, DEVICE } from "../../../../config";
+import Services from "../../../../services";
+import Helpers from "../../../../helpers";
+import * as loadingActions from "../../../../redux/actions/loading";
 /** STYLES */
-import styles from '../style';
+import styles from "../style";
 
 class AddSymptomScreen extends React.Component {
   constructor(props) {
@@ -39,18 +40,18 @@ class AddSymptomScreen extends React.Component {
     this.state = {
       _isShowFCalendar: false,
 
-      _symptomVal: '',
-      _noteVal: '',
-      _dataDay: moment().format('YYYY-MM-DD'),
+      _symptomVal: "",
+      _noteVal: "",
+      _dataDay: moment().format("YYYY-MM-DD"),
       _dataStudent: props.route.params.dataStudent ?? null,
       _dataClass: props.route.params.dataClass ?? null,
     };
   }
 
   render() {
-    let {_isShowFCalendar, _dataDay, _dataStudent, _dataClass} = this.state;
-    let dayFormat = moment(_dataDay, 'YYYY-MM-DD').format('DD/MM/YYYY');
-    let gender = CONFIG.students.find(f => f.id === _dataStudent.gender);
+    let { _isShowFCalendar, _dataDay, _dataStudent, _dataClass } = this.state;
+    let dayFormat = moment(_dataDay, "YYYY-MM-DD").format("DD/MM/YYYY");
+    let gender = CONFIG.students.find((f) => f.id === _dataStudent.gender);
     if (gender) {
       gender = gender.path;
     } else {
@@ -60,18 +61,19 @@ class AddSymptomScreen extends React.Component {
     return (
       <View style={styles.con}>
         {/* HEADER */}
-        <HeaderBar title={'addInfo'} hasBack />
+        <HeaderBar title={"addInfo"} hasBack />
 
         <KeyboardAvoidingView
           style={DEVICE.gStyle.container}
-          behavior={'padding'}
+          behavior={"padding"}
           enabled
           keyboardVerticalOffset={Platform.select({
             ios: Helpers.isIphoneX() ? 15 : 0,
             android: -500,
-          })}>
+          })}
+        >
           <View style={DEVICE.gStyle.container}>
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <ScrollView keyboardShouldPersistTaps={"handled"}>
               <HeaderInfoChildren
                 selectedStudent={_dataStudent}
                 dataClass={_dataClass}
@@ -80,16 +82,23 @@ class AddSymptomScreen extends React.Component {
               <View style={styles.listStudentContent}>
                 <TouchableOpacity
                   style={styles.dayChoose}
-                  onPress={this._onPressDayChoose}>
+                  onPress={this._onPressDayChoose}
+                >
                   <View style={styles.dayChooseLeft}>
-                    <Icon
-                      containerStyle={{marginRight: 10}}
-                      name={'calendar-alt'}
+                    {/* <Icon
+                      containerStyle={{ marginRight: 10 }}
+                      name={"calendar-alt"}
                       size={Helpers.fS(20)}
-                      color={'black'}
-                      type={'light'}
+                      color={"black"}
+                      type={"light"}
+                    /> */}
+                    <FontAwesome5
+                      style={{ marginRight: 10 }}
+                      name={"calendar-alt"}
+                      size={Helpers.fS(20)}
+                      color={"black"}
                     />
-                    <CText style={styles.txtNameStudent} i18nKey={'date'} />
+                    <CText style={styles.txtNameStudent} i18nKey={"date"} />
                   </View>
                   <Text style={styles.txtNameStudent}>{dayFormat}</Text>
                 </TouchableOpacity>
@@ -101,30 +110,30 @@ class AddSymptomScreen extends React.Component {
                       textMonthFontFamily: DEVICE.fontBold,
                       textDayHeaderFontFamily: DEVICE.fontMedium,
                     }}
-                    minDate={'2010-01-01'}
-                    maxDate={'2030-01-01'}
-                    monthFormat={'MMMM - yyyy'}
-                    onPressArrowLeft={substractMonth => substractMonth()}
-                    onPressArrowRight={addMonth => addMonth()}
-                    onDayPress={day => this._onPressDay(day)}
+                    minDate={"2010-01-01"}
+                    maxDate={"2030-01-01"}
+                    monthFormat={"MMMM - yyyy"}
+                    onPressArrowLeft={(substractMonth) => substractMonth()}
+                    onPressArrowRight={(addMonth) => addMonth()}
+                    onDayPress={(day) => this._onPressDay(day)}
                   />
                 )}
                 <TextInput
                   style={styles.areaInput}
-                  placeholder={LANG[CONFIG.lang].symptom + '...'}
-                  textAlignVertical={'top'}
+                  placeholder={LANG[CONFIG.lang].symptom + "..."}
+                  textAlignVertical={"top"}
                   multiline={true}
-                  onChangeText={text => this.setState({_symptomVal: text})}
+                  onChangeText={(text) => this.setState({ _symptomVal: text })}
                   value={this.state._symptomVal}
                   maxLength={100}
                   autoFocus={true}
                 />
                 <TextInput
-                  style={[styles.areaInput, {marginBottom: 10}]}
-                  placeholder={LANG[CONFIG.lang].notes + '...'}
-                  textAlignVertical={'top'}
+                  style={[styles.areaInput, { marginBottom: 10 }]}
+                  placeholder={LANG[CONFIG.lang].notes + "..."}
+                  textAlignVertical={"top"}
                   multiline={true}
-                  onChangeText={text => this.setState({_noteVal: text})}
+                  onChangeText={(text) => this.setState({ _noteVal: text })}
                   value={this.state._noteVal}
                   maxLength={150}
                 />
@@ -135,11 +144,13 @@ class AddSymptomScreen extends React.Component {
               style={{
                 paddingHorizontal: 10,
                 marginBottom: 10,
-                width: '100%',
-              }}>
+                width: "100%",
+              }}
+            >
               <CButton
                 style={styles.submit_group_submit}
-                onPress={this._onPressUpdateSymptom}>
+                onPress={this._onPressUpdateSymptom}
+              >
                 {LANG[CONFIG.lang].txtUpdate}
               </CButton>
             </View>
@@ -160,8 +171,8 @@ class AddSymptomScreen extends React.Component {
    */
   _checkSymptom = () => {
     let i,
-      dayNow = moment().format('YYYY-MM-DD'),
-      {_dataStudent} = this.state;
+      dayNow = moment().format("YYYY-MM-DD"),
+      { _dataStudent } = this.state;
 
     if (_dataStudent) {
       for (i = 0; i < _dataStudent.healthHistory.length; i++) {
@@ -177,15 +188,15 @@ class AddSymptomScreen extends React.Component {
   };
 
   _onPressDayChoose = () => {
-    let {_isShowFCalendar} = this.state;
+    let { _isShowFCalendar } = this.state;
 
     this.setState({
       _isShowFCalendar: !_isShowFCalendar,
     });
   };
 
-  _onPressDay = day => {
-    let {_isShowFCalendar} = this.state;
+  _onPressDay = (day) => {
+    let { _isShowFCalendar } = this.state;
     this.setState({
       _isShowFCalendar: !_isShowFCalendar,
       _dataDay: day.dateString,
@@ -193,7 +204,7 @@ class AddSymptomScreen extends React.Component {
   };
 
   _onPressUpdateSymptom = () => {
-    if (this.state._symptomVal == '') {
+    if (this.state._symptomVal == "") {
       return Helpers.toast(LANG[CONFIG.lang].txtInputErrNotFill);
     }
 
@@ -212,9 +223,9 @@ class AddSymptomScreen extends React.Component {
     };
 
     let resp = await Services.Health.updateHealthHistory(params);
-    let txtStatus = '';
+    let txtStatus = "";
     if (resp) {
-      if (resp.code == 'SUCCESS_200') {
+      if (resp.code == "SUCCESS_200") {
         txtStatus = LANG[CONFIG.lang].txtChangeInfoSuccess;
       } else {
         txtStatus = LANG[CONFIG.lang].txtChangeInfoFailed;
@@ -230,16 +241,16 @@ class AddSymptomScreen extends React.Component {
     this.props.navigation.goBack();
   };
 
-  _onPressClose = () => this.setState({_isShowAlert: false});
+  _onPressClose = () => this.setState({ _isShowAlert: false });
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLoading: state.loading.isLoading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };

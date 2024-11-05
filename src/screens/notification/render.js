@@ -5,20 +5,21 @@
  * @Date create: 21/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, FlatList} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import ContentLoader, {Rect} from 'react-content-loader/native';
+import React from "react";
+import { View, FlatList } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import ContentLoader, { Rect } from "react-content-loader/native";
 /** COMMON **/
-import {DEVICE, COLOR} from '../../config';
-import Helpers from '../../helpers';
+import { DEVICE, COLOR } from "../../config";
+import Helpers from "../../helpers";
 /** COMPONENTS **/
-import HeaderBar from '../partials/header_bar';
-import NotificationItem from './item';
-import CText from '../../components/CText';
-import CLoading from '../../components/CLoading';
+import HeaderBar from "../partials/header_bar";
+import NotificationItem from "./item";
+import CText from "../../components/CText";
+import CLoading from "../../components/CLoading";
 /** STYLES **/
-import styles from './style';
+import styles from "./style";
 
 // const RenderLoader = (props) => (
 //   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -67,25 +68,24 @@ class ViewNotificationScreen extends React.PureComponent {
   _renderEmptyList = () => {
     return (
       <View style={DEVICE.gStyle.full_center}>
-        <Icon
-          name={'bell-exclamation'}
+        <FontAwesome5
+          name={"bell-slash"}
           size={Helpers.fS(50)}
           color={COLOR.placeholderTextColor}
-          type={'light'}
         />
-        <CText style={styles.txt_no_data} i18nKey={'txtNoDataNotification'} />
+        <CText style={styles.txt_no_data} i18nKey={"txtNoDataNotification"} />
       </View>
     );
   };
 
   /** RENDER */
   render() {
-    let {onRefresh, onLoadMore, onPress, state} = this.props;
+    let { onRefresh, onLoadMore, onPress, state } = this.props;
     // console.log('NOTI DATA: ', state._dataNotifycation);
     return (
       <View style={styles.container}>
         {/* Header */}
-        <HeaderBar title={'txtTab4'} titleCenter={false} />
+        <HeaderBar title={"txtTab4"} titleCenter={false} />
 
         {/* Content */}
         {!state._loading && (
@@ -93,7 +93,7 @@ class ViewNotificationScreen extends React.PureComponent {
             style={DEVICE.gStyle.container}
             contentContainerStyle={DEVICE.gStyle.grow}
             data={state._dataNotifycation}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               if (item.notification) {
                 return (
                   <NotificationItem

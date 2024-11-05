@@ -15,7 +15,8 @@ import {
   Platform,
   Pressable,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
 /** COMPONENT */
 import HeaderBar from "../../partials/header_bar";
@@ -117,22 +118,38 @@ export const RenderMessageDetailScreen = ({
         />
 
         <View style={styles.con_footer}>
-          <Icon
+          {/* <Icon
             containerStyle={styles.pl_20}
             name={"camera"}
             color={"#ffffff"}
             size={Helpers.fS(20)}
             type={"light"}
             onPress={() => onPressUploadImage.upload()}
-          />
-          <Icon
+          /> */}
+          <Pressable onPress={() => onPressUploadImage.upload()}>
+            <FontAwesome5
+              name={"camera"}
+              color={"#ffffff"}
+              size={Helpers.fS(20)}
+              style={styles.pl_20}
+            />
+          </Pressable>
+          {/* <Icon
             containerStyle={styles.pl_15}
             name={"paperclip"}
             color={"#ffffff"}
             size={Helpers.fS(20)}
             type={"light"}
             onPress={() => onPressUploadFile.upload()}
-          />
+          /> */}
+          <Pressable onPress={() => onPressUploadFile.upload()}>
+            <FontAwesome5
+              name={"paperclip"}
+              color={"#ffffff"}
+              size={Helpers.fS(20)}
+              style={styles.pl_15}
+            />
+          </Pressable>
 
           <CInput
             ref={(ref) => (this.inputRef = ref)}
@@ -146,14 +163,22 @@ export const RenderMessageDetailScreen = ({
             isRemove={false}
           />
 
-          <Icon
+          {/* <Icon
             containerStyle={styles.ph_20}
             name={"arrow-right"}
             color={"#ffffff"}
             size={Helpers.fS(25)}
             type={"light"}
             onPress={() => onPress.send(this.inputRef)}
-          />
+          /> */}
+          <Pressable onPress={() => onPress.send(this.inputRef)}>
+            <FontAwesome5
+              name={"arrow-right"}
+              color={"#ffffff"}
+              size={Helpers.fS(25)}
+              style={styles.ph_20}
+            />
+          </Pressable>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -414,11 +439,16 @@ const RenderMessageItem = (
                         gap: 6,
                       }}
                     >
-                      <Icon
+                      {/* <Icon
                         name={fileExtension || "file"}
                         size={20}
                         color={!isSend ? blue : "#efeff2"}
                         type={"light"}
+                      /> */}
+                      <FontAwesome5
+                        name={fileExtension || "file"}
+                        size={20}
+                        color={!isSend ? blue : "#efeff2"}
                       />
                       <Pressable
                         onPress={() =>
@@ -456,11 +486,16 @@ const RenderMessageItem = (
                           style={{ marginLeft: 4 }}
                           onPress={onAccessDir}
                         >
-                          <Icon
+                          {/* <Icon
                             name={"folder"}
                             size={20}
                             color={blue}
                             type={"light"}
+                          /> */}
+                          <FontAwesome5
+                            name={"folder"}
+                            size={20}
+                            color={blue}
                           />
                         </Pressable>
                       )}
@@ -577,12 +612,18 @@ const RenderListMessageEmpty = () => {
     <View
       style={[DEVICE.gStyle.full_center, { marginTop: (DEVICE.width * 2) / 3 }]}
     >
-      <Icon
+      {/* <Icon
         containerStyle={{ marginTop: 40 }}
         name={"comments"}
         size={Helpers.fS(80)}
         color={COLOR.placeholderTextColor}
         type={"solid"}
+      /> */}
+      <FontAwesome5
+        containerStyle={{ marginTop: 40 }}
+        name={"comments"}
+        size={Helpers.fS(80)}
+        color={COLOR.placeholderTextColor}
       />
       <CText style={styles.txt_no_cmt_1} i18nKey={"txtNoDataMessage"} />
     </View>

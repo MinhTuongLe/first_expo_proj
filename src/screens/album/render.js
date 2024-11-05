@@ -5,50 +5,58 @@
  * @Date create: 21/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, FlatList, TouchableOpacity } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import CItem from '../../components/CItem';
-import CText from '../../components/CText';
-import CLoading from '../../components/CLoading';
+import HeaderBar from "../partials/header_bar";
+import CItem from "../../components/CItem";
+import CText from "../../components/CText";
+import CLoading from "../../components/CLoading";
 /** COMMON */
-import {CONFIG, DEVICE, KEY, COLOR} from '../../config';
+import { CONFIG, DEVICE, KEY, COLOR } from "../../config";
 /** STYLES */
-import styles from './style';
-import Helpers from '../../helpers';
+import styles from "./style";
+import Helpers from "../../helpers";
 
 class ViewAlbumScreen extends React.PureComponent {
   /** FUNCTIONS */
   _viewEmptyList = () => {
     return (
       <View style={styles.emptyDate}>
-        <Icon
-          name={'clipboard-list'}
+        {/* <Icon
+          name={"clipboard-list"}
           size={Helpers.fS(50)}
           color={COLOR.placeholderTextColor}
-          type={'light'}
+          type={"light"}
+        /> */}
+        <FontAwesome5
+          name={"clipboard-list"}
+          size={Helpers.fS(50)}
+          color={COLOR.placeholderTextColor}
         />
-        <CText style={styles.txt_no_data} i18nKey={'txtDataEmpty'} />
+        <CText style={styles.txt_no_data} i18nKey={"txtDataEmpty"} />
       </View>
     );
   };
 
   /** RENDER */
   render() {
-    let {isRefresh, isLoading, loadForHeader, lazy, data, onPress} = this.props;
+    let { isRefresh, isLoading, loadForHeader, lazy, data, onPress } =
+      this.props;
 
     return (
       <View
         style={[
           DEVICE.gStyle.container,
-          {backgroundColor: COLOR.backgroundMain},
-        ]}>
+          { backgroundColor: COLOR.backgroundMain },
+        ]}
+      >
         {/* HEADER */}
         <HeaderBar
           // iconRight={CONFIG.USER_TYPE === KEY.TEACHER ? 'plus' : ''}
-          title={'txtDrawerAlbum'}
+          title={"txtDrawerAlbum"}
           hasBack
           onBack={onPress.goBack}
           hasCustomHeaderRight={true}
@@ -73,7 +81,7 @@ class ViewAlbumScreen extends React.PureComponent {
           <FlatList
             contentContainerStyle={[DEVICE.gStyle.grow, styles.pv_10]}
             data={data.dataAlbum}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity onPress={() => onPress.albumItem(item)}>
                 <CItem
                   hasSocial
@@ -100,12 +108,18 @@ class ViewAlbumScreen extends React.PureComponent {
         {CONFIG.USER_TYPE === KEY.TEACHER && (
           <View style={styles.con_action_btn}>
             <TouchableOpacity activeOpacity={0.5} onPress={onPress.add}>
-              <Icon
+              {/* <Icon
                 containerStyle={styles.con_icon_add}
-                name={'plus'}
+                name={"plus"}
                 color={COLOR.primaryButton}
                 size={Helpers.fS(25)}
-                type={'light'}
+                type={"light"}
+              /> */}
+              <FontAwesome5
+                style={styles.con_icon_add}
+                name={"plus"}
+                color={COLOR.primaryButton}
+                size={Helpers.fS(25)}
               />
             </TouchableOpacity>
           </View>

@@ -5,24 +5,25 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {View} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { View } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMPONENTS */
-import {ViewHistoryAttendance} from '../attendance/history/render';
-import HeaderBar from '../partials/header_bar';
-import CCalendar from '../../components/CCalendar/agenda';
-import CText from '../../components/CText';
-import CLoading from '../../components/CLoading';
+import { ViewHistoryAttendance } from "../attendance/history/render";
+import HeaderBar from "../partials/header_bar";
+import CCalendar from "../../components/CCalendar/agenda";
+import CText from "../../components/CText";
+import CLoading from "../../components/CLoading";
 /** COMMON */
-import Helpers from '../../helpers';
-import {DEVICE, COLOR, CONFIG, KEY} from '../../config';
-import Errors from '../../config/errors';
-import Services from '../../services';
+import Helpers from "../../helpers";
+import { DEVICE, COLOR, CONFIG, KEY } from "../../config";
+import Errors from "../../config/errors";
+import Services from "../../services";
 /** STYLES */
-import styles from './styles';
+import styles from "./styles";
 
 class Tracking extends Component {
   constructor(props) {
@@ -47,11 +48,11 @@ class Tracking extends Component {
     if (_selectedStudent) {
       _selectedStudent = JSON.parse(_selectedStudent);
     }
-    this.setState({_selectedStudent, _loadForList: false, _loading: false});
+    this.setState({ _selectedStudent, _loadForList: false, _loading: false });
   };
 
-  _historyGet = async date => {
-    let {_selectedStudent, _historyDetail} = this.state,
+  _historyGet = async (date) => {
+    let { _selectedStudent, _historyDetail } = this.state,
       params = {
         studentId: _selectedStudent.id,
         date: date.dateString,
@@ -80,10 +81,10 @@ class Tracking extends Component {
     this.props.navigation.goBack();
   };
 
-  _onChooseStudent = studentObj => {
+  _onChooseStudent = (studentObj) => {
     if (studentObj.id !== this.state._selectedStudent.id) {
       Helpers.setAsyStrStudentChoosed(JSON.stringify(studentObj));
-      this.setState({_dataRender: null, _selectedStudent: studentObj});
+      this.setState({ _dataRender: null, _selectedStudent: studentObj });
     }
   };
 
@@ -108,27 +109,28 @@ class Tracking extends Component {
             marginTop: (DEVICE.width * 1) / 3,
             backgroundColor: COLOR.backgroundMain,
           },
-        ]}>
-        <Icon
-          name={'search'}
+        ]}
+      >
+        <FontAwesome5
+          name="search"
           size={Helpers.fS(50)}
           color={COLOR.placeholderTextColor}
-          type={'light'}
         />
-        <CText style={styles.txt_no_data} i18nKey={'txtNoDataAttendance'} />
+        <CText style={styles.txt_no_data} i18nKey={"txtNoDataAttendance"} />
       </View>
     );
   };
 
   /** RENDER */
   render() {
-    const {_loading, _loadForList, _selectedStudent, _dataRender} = this.state;
+    const { _loading, _loadForList, _selectedStudent, _dataRender } =
+      this.state;
 
     return (
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'tracking'}
+          title={"tracking"}
           hasBack
           onBack={this._onPressBack}
           hasCustomHeaderRight={true}
@@ -142,20 +144,20 @@ class Tracking extends Component {
           <CCalendar
             theme={{
               backgroundColor: COLOR.backgroundMain,
-              textMonthFontWeight: 'bold',
+              textMonthFontWeight: "bold",
               textDayFontFamily: DEVICE.fontRegular,
               textMonthFontFamily: DEVICE.fontBold,
               textDayHeaderFontFamily: DEVICE.fontMedium,
             }}
-            minDate={'2015-01-01'}
-            maxDate={moment().format('YYYY-MM-DD')}
-            monthFormat={'MMMM - yyyy'}
+            minDate={"2015-01-01"}
+            maxDate={moment().format("YYYY-MM-DD")}
+            monthFormat={"MMMM - yyyy"}
             items={_dataRender}
-            loadItemsForMonth={day => this._historyGet(day)}
-            renderItem={item => {
+            loadItemsForMonth={(day) => this._historyGet(day)}
+            renderItem={(item) => {
               let newAvatar = _selectedStudent.class.newAvatar || null;
               newAvatar = CONFIG.classes.find(
-                f => f.id === _selectedStudent.class.thumbnail,
+                (f) => f.id === _selectedStudent.class.thumbnail
               );
               if (newAvatar) {
                 _selectedStudent.class.newAvatar = newAvatar.path;
@@ -183,13 +185,13 @@ class Tracking extends Component {
             renderKnobOpen={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'openCalendar'}
+                i18nKey={"openCalendar"}
               />
             )}
             renderKnobClose={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'closeCalendar'}
+                i18nKey={"closeCalendar"}
               />
             )}
             renderFooterContent={() => null}
@@ -207,7 +209,7 @@ class Tracking extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     setting: state.setting,

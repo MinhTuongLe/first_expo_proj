@@ -17,7 +17,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import Icon from "react-native-fontawesome-pro";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 import ContentLoader, { Rect } from "react-content-loader/native";
 /** COMMON */
 import { DEVICE, CONFIG, KEY, COLOR } from "../../config";
@@ -34,11 +35,10 @@ import Helpers from "../../helpers";
 const ListAlbumEmpty = () => {
   return (
     <View style={styles.con_empty}>
-      <Icon
+      <FontAwesome5
         name={"images"}
         color={COLOR.placeholderTextColor}
         size={Helpers.fS(50)}
-        type={"light"}
       />
       <CText style={styles.txt_empty} i18nKey={"txtDataEmpty"} />
     </View>
@@ -202,11 +202,11 @@ class ViewHomeScreen extends React.PureComponent {
                           },
                         ]}
                       >
-                        <Icon
+                        <FontAwesome5
                           name={"key"}
                           size={Helpers.fS(25)}
                           color={COLOR.text_1}
-                          type={"solid"}
+                          solid
                         />
                       </View>
                     )}

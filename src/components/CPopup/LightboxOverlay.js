@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import Icon from 'react-native-fontawesome-pro';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 import {
   Animated,
   Dimensions,
@@ -11,40 +12,40 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-} from 'react-native';
-import {DEVICE} from '../../config';
-import Helpers from '../../helpers';
+} from "react-native";
+import { DEVICE } from "../../config";
+import Helpers from "../../helpers";
 
-const WINDOW_HEIGHT = Dimensions.get('window').height;
-const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get("window").height;
+const WINDOW_WIDTH = Dimensions.get("window").width;
 const DRAG_DISMISS_THRESHOLD = 150;
-const STATUS_BAR_OFFSET = Platform.OS === 'android' ? -25 : 0;
-const isIOS = Platform.OS === 'ios';
+const STATUS_BAR_OFFSET = Platform.OS === "android" ? -25 : 0;
+const isIOS = Platform.OS === "ios";
 
 const styles = StyleSheet.create({
   background: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     width: WINDOW_WIDTH,
     height: WINDOW_HEIGHT,
   },
   open: {
-    position: 'absolute',
+    position: "absolute",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     // Android pan handlers crash without this declaration:
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   header: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     width: WINDOW_WIDTH * 0.0933,
     height: WINDOW_HEIGHT * 0.07,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -70,8 +71,8 @@ export default class LightboxOverlay extends Component {
   };
 
   static defaultProps = {
-    springConfig: {tension: 30, friction: 7},
-    backgroundColor: 'black',
+    springConfig: { tension: 30, friction: 7 },
+    backgroundColor: "black",
   };
 
   state = {
@@ -100,9 +101,9 @@ export default class LightboxOverlay extends Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         this.state.pan.setValue(0);
-        this.setState({isPanning: true});
+        this.setState({ isPanning: true });
       },
-      onPanResponderMove: Animated.event([null, {dy: this.state.pan}], {
+      onPanResponderMove: Animated.event([null, { dy: this.state.pan }], {
         useNativeDriver: false,
       }),
       onPanResponderTerminationRequest: (evt, gestureState) => true,
@@ -122,7 +123,7 @@ export default class LightboxOverlay extends Component {
             toValue: 0,
             ...this.props.springConfig,
           }).start(() => {
-            this.setState({isPanning: false});
+            this.setState({ isPanning: false });
           });
         }
       },
@@ -137,7 +138,7 @@ export default class LightboxOverlay extends Component {
 
   open = () => {
     if (isIOS) {
-      StatusBar.setHidden(true, 'fade');
+      StatusBar.setHidden(true, "fade");
     }
     this.state.pan.setValue(0);
     this.setState({
@@ -154,7 +155,7 @@ export default class LightboxOverlay extends Component {
       useNativeDriver: false,
       ...this.props.springConfig,
     }).start(() => {
-      this.setState({isAnimating: false});
+      this.setState({ isAnimating: false });
       this.props.didOpen();
     });
   };
@@ -162,7 +163,7 @@ export default class LightboxOverlay extends Component {
   close = () => {
     this.props.willClose();
     if (isIOS) {
-      StatusBar.setHidden(false, 'fade');
+      StatusBar.setHidden(false, "fade");
     }
     this.setState({
       isAnimating: true,
@@ -186,10 +187,10 @@ export default class LightboxOverlay extends Component {
   }
 
   render() {
-    const {isOpen, renderHeader, swipeToDismiss, origin, backgroundColor} =
+    const { isOpen, renderHeader, swipeToDismiss, origin, backgroundColor } =
       this.props;
 
-    const {isPanning, isAnimating, openVal, target} = this.state;
+    const { isPanning, isAnimating, openVal, target } = this.state;
 
     const lightboxOpacityStyle = {
       opacity: openVal.interpolate({
@@ -243,9 +244,10 @@ export default class LightboxOverlay extends Component {
       <Animated.View
         style={[
           styles.background,
-          {backgroundColor: backgroundColor},
+          { backgroundColor: backgroundColor },
           lightboxOpacityStyle,
-        ]}></Animated.View>
+        ]}
+      ></Animated.View>
     );
     const header = (
       <Animated.View style={[styles.header, lightboxOpacityStyle]}>
@@ -255,17 +257,27 @@ export default class LightboxOverlay extends Component {
           <View
             style={{
               marginTop: Helpers.isIphoneX()
-                ? Helpers.wS('15%')
-                : Helpers.wS('10%'),
+                ? Helpers.wS("15%")
+                : Helpers.wS("10%"),
               marginLeft: 30,
-            }}>
+            }}
+          >
             <TouchableOpacity onPress={this.close}>
-              <Icon
-                containerStyle={[DEVICE.gStyle.center, {width: 50, height: 50}]}
-                name={'times-circle'}
+              {/* <Icon
+                containerStyle={[
+                  DEVICE.gStyle.center,
+                  { width: 50, height: 50 },
+                ]}
+                name={"times-circle"}
                 size={Helpers.fS(25)}
-                color={'#ffffff'}
-                type={'light'}
+                color={"#ffffff"}
+                type={"light"}
+              /> */}
+              <FontAwesome5
+                style={[DEVICE.gStyle.center, { width: 50, height: 50 }]}
+                name={"times-circle"}
+                size={Helpers.fS(25)}
+                color={"#ffffff"}
               />
             </TouchableOpacity>
           </View>
@@ -292,7 +304,8 @@ export default class LightboxOverlay extends Component {
       <Modal
         visible={isOpen}
         transparent={true}
-        onRequestClose={() => this.close()}>
+        onRequestClose={() => this.close()}
+      >
         {background}
         {content}
         {header}

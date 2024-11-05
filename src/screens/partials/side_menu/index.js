@@ -5,150 +5,150 @@
  * @Date create: 17/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {Linking} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React from "react";
+import { Linking } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 /** COMPONENT */
-import ViewSideMenu from './render';
+import ViewSideMenu from "./render";
 /** COMMON */
-import {CONFIG, LANG, KEY} from '../../../config';
-import Helpers from '../../../helpers';
-import Modules from '../../../config/modules';
-import * as loginActions from '../../../redux/actions/login';
-import * as notificationActions from '../../../redux/actions/notification';
+import { CONFIG, LANG, KEY } from "../../../config";
+import Helpers from "../../../helpers";
+import Modules from "../../../config/modules";
+import * as loginActions from "../../../redux/actions/login";
+import * as notificationActions from "../../../redux/actions/notification";
 
 class SideMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _fullName: '',
+      _fullName: "",
       _categoriesSort: [],
       _needUpdate: false,
-      _currentVersion: '',
-      _linkToStore: '',
+      _currentVersion: "",
+      _linkToStore: "",
       _isOpenModelConfirm: false,
     };
     this._categories = [
       {
-        id: 'statistics',
-        forUser: !Modules.attendance ? '' : KEY.TEACHER,
+        id: "statistics",
+        forUser: !Modules.attendance ? "" : KEY.TEACHER,
         title: LANG[CONFIG.lang].statistics,
-        n_icon: 'chart-bar',
+        n_icon: "chart-bar",
         onPress: () => {
-          this._onPressCategory('HistoryTeacher', 'historyTeacher');
+          this._onPressCategory("HistoryTeacher", "historyTeacher");
         },
       },
       {
-        id: 'tracking',
+        id: "tracking",
         forUser: KEY.PARENT,
         title: LANG[CONFIG.lang].tracking,
-        n_icon: 'map-marker-alt',
+        n_icon: "map-marker-alt",
         onPress: () => {
-          this._onPressCategory('Tracking', 'tracking');
+          this._onPressCategory("Tracking", "tracking");
         },
       },
       {
-        id: 'menu',
-        forUser: 'all',
+        id: "menu",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtHomeMenu,
-        n_icon: 'utensils-alt',
+        n_icon: "utensils",
         onPress: () => {
-          this._onPressCategory('Menu', 'menu');
+          this._onPressCategory("Menu", "menu");
         },
       },
       {
-        id: 'schedule',
-        forUser: 'all',
+        id: "schedule",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtDrawerSchedule,
-        n_icon: 'calendar-alt',
+        n_icon: "calendar-alt",
         onPress: () => {
-          this._onPressCategory('Schedule', 'schedule');
+          this._onPressCategory("Schedule", "schedule");
         },
       },
       {
-        id: 'attendant',
-        forUser: !Modules.attendance ? '' : KEY.TEACHER,
+        id: "attendant",
+        forUser: !Modules.attendance ? "" : KEY.TEACHER,
         title: LANG[CONFIG.lang].txtHomeAttendance,
-        n_icon: 'ballot-check',
+        n_icon: "calendar-check",
         onPress: () => {
-          this._onPressCategory('Attendance', 'attendance');
+          this._onPressCategory("Attendance", "attendance");
         },
       },
       {
-        id: 'dayoff',
+        id: "dayoff",
         forUser: KEY.PARENT,
         title: LANG[CONFIG.lang].txtDrawerDayOff,
-        n_icon: 'calendar-times',
+        n_icon: "calendar-times",
         onPress: () => {
-          this._onPressCategory('DayOff', 'dayoff');
+          this._onPressCategory("DayOff", "dayoff");
         },
       },
       {
-        id: CONFIG.USER_TYPE == KEY.TEACHER ? 'teacherHealth' : 'parentHealth',
-        forUser: !Modules.health ? '' : 'all',
+        id: CONFIG.USER_TYPE == KEY.TEACHER ? "teacherHealth" : "parentHealth",
+        forUser: !Modules.health ? "" : "all",
         title: LANG[CONFIG.lang].txtDrawerHealth,
-        n_icon: 'heartbeat',
+        n_icon: "heartbeat",
         onPress: () => {
           this._onPressCategory(
-            CONFIG.USER_TYPE == KEY.TEACHER ? 'TeacherHealth' : 'ParentHealth',
-            CONFIG.USER_TYPE == KEY.TEACHER ? 'teacherHealth' : 'parentHealth',
+            CONFIG.USER_TYPE == KEY.TEACHER ? "TeacherHealth" : "ParentHealth",
+            CONFIG.USER_TYPE == KEY.TEACHER ? "teacherHealth" : "parentHealth"
           );
         },
       },
       {
-        id: 'album',
-        forUser: 'all',
+        id: "album",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtDrawerAlbum,
-        n_icon: 'images',
+        n_icon: "images",
         onPress: () => {
-          this._onPressCategory('Album', 'album');
+          this._onPressCategory("Album", "album");
         },
       },
       {
         id:
           CONFIG.USER_TYPE == KEY.TEACHER
-            ? 'teacherFeeInvoice'
-            : 'parentFeeInvoice',
-        forUser: !Modules.feeInvoice ? '' : 'all',
+            ? "teacherFeeInvoice"
+            : "parentFeeInvoice",
+        forUser: !Modules.feeInvoice ? "" : "all",
         title: LANG[CONFIG.lang].txtDrawerFeeInvoice,
-        n_icon: 'money-bill-wave',
+        n_icon: "money-bill-wave",
         onPress: () => {
           this._onPressCategory(
             CONFIG.USER_TYPE == KEY.TEACHER
-              ? 'TeacherFeeInvoice'
-              : 'ParentFeeInvoice',
+              ? "TeacherFeeInvoice"
+              : "ParentFeeInvoice",
             CONFIG.USER_TYPE == KEY.TEACHER
-              ? 'teacherFeeInvoice'
-              : 'parentFeeInvoice',
+              ? "teacherFeeInvoice"
+              : "parentFeeInvoice"
           );
         },
       },
       {
-        id: 'contact',
-        forUser: 'all',
+        id: "contact",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtDrawerContact,
-        n_icon: 'envelope',
+        n_icon: "envelope",
         onPress: () =>
           Linking.openURL(
-            'mailto:' +
+            "mailto:" +
               (props.setting.config.value.mailSales
                 ? props.setting.config.value.mailSales
-                : CONFIG.mail_support),
-          ).catch(error => console.log('Error send mail')),
+                : CONFIG.mail_support)
+          ).catch((error) => console.log("Error send mail")),
       },
       {
-        id: 'feedback',
-        forUser: 'all',
+        id: "feedback",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtDrawerFeedback,
-        n_icon: 'comments',
-        onPress: () => this._onPressCategory('ListFeedback', 'listFeedback'),
+        n_icon: "comments",
+        onPress: () => this._onPressCategory("ListFeedback", "listFeedback"),
       },
       {
-        id: 'delete-account',
-        forUser: 'all',
+        id: "delete-account",
+        forUser: "all",
         title: LANG[CONFIG.lang].txtDrawerDeleteAccount,
-        n_icon: 'user-slash',
+        n_icon: "user-slash",
         onPress: this._onPressDeleteAccount,
       },
     ];
@@ -157,16 +157,16 @@ class SideMenu extends React.Component {
   /** FUNCTIONS */
   _prepareData = () => {
     let i,
-      {_categoriesSort} = this.state;
+      { _categoriesSort } = this.state;
     if (CONFIG.USER_TYPE === KEY.DRIVER) {
-      let find = this._categories.find(f => f.id === 'contact');
+      let find = this._categories.find((f) => f.id === "contact");
       if (find) {
         _categoriesSort.push(find);
       }
     } else {
       for (i = 0; i < this._categories.length; i++) {
         if (
-          this._categories[i].forUser === 'all' ||
+          this._categories[i].forUser === "all" ||
           this._categories[i].forUser === CONFIG.USER_TYPE
         ) {
           _categoriesSort.push(this._categories[i]);
@@ -174,12 +174,12 @@ class SideMenu extends React.Component {
       }
     }
 
-    let newFullName = '';
+    let newFullName = "";
     if (this.props.login.data) {
       newFullName = Helpers.capitalizeName(
         this.props.login.data.firstName,
         this.props.login.data.lastName,
-        CONFIG.settingLocal.softName,
+        CONFIG.settingLocal.softName
       );
     }
 
@@ -190,11 +190,11 @@ class SideMenu extends React.Component {
   };
 
   _onRefresh = () => {
-    this.setState({_categoriesSort: []}, () => this.componentDidMount());
+    this.setState({ _categoriesSort: [] }, () => this.componentDidMount());
   };
 
-  _onPressPhone = phone => {
-    Linking.openURL('tel:' + phone).catch(error => console.log('Error call'));
+  _onPressPhone = (phone) => {
+    Linking.openURL("tel:" + phone).catch((error) => console.log("Error call"));
   };
 
   _onPressAvatar = () => {
@@ -203,7 +203,7 @@ class SideMenu extends React.Component {
     //   this.props?.navigation?.navigate,
     // );
     if (this.props?.navigation?.navigate) {
-      this.props.navigation.navigate('Profile', {
+      this.props.navigation.navigate("Profile", {
         onRefresh: () => this._onRefresh(),
       });
       this.props.navigation.closeDrawer();
@@ -240,9 +240,9 @@ class SideMenu extends React.Component {
 
   /** RENDER */
   render() {
-    let {_categoriesSort, _needUpdate, _currentVersion, _isOpenModelConfirm} =
+    let { _categoriesSort, _needUpdate, _currentVersion, _isOpenModelConfirm } =
       this.state;
-    let {setting} = this.props;
+    let { setting } = this.props;
 
     return (
       <ViewSideMenu
@@ -268,13 +268,13 @@ class SideMenu extends React.Component {
     );
   }
 }
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
     notificationActions: bindActionCreators(notificationActions, dispatch),
   };
 };
-export default connect(state => {
+export default connect((state) => {
   return {
     login: state.login,
     setting: state.setting,

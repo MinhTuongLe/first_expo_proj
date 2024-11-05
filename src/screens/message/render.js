@@ -5,33 +5,42 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, FlatList, Platform} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, FlatList, Platform } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import ItemChat from './itemChat';
-import CText from '../../components/CText';
+import HeaderBar from "../partials/header_bar";
+import ItemChat from "./itemChat";
+import CText from "../../components/CText";
 /** COMMON */
-import {DEVICE, COLOR, CONFIG, KEY} from '../../config';
-import Helpers from '../../helpers';
+import { DEVICE, COLOR, CONFIG, KEY } from "../../config";
+import Helpers from "../../helpers";
 
 const RenderEmpty = () => {
   return (
     <View
       style={[
         DEVICE.gStyle.full_center,
-        {flex: 1, marginTop: (DEVICE.width * 2) / 3},
-      ]}>
-      <Icon
-        containerStyle={{marginTop: 20}}
-        name={'comment'}
+        { flex: 1, marginTop: (DEVICE.width * 2) / 3 },
+      ]}
+    >
+      {/* <Icon
+        containerStyle={{ marginTop: 20 }}
+        name={"comment"}
         size={Helpers.fS(50)}
         color={COLOR.placeholderTextColor}
-        type={'solid'}
+        type={"solid"}
+      /> */}
+      <FontAwesome5
+        style={{ marginTop: 20 }}
+        name={"comment"}
+        size={Helpers.fS(50)}
+        color={COLOR.placeholderTextColor}
+        solid
       />
 
-      <CText style={DEVICE.gStyle.txt_no_data} i18nKey={'txtNoDataMessage2'} />
+      <CText style={DEVICE.gStyle.txt_no_data} i18nKey={"txtNoDataMessage2"} />
     </View>
   );
 };
@@ -59,9 +68,9 @@ export const RenderMessageScreen = ({
     <View style={DEVICE.gStyle.container}>
       {/* HEADER */}
       <HeaderBar
-        title={'txtTab2'}
+        title={"txtTab2"}
         titleCenter={false}
-        iconRight={'address-card'}
+        iconRight={"address-card"}
         onPressNext={onPress.contact}
         hasCustomHeaderRight={true}
         loadCustomHeaderRight={_loadForList}
@@ -84,7 +93,7 @@ export const RenderMessageScreen = ({
           isLoading,
           data.listChat,
           onPress.item,
-          _getFileType,
+          _getFileType
         )}
     </View>
   );
@@ -94,16 +103,16 @@ const RenderGroupContent = (
   isLoading = false,
   listDataChat = [],
   onPressItem = () => {},
-  _getFileType = () => {},
+  _getFileType = () => {}
 ) => {
   listDataChat = listDataChat.filter(
-    f => f.dataChat.lastestMessage.txtMessage !== '',
+    (f) => f.dataChat.lastestMessage.txtMessage !== ""
   );
   return (
     <FlatList
       style={DEVICE.gStyle.container}
       data={listDataChat}
-      renderItem={({item, index}) => (
+      renderItem={({ item, index }) => (
         <ItemChat
           index={index}
           isLoading={isLoading}
@@ -116,11 +125,11 @@ const RenderGroupContent = (
       extraData={isLoading}
       keyExtractor={(item, index) => index.toString()}
       getItemLayout={(data, index) => ({
-        length: Helpers.wS('18.13%'),
-        offset: Helpers.wS('18.13%') * index,
+        length: Helpers.wS("18.13%"),
+        offset: Helpers.wS("18.13%") * index,
         index,
       })}
-      removeClippedSubviews={Platform.OS === 'android'}
+      removeClippedSubviews={Platform.OS === "android"}
       ListEmptyComponent={RenderEmpty}
     />
   );

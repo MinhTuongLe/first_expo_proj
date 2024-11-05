@@ -5,27 +5,28 @@
  * @Date create:
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {View, Text, Switch, Alert, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { View, Text, Switch, Alert, TouchableOpacity } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import CCalendar from '../../components/CCalendar/agenda';
-import CImage from '../../components/CImage';
-import CText from '../../components/CText';
+import HeaderBar from "../partials/header_bar";
+import CCalendar from "../../components/CCalendar/agenda";
+import CImage from "../../components/CImage";
+import CText from "../../components/CText";
 /** COMMON */
-import Helpers from '../../helpers';
-import {COLOR, CONFIG, LANG, DEVICE, activeSteps, KEY} from '../../config';
-import * as loadingActions from '../../redux/actions/loading';
+import Helpers from "../../helpers";
+import { COLOR, CONFIG, LANG, DEVICE, activeSteps, KEY } from "../../config";
+import * as loadingActions from "../../redux/actions/loading";
 /** SERVICES */
-import Services from '../../services';
+import Services from "../../services";
 /** STYLES */
-import styles from './style';
-import Errors from '../../config/errors';
-import CButton from '../../components/CButton';
+import styles from "./style";
+import Errors from "../../config/errors";
+import CButton from "../../components/CButton";
 
 class DriverScreen extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class DriverScreen extends React.Component {
     this._attendent = null;
     this._userId = props.login.data.id;
     this._allowShuttleBus = true;
-    this._currDay = moment().format('YYYY-MM-DD');
+    this._currDay = moment().format("YYYY-MM-DD");
   }
 
   /** FUNCTIONS */
@@ -62,8 +63,8 @@ class DriverScreen extends React.Component {
     this.props.loadingActions.setLoading(false);
   };
 
-  _onToggleInOut = type => {
-    let curDate = {dateString: moment().format('YYYY-MM-DD')};
+  _onToggleInOut = (type) => {
+    let curDate = { dateString: moment().format("YYYY-MM-DD") };
     let {
       _pickup,
       _isCurrDay,
@@ -76,7 +77,7 @@ class DriverScreen extends React.Component {
 
     if (type !== _pickup) {
       if (type === activeSteps.ON_BUS_IN) {
-        this.setState({_pickup: type, _dataRender: null});
+        this.setState({ _pickup: type, _dataRender: null });
       } else if (
         type === activeSteps.CHECK_OUT ||
         type === activeSteps.ON_BUS_OUT
@@ -87,20 +88,20 @@ class DriverScreen extends React.Component {
             (_pickup === activeSteps.CHECK_OUT && !_isSendNotiCheckOut))
         ) {
           let onPressCancel = async () => {
-            this.setState({_pickup: type, _dataRender: null});
+            this.setState({ _pickup: type, _dataRender: null });
           };
           this._onAlert(onPressCancel);
         } else {
-          this.setState({_pickup: type, _dataRender: null});
+          this.setState({ _pickup: type, _dataRender: null });
         }
       }
       // this._loadStudents(curDate, type);
     }
   };
 
-  _onDateChange = day => {
+  _onDateChange = (day) => {
     this._currDay;
-    let {_pickup, _isSendNotiCheckIn, _isSendNotiCheckOut} = this.state;
+    let { _pickup, _isSendNotiCheckIn, _isSendNotiCheckOut } = this.state;
     if (this._currDay === day.dateString) {
       this._loadStudents(day, _pickup);
     } else {
@@ -118,9 +119,9 @@ class DriverScreen extends React.Component {
   };
 
   _loadStudents = async (day, pickup) => {
-    let {_classChoose} = this.state;
+    let { _classChoose } = this.state;
 
-    let curDate = moment().format('YYYY-MM-DD');
+    let curDate = moment().format("YYYY-MM-DD");
     let _tmpDataRender = {};
     _tmpDataRender[day.dateString] = [];
 
@@ -146,7 +147,7 @@ class DriverScreen extends React.Component {
             let _movingProcessStep = null;
             if (pickup === activeSteps.ON_BUS_IN) {
               _movingProcessStep = Object.values(activeSteps).includes(
-                std.activeStep,
+                std.activeStep
               );
             } else if (pickup === activeSteps.CHECK_OUT) {
               _movingProcessStep = std.activeStep === activeSteps.CHECK_OUT;
@@ -155,7 +156,7 @@ class DriverScreen extends React.Component {
             let newFullName = Helpers.capitalizeName(
               std.student.firstName,
               std.student.lastName,
-              CONFIG.settingLocal.softName,
+              CONFIG.settingLocal.softName
             );
 
             let checkActiveStep = true;
@@ -194,11 +195,11 @@ class DriverScreen extends React.Component {
     });
   };
 
-  _getListHistory = async day => {
-    let {login} = this.props;
+  _getListHistory = async (day) => {
+    let { login } = this.props;
     let date = day.dateString,
       classId = this.state._classChoose.id,
-      params = {classId, date, school: login.data.school, type: KEY.DRIVER},
+      params = { classId, date, school: login.data.school, type: KEY.DRIVER },
       resHistory,
       _tmpDataRender = {};
 
@@ -212,7 +213,7 @@ class DriverScreen extends React.Component {
           let newFullName = Helpers.capitalizeName(
             std.student.firstName,
             std.student.lastName,
-            CONFIG.settingLocal.softName,
+            CONFIG.settingLocal.softName
           );
           _tmpDataRender[day.dateString].push({
             isAttendance: std.isAttendance,
@@ -241,12 +242,12 @@ class DriverScreen extends React.Component {
   // };
 
   _onPressToggleAbsent = (data, valueToggle, onFailed) => {
-    let {_pickup, _classChoose} = this.state;
+    let { _pickup, _classChoose } = this.state;
     // console.log('_pickup: ', _pickup)
 
     if (valueToggle) {
       if (_pickup === activeSteps.ON_BUS_IN) {
-        this.props.navigation.navigate('PickUpDetailScreenDriver', {
+        this.props.navigation.navigate("PickUpDetailScreenDriver", {
           idAttendance: data.id,
           dataClass: _classChoose,
           pickupType: _pickup,
@@ -254,7 +255,7 @@ class DriverScreen extends React.Component {
           onRefresh: this._onRefresh,
         });
       } else if (_pickup === activeSteps.CHECK_OUT) {
-        this.props.navigation.navigate('PickUpDetailScreenDriver', {
+        this.props.navigation.navigate("PickUpDetailScreenDriver", {
           idAttendance: data.id,
           dataClass: _classChoose,
           pickupType: _pickup,
@@ -267,10 +268,10 @@ class DriverScreen extends React.Component {
     }
   };
 
-  _onRefresh = checkSendNoti => {
-    let {_pickup} = this.state,
-      curDate = {dateString: this._currDay};
-    this.setState({_dataRender: null});
+  _onRefresh = (checkSendNoti) => {
+    let { _pickup } = this.state,
+      curDate = { dateString: this._currDay };
+    this.setState({ _dataRender: null });
     if (_pickup === activeSteps.ON_BUS_IN && checkSendNoti) {
       this.setState({
         _isSendNotiCheckIn: false,
@@ -289,27 +290,39 @@ class DriverScreen extends React.Component {
 
   _renderEmptyStudent = () => {
     return (
-      <View style={{marginTop: 100, alignItems: 'center'}}>
-        <Icon
-          containerStyle={{marginTop: 10}}
-          name={'search'}
+      <View style={{ marginTop: 100, alignItems: "center" }}>
+        {/* <Icon
+          containerStyle={{ marginTop: 10 }}
+          name={"search"}
           size={50}
           color={COLOR.placeholderTextColor}
-          type={'solid'}
+          type={"solid"}
+        /> */}
+        <FontAwesome5
+          style={{ marginTop: 10 }}
+          name={"search"}
+          size={50}
+          color={COLOR.placeholderTextColor}
+          solid
         />
-        <CText style={styles.txt_empty} i18nKey={'txtEmptyStudent'} />
+        <CText style={styles.txt_empty} i18nKey={"txtEmptyStudent"} />
       </View>
     );
   };
 
-  _onPressChooseClass = async classObj => {
+  _onPressChooseClass = async (classObj) => {
     if (classObj.id !== this.state._classChoose.id) {
-      let {_pickup, _isSendNoti, _isCurrDay, _dataRender, _isSendNotiCheckIn} =
-        this.state;
+      let {
+        _pickup,
+        _isSendNoti,
+        _isCurrDay,
+        _dataRender,
+        _isSendNotiCheckIn,
+      } = this.state;
       let _dateChoose = Object.keys(_dataRender)[0];
       await Helpers.setAsyStrClassChoosed(JSON.stringify(classObj));
-      this.setState({_dataRender: null, _classChoose: classObj});
-      this._loadStudents({dateString: _dateChoose}, _pickup);
+      this.setState({ _dataRender: null, _classChoose: classObj });
+      this._loadStudents({ dateString: _dateChoose }, _pickup);
       if (
         _isCurrDay &&
         !_isSendNotiCheckIn &&
@@ -321,7 +334,7 @@ class DriverScreen extends React.Component {
   };
 
   _onBack = () => {
-    let {_isCurrDay, _pickup, _isSendNotiCheckIn} = this.state;
+    let { _isCurrDay, _pickup, _isSendNotiCheckIn } = this.state;
     if (
       _isCurrDay &&
       !_isSendNotiCheckIn &&
@@ -336,13 +349,13 @@ class DriverScreen extends React.Component {
     }
   };
 
-  _onAlert = actionCancel => {
+  _onAlert = (actionCancel) => {
     let cancel = actionCancel || null;
     // let { _pickup, _isSendNoti, _isCurrDay } = this.state;
     // const currDay = { dateString: moment().format('YYYY-MM-DD') };
     Alert.alert(
-      'Kindie',
-      LANG[CONFIG.lang].sendNotiToParent + this.state._classChoose.title + '?',
+      "Kindie",
+      LANG[CONFIG.lang].sendNotiToParent + this.state._classChoose.title + "?",
       // _pickup === activeSteps.ON_BUS_IN
       //   ? LANG[CONFIG.lang].cfmPickUpKid +
       //   item.student.fullName +
@@ -375,24 +388,24 @@ class DriverScreen extends React.Component {
           onPress: () => {
             // this.setState({ _isSendNoti: true });
             // cancel?.();
-            if (cancel && typeof cancel === 'function') {
+            if (cancel && typeof cancel === "function") {
               cancel();
             }
           },
-          style: 'cancel',
+          style: "cancel",
         },
         {
           text: LANG[CONFIG.lang].ok,
           onPress: () => this._onPressSendNotification(),
-          style: 'default',
+          style: "default",
         },
         ,
       ],
-      {cancelable: true},
+      { cancelable: true }
     );
   };
 
-  _onPressSendNotification = async actionCancel => {
+  _onPressSendNotification = async (actionCancel) => {
     let _dateChoose = Object.keys(this.state._dataRender)[0];
     let params = {
       classId: this.state._classChoose.id,
@@ -401,11 +414,11 @@ class DriverScreen extends React.Component {
       type: KEY.DRIVER,
     };
     let res = await Services.Attendant.pushNotification(params);
-    if (res && res.message === 'ok') {
+    if (res && res.message === "ok") {
       if (this.state._pickup === activeSteps.ON_BUS_IN) {
-        this.setState({_isSendNotiCheckIn: true});
+        this.setState({ _isSendNotiCheckIn: true });
       } else if (this.state._pickup === activeSteps.CHECK_OUT) {
-        this.setState({_isSendNotiCheckOut: true});
+        this.setState({ _isSendNotiCheckOut: true });
       }
       Helpers.toast(LANG[this.props.language].sendNotiSuccess);
     } else {
@@ -414,8 +427,8 @@ class DriverScreen extends React.Component {
     // actionCancel && actionCancel();
   };
 
-  renderHeaderList = item => {
-    const {_pickup, _isCurrDay} = this.state;
+  renderHeaderList = (item) => {
+    const { _pickup, _isCurrDay } = this.state;
     return (
       <View style={styles.con_header}>
         {_isCurrDay ? (
@@ -427,14 +440,15 @@ class DriverScreen extends React.Component {
                 _pickup === activeSteps.ON_BUS_IN && {
                   backgroundColor: COLOR.primaryApp,
                 },
-                {marginRight: 15},
-              ]}>
+                { marginRight: 15 },
+              ]}
+            >
               <CText
                 style={[
                   styles.txtTextHeader,
-                  _pickup === activeSteps.ON_BUS_IN && {color: '#ffffff'},
+                  _pickup === activeSteps.ON_BUS_IN && { color: "#ffffff" },
                 ]}
-                i18nKey={'in'}
+                i18nKey={"in"}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -444,23 +458,24 @@ class DriverScreen extends React.Component {
                 _pickup === activeSteps.CHECK_OUT && {
                   backgroundColor: COLOR.primaryApp,
                 },
-              ]}>
+              ]}
+            >
               <CText
                 style={[
                   styles.txtTextHeader,
-                  _pickup === activeSteps.CHECK_OUT && {color: '#ffffff'},
+                  _pickup === activeSteps.CHECK_OUT && { color: "#ffffff" },
                 ]}
-                i18nKey={'out'}
+                i18nKey={"out"}
               />
             </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.btnArea}>
-            <View style={[styles.btnHeader, {marginRight: 15}]}>
-              <CText style={styles.txtTextHeaderNotCurr} i18nKey={'in'} />
+            <View style={[styles.btnHeader, { marginRight: 15 }]}>
+              <CText style={styles.txtTextHeaderNotCurr} i18nKey={"in"} />
             </View>
             <View style={[styles.btnHeader]}>
-              <CText style={styles.txtTextHeaderNotCurr} i18nKey={'out'} />
+              <CText style={styles.txtTextHeaderNotCurr} i18nKey={"out"} />
             </View>
           </View>
         )}
@@ -495,7 +510,8 @@ class DriverScreen extends React.Component {
                   ? 0.5
                   : 1,
             },
-          ]}>
+          ]}
+        >
           <CButton
             style={styles.submit_group_submit}
             onPress={this._onAlert}
@@ -504,7 +520,8 @@ class DriverScreen extends React.Component {
               ((_pickup === activeSteps.ON_BUS_OUT ||
                 _pickup === activeSteps.CHECK_OUT) &&
                 _isSendNotiCheckOut)
-            }>
+            }
+          >
             {LANG[CONFIG.lang].send_notification}
           </CButton>
         </View>
@@ -514,8 +531,8 @@ class DriverScreen extends React.Component {
     }
   };
 
-  _onHistory = item => {
-    this.props.navigation.navigate('DriverHistoryAttendance', {
+  _onHistory = (item) => {
+    this.props.navigation.navigate("DriverHistoryAttendance", {
       studentId: item.student.id,
       dataClass: this.state._classChoose,
       date: item.date,
@@ -582,13 +599,13 @@ class DriverScreen extends React.Component {
       _classChoose,
       _pickup,
     } = this.state;
-    let currDay = moment().format('YYYY-MM-DD');
+    let currDay = moment().format("YYYY-MM-DD");
 
     return (
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'driver'}
+          title={"driver"}
           hasCustomHeaderRight={true}
           loadCustomHeaderRight={_loadForList}
           dataCustomHeaderRight={_dataClasses}
@@ -601,17 +618,17 @@ class DriverScreen extends React.Component {
           <CCalendar
             theme={{
               backgroundColor: COLOR.backgroundMain,
-              textMonthFontWeight: 'bold',
+              textMonthFontWeight: "bold",
               textDayFontFamily: DEVICE.fontRegular,
               textMonthFontFamily: DEVICE.fontBold,
               textDayHeaderFontFamily: DEVICE.fontMedium,
             }}
-            minDate={'2010-01-01'}
-            maxDate={moment().format('YYYY-MM-DD')}
-            monthFormat={'MMMM - yyyy'}
+            minDate={"2010-01-01"}
+            maxDate={moment().format("YYYY-MM-DD")}
+            monthFormat={"MMMM - yyyy"}
             items={_dataRender}
-            loadItemsForMonth={day => this._onDateChange(day)}
-            renderItem={item => (
+            loadItemsForMonth={(day) => this._onDateChange(day)}
+            renderItem={(item) => (
               <RenderListStudent
                 item={item}
                 isCurrDay={_isCurrDay}
@@ -628,13 +645,13 @@ class DriverScreen extends React.Component {
             renderKnobOpen={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'openCalendar'}
+                i18nKey={"openCalendar"}
               />
             )}
             renderKnobClose={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'closeCalendar'}
+                i18nKey={"closeCalendar"}
               />
             )}
             renderFooterContent={() => this._renderFooter()}
@@ -658,11 +675,11 @@ class RenderListStudent extends React.Component {
   /** FUNCTIONS */
   _onValueChange = (item, value) => {
     this.props.onPressToggleAbsent(item, value, this._onFailed);
-    this.setState({_movingProcessStep: value});
+    this.setState({ _movingProcessStep: value });
   };
 
-  _onFailed = code => {
-    let err = '';
+  _onFailed = (code) => {
+    let err = "";
     this.setState({
       _movingProcessStep: false,
     });
@@ -676,10 +693,10 @@ class RenderListStudent extends React.Component {
 
   /** RENDER */
   render() {
-    let {item, isCurrDay} = this.props;
-    let {_movingProcessStep, _avatar} = this.state;
+    let { item, isCurrDay } = this.props;
+    let { _movingProcessStep, _avatar } = this.state;
     // console.log('_movingProcessStep', _movingProcessStep);
-    let gender = CONFIG.students.find(f => f.id === item.student.gender);
+    let gender = CONFIG.students.find((f) => f.id === item.student.gender);
     if (gender) {
       gender = gender.path;
     } else {
@@ -690,14 +707,15 @@ class RenderListStudent extends React.Component {
       <TouchableOpacity
         style={styles.rowItemClass}
         activeOpacity={isCurrDay ? 1 : 0}
-        onPress={!isCurrDay ? () => this.props.onHistory(item) : () => {}}>
+        onPress={!isCurrDay ? () => this.props.onHistory(item) : () => {}}
+      >
         <View style={styles.rowItemClass}>
           <CImage
             style={styles.img_item}
-            resizeMode={'contain'}
+            resizeMode={"contain"}
             src={
-              _avatar != '' && _avatar != null
-                ? {uri: CONFIG.host + _avatar}
+              _avatar != "" && _avatar != null
+                ? { uri: CONFIG.host + _avatar }
                 : gender
             }
           />
@@ -707,28 +725,31 @@ class RenderListStudent extends React.Component {
             {isCurrDay ? (
               <Switch
                 ios_backgroundColor={COLOR.backgroundColorNote}
-                thumbColor={'#ffffff'}
-                trackColor={{false: COLOR.borderColor, true: COLOR.primaryApp}}
+                thumbColor={"#ffffff"}
+                trackColor={{
+                  false: COLOR.borderColor,
+                  true: COLOR.primaryApp,
+                }}
                 disabled={_movingProcessStep}
                 value={_movingProcessStep}
-                onValueChange={value => this._onValueChange(item, value)}
+                onValueChange={(value) => this._onValueChange(item, value)}
               />
             ) : (
               <View style={styles.con_history_btn_row}>
-                <View style={[styles.con_history_btn, {marginRight: 15}]}>
+                <View style={[styles.con_history_btn, { marginRight: 15 }]}>
                   <Icon
-                    name={item.isAttendance ? 'check-circle' : 'times-circle'}
+                    name={item.isAttendance ? "check-circle" : "times-circle"}
                     size={20}
-                    color={'black'}
-                    type={item.isAttendance ? 'solid' : 'light'}
+                    color={"black"}
+                    type={item.isAttendance ? "solid" : "light"}
                   />
                 </View>
                 <View style={[styles.con_history_btn]}>
                   <Icon
-                    name={item.isPickUp ? 'check-circle' : 'times-circle'}
+                    name={item.isPickUp ? "check-circle" : "times-circle"}
                     size={20}
-                    color={'black'}
-                    type={item.isPickUp ? 'solid' : 'light'}
+                    color={"black"}
+                    type={item.isPickUp ? "solid" : "light"}
                   />
                 </View>
               </View>
@@ -740,7 +761,7 @@ class RenderListStudent extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,
@@ -748,7 +769,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     loadingActions: bindActionCreators(loadingActions, dispatch),
   };

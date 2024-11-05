@@ -4,24 +4,25 @@
  * @Date create: 25/01/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, Text, ScrollView } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 /** COMMON */
-import {COLOR, DEVICE} from '../../../../config';
-import CText from '../../../../components/CText';
-import Helpers from '../../../../helpers';
+import { COLOR, DEVICE } from "../../../../config";
+import CText from "../../../../components/CText";
+import Helpers from "../../../../helpers";
 
 const INIT = {
-  TXT_HEIGHT: 'txtHeight',
-  TXT_WEIGHT: 'txtWeight',
-  TXT_BLOOD: 'txtBloodGroup',
-  TXT_ALLERGY: 'txtAllergy',
-  TXT_EYE: 'txtEye',
-  TXT_HEART: 'txtHeart',
-  TXT_EAR: 'txtEar',
+  TXT_HEIGHT: "txtHeight",
+  TXT_WEIGHT: "txtWeight",
+  TXT_BLOOD: "txtBloodGroup",
+  TXT_ALLERGY: "txtAllergy",
+  TXT_EYE: "txtEye",
+  TXT_HEART: "txtHeart",
+  TXT_EAR: "txtEar",
 };
 
 class CHealthInfomation extends React.Component {
@@ -34,35 +35,35 @@ class CHealthInfomation extends React.Component {
     let height =
       this._dataStudent && this._dataStudent.height !== 0
         ? this._dataStudent.height
-        : '-';
+        : "-";
     let weight =
       this._dataStudent && this._dataStudent.weight !== 0
         ? this._dataStudent.weight
-        : '-';
+        : "-";
     let bloodGroup =
-      this._dataStudent && this._dataStudent.bloodGroup !== ''
+      this._dataStudent && this._dataStudent.bloodGroup !== ""
         ? this._dataStudent.bloodGroup
-        : '-';
+        : "-";
     let allergy =
-      this._dataStudent && this._dataStudent.allergy !== ''
+      this._dataStudent && this._dataStudent.allergy !== ""
         ? this._dataStudent.allergy
-        : '-';
+        : "-";
     let eyes =
-      this._dataStudent && this._dataStudent.eyes !== ''
+      this._dataStudent && this._dataStudent.eyes !== ""
         ? this._dataStudent.eyes
-        : '-';
+        : "-";
     let heartRate =
-      this._dataStudent && this._dataStudent.heartRate !== ''
+      this._dataStudent && this._dataStudent.heartRate !== ""
         ? this._dataStudent.heartRate
-        : '-';
+        : "-";
     let ears =
-      this._dataStudent && this._dataStudent.ears !== ''
+      this._dataStudent && this._dataStudent.ears !== ""
         ? this._dataStudent.ears
-        : '-';
+        : "-";
     let notes =
-      this._dataStudent && this._dataStudent.notes !== ''
+      this._dataStudent && this._dataStudent.notes !== ""
         ? this._dataStudent.notes
-        : '-';
+        : "-";
 
     return (
       <View
@@ -71,10 +72,11 @@ class CHealthInfomation extends React.Component {
           backgroundColor: COLOR.backgroundSec,
           marginTop: 10,
           borderRadius: 10,
-        }}>
+        }}
+      >
         <CText
           style={styles.header_title}
-          i18nKey={'txtHealthInfo'}
+          i18nKey={"txtHealthInfo"}
           upperCase
         />
         {/* <View style={styles.con_info}>
@@ -103,12 +105,18 @@ class CHealthInfomation extends React.Component {
 
         <View style={styles.con_info}>
           <View style={DEVICE.gStyle.row_align_center}>
-            <Icon
-              containerStyle={{width: 30}}
-              name={'tint'}
+            {/* <Icon
+              containerStyle={{ width: 30 }}
+              name={"tint"}
               size={Helpers.fS(20)}
-              color={'black'}
-              type={'light'}
+              color={"black"}
+              type={"light"}
+            /> */}
+            <FontAwesome5
+              style={{ width: 30 }}
+              name={"tint"}
+              size={Helpers.fS(20)}
+              color={"black"}
             />
             <CText style={styles.txt_info_title} i18nKey={INIT.TXT_BLOOD} />
           </View>
@@ -118,12 +126,18 @@ class CHealthInfomation extends React.Component {
 
         <View style={styles.con_info}>
           <View style={DEVICE.gStyle.row_align_center}>
-            <Icon
-              containerStyle={{width: 30}}
-              name={'allergies'}
+            {/* <Icon
+              containerStyle={{ width: 30 }}
+              name={"allergies"}
               size={Helpers.fS(20)}
-              color={'black'}
-              type={'light'}
+              color={"black"}
+              type={"light"}
+            /> */}
+            <FontAwesome5
+              style={{ width: 30 }}
+              name={"allergies"}
+              size={Helpers.fS(20)}
+              color={"black"}
             />
             <CText style={styles.txt_info_title} i18nKey={INIT.TXT_ALLERGY} />
           </View>
@@ -133,12 +147,18 @@ class CHealthInfomation extends React.Component {
 
         <View style={styles.con_info}>
           <View style={DEVICE.gStyle.row_align_center}>
-            <Icon
-              containerStyle={{width: 30}}
-              name={'eye'}
+            {/* <Icon
+              containerStyle={{ width: 30 }}
+              name={"eye"}
               size={Helpers.fS(20)}
-              color={'black'}
-              type={'light'}
+              color={"black"}
+              type={"light"}
+            /> */}
+            <FontAwesome5
+              style={{ width: 30 }}
+              name={"eye"}
+              size={Helpers.fS(20)}
+              color={"black"}
             />
             <CText style={styles.txt_info_title} i18nKey={INIT.TXT_EYE} />
           </View>
@@ -148,12 +168,18 @@ class CHealthInfomation extends React.Component {
 
         <View style={styles.con_info}>
           <View style={DEVICE.gStyle.row_align_center}>
-            <Icon
-              containerStyle={{width: 30}}
-              name={'heart'}
+            {/* <Icon
+              containerStyle={{ width: 30 }}
+              name={"heart"}
               size={Helpers.fS(20)}
-              color={'black'}
-              type={'light'}
+              color={"black"}
+              type={"light"}
+            /> */}
+            <FontAwesome5
+              style={{ width: 30 }}
+              name={"heart"}
+              size={Helpers.fS(20)}
+              color={"black"}
             />
             <CText style={styles.txt_info_title} i18nKey={INIT.TXT_HEART} />
           </View>
@@ -163,12 +189,18 @@ class CHealthInfomation extends React.Component {
 
         <View style={styles.con_info}>
           <View style={DEVICE.gStyle.row_align_center}>
-            <Icon
-              containerStyle={{width: 30}}
-              name={'ear'}
+            {/* <Icon
+              containerStyle={{ width: 30 }}
+              name={"ear"}
               size={20}
-              color={'black'}
-              type={'light'}
+              color={"black"}
+              type={"light"}
+            /> */}
+            <FontAwesome5
+              style={{ width: 30 }}
+              name={"ear"}
+              size={20}
+              color={"black"}
             />
             <CText style={styles.txt_info_title} i18nKey={INIT.TXT_EAR} />
           </View>

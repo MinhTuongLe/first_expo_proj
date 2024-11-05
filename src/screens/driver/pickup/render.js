@@ -6,7 +6,7 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   TouchableOpacity,
@@ -16,17 +16,18 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /* COMPONENTS */
-import HeaderBar from '../../partials/header_bar';
-import HeaderInfoChildren from '../../partials/header_info_children';
-import CImage from '../../../components/CImage';
-import CButton from '../../../components/CButton';
-import CText from '../../../components/CText';
+import HeaderBar from "../../partials/header_bar";
+import HeaderInfoChildren from "../../partials/header_info_children";
+import CImage from "../../../components/CImage";
+import CButton from "../../../components/CButton";
+import CText from "../../../components/CText";
 /** COMMON */
-import Helpers from '../../../helpers';
+import Helpers from "../../../helpers";
 import {
   LANG,
   CONFIG,
@@ -34,45 +35,54 @@ import {
   COLOR,
   ASSETS,
   activeSteps,
-} from '../../../config';
+} from "../../../config";
 /** STYLES */
-import styles from './style';
+import styles from "./style";
 
 const ViewEmptyList = () => {
   return (
     <View style={DEVICE.gStyle.full_center}>
-      <Icon
-        name={'search'}
+      {/* <Icon
+        name={"search"}
         size={Helpers.fS(50)}
         color={COLOR.placeholderTextColor}
-        type={'light'}
+        type={"light"}
+      /> */}
+      <FontAwesome5
+        name={"search"}
+        size={Helpers.fS(50)}
+        color={COLOR.placeholderTextColor}
       />
-      <CText style={styles.txt_no_data} i18nKey={'noDataParents'} />
+      <CText style={styles.txt_no_data} i18nKey={"noDataParents"} />
     </View>
   );
 };
 
 const ViewFooterList = (onUpdate, state, onBack) => {
   return (
-    <View style={[styles.buttonArea, {backgroundColor: COLOR.backgroundMain}]}>
-      {state._error && state._errorText !== '' && (
+    <View
+      style={[styles.buttonArea, { backgroundColor: COLOR.backgroundMain }]}
+    >
+      {state._error && state._errorText !== "" && (
         <CText style={styles.txtError} i18nKey={state._errorText} />
       )}
-      {!state._error && state._errorText !== '' && (
+      {!state._error && state._errorText !== "" && (
         <CText style={styles.txtSuccess} i18nKey={state._errorText} />
       )}
       {state._isPickUp ? (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <CButton
             style={styles.submit_group_back}
             onPress={() => onBack()}
-            disabled={state._loadingBtn}>
+            disabled={state._loadingBtn}
+          >
             {LANG[CONFIG.lang].txtGoBackForget}
           </CButton>
           <CButton
             style={styles.submit_group_update}
             onPress={() => onUpdate()}
-            loading={state._loadingBtn}>
+            loading={state._loadingBtn}
+          >
             {LANG[CONFIG.lang].txtUpdate}
           </CButton>
         </View>
@@ -80,7 +90,8 @@ const ViewFooterList = (onUpdate, state, onBack) => {
         <CButton
           style={styles.submit_group_submit}
           onPress={() => onUpdate()}
-          loading={state._loadingBtn}>
+          loading={state._loadingBtn}
+        >
           {LANG[CONFIG.lang].txtUpdate}
         </CButton>
       )}
@@ -90,7 +101,7 @@ const ViewFooterList = (onUpdate, state, onBack) => {
 
 export const ViewPickUpDetail = ({
   state = null,
-  noteRef = '',
+  noteRef = "",
   onFunction = {
     rowHasChanged: () => {},
     loadStudents: () => {},
@@ -103,7 +114,7 @@ export const ViewPickUpDetail = ({
   if (state._loading) {
     return (
       <View style={DEVICE.gStyle.full_center}>
-        <ActivityIndicator color={COLOR.primaryApp} size={'small'} />
+        <ActivityIndicator color={COLOR.primaryApp} size={"small"} />
       </View>
     );
   }
@@ -111,19 +122,20 @@ export const ViewPickUpDetail = ({
     <View style={styles.con}>
       {/* HEADER */}
       <HeaderBar
-        title={'txtHomeAttendance'}
+        title={"txtHomeAttendance"}
         hasBack
         onBack={onFunction.onBack}
       />
 
       <KeyboardAvoidingView
         style={styles.con}
-        behavior={'padding'}
+        behavior={"padding"}
         enabled
         keyboardVerticalOffset={Platform.select({
           ios: Helpers.isIphoneX() ? 15 : 0,
           android: -80,
-        })}>
+        })}
+      >
         <HeaderInfoChildren
           selectedStudent={state._selectedStudent}
           dataClass={state._dataClass}
@@ -132,10 +144,10 @@ export const ViewPickUpDetail = ({
         <FlatList
           contentContainerStyle={[
             DEVICE.gStyle.grow,
-            {backgroundColor: COLOR.backgroundMain},
+            { backgroundColor: COLOR.backgroundMain },
           ]}
           data={state._dataRender}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <ViewParentItem
                 item={item}
@@ -156,8 +168,8 @@ export const ViewPickUpDetail = ({
                 style={styles.txtListStudent}
                 i18nKey={
                   state._pickupType === activeSteps.ON_BUS_IN
-                    ? 'attendance_person'
-                    : 'pickup_person'
+                    ? "attendance_person"
+                    : "pickup_person"
                 }
                 upperCase
               />
@@ -180,22 +192,22 @@ export class ViewParentItem extends React.Component {
   }
 
   /** FUNCTIONS */
-  _onValueChange = parentId => {
+  _onValueChange = (parentId) => {
     this.props.onToggleValue(parentId);
-    this.setState({_noteRef: ''});
+    this.setState({ _noteRef: "" });
   };
 
-  _onChangeText = text => {
-    this.setState({_noteRef: text});
+  _onChangeText = (text) => {
+    this.setState({ _noteRef: text });
     this.props.onGetNote(text);
   };
 
   /** RENDER */
   render() {
-    let {item, parentId, date, checkExistAttendance} = this.props;
-    let {_avatar} = this.state;
-    let family = '';
-    let gender = CONFIG.users.find(f => f.id === item.gender);
+    let { item, parentId, date, checkExistAttendance } = this.props;
+    let { _avatar } = this.state;
+    let family = "";
+    let gender = CONFIG.users.find((f) => f.id === item.gender);
     if (gender) {
       family = gender.family;
       gender = gender.path;
@@ -206,7 +218,7 @@ export class ViewParentItem extends React.Component {
     let newFullName = Helpers.capitalizeName(
       item.firstName,
       item.lastName,
-      CONFIG.settingLocal.softName,
+      CONFIG.settingLocal.softName
     );
 
     return (
@@ -215,61 +227,75 @@ export class ViewParentItem extends React.Component {
           style={styles.rowItemStudent}
           onPress={() => this._onValueChange(item.id)}
           disabled={
-            moment().format('YYYY-MM-DD') !== date || checkExistAttendance
+            moment().format("YYYY-MM-DD") !== date || checkExistAttendance
           }
-          activeOpacity={checkExistAttendance ? 1 : 0}>
+          activeOpacity={checkExistAttendance ? 1 : 0}
+        >
           <CImage
             style={styles.con_avatar}
-            resizeMode={'contain'}
+            resizeMode={"contain"}
             src={
-              item.id === ''
+              item.id === ""
                 ? ASSETS.schoolBus
-                : _avatar != '' && _avatar != null
-                ? {uri: CONFIG.host + _avatar}
+                : _avatar != "" && _avatar != null
+                ? { uri: CONFIG.host + _avatar }
                 : gender
             }
           />
 
-          <View style={[styles.nameIconArea, {marginLeft: 15}]}>
+          <View style={[styles.nameIconArea, { marginLeft: 15 }]}>
             <View style={styles.nameArea}>
-              {item.id !== '' ? (
+              {item.id !== "" ? (
                 <CText style={styles.txtNameStudent}>{newFullName}</CText>
               ) : (
                 <CText style={styles.txtNameStudent} i18nKey={item.firstName} />
               )}
-              {item.id !== '' && (
+              {item.id !== "" && (
                 <Text style={styles.txtNamePickup}>{family}</Text>
               )}
             </View>
-            {parentId === item.id ? (
+            {/* {parentId === item.id ? (
               <Icon
-                name={'check-circle'}
+                name={"check-circle"}
                 color={COLOR.txtColor}
                 size={25}
-                type={'light'}
+                type={"light"}
               />
             ) : (
               <Icon
-                name={'circle'}
+                name={"circle"}
                 color={COLOR.borderColor}
                 size={25}
-                type={'light'}
+                type={"light"}
+              />
+            )} */}
+            {parentId === item.id ? (
+              <FontAwesome5
+                name={"check-circle"}
+                color={COLOR.txtColor}
+                size={25}
+              />
+            ) : (
+              <FontAwesome5
+                name={"circle"}
+                color={COLOR.borderColor}
+                size={25}
               />
             )}
           </View>
         </TouchableOpacity>
-        {item.id === '' && !checkExistAttendance && (
+        {item.id === "" && !checkExistAttendance && (
           <TextInput
             value={this.state._noteRef}
-            onChangeText={text => {
+            onChangeText={(text) => {
               this._onChangeText(text);
             }}
             style={styles.note_ref}
-            placeholder={'Note'}
+            placeholder={"Note"}
             placeholderTextColor={COLOR.placeholderTextColor}
-            returnKeyType={'done'}
+            returnKeyType={"done"}
             blurOnSubmit={true}
-            keyboardShouldPersistTaps={'handle'}
+            keyboardShouldPersistTaps={"handle"}
             isBorder={false}
             isRemove={false}
             multiline

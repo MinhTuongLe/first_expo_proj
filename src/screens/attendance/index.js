@@ -5,24 +5,25 @@
  * @Date create: 25/03/2019
  */
 /** LIBRARY */
-import React from 'react';
-import {connect} from 'react-redux';
-import {View, Text, Switch, Alert, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
-import moment from 'moment';
+import React from "react";
+import { connect } from "react-redux";
+import { View, Text, Switch, Alert, TouchableOpacity } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 /** COMPONENT */
-import HeaderBar from '../partials/header_bar';
-import CCalendar from '../../components/CCalendar/agenda';
-import CImage from '../../components/CImage';
-import CText from '../../components/CText';
-import CButton from '../../components/CButton';
+import HeaderBar from "../partials/header_bar";
+import CCalendar from "../../components/CCalendar/agenda";
+import CImage from "../../components/CImage";
+import CText from "../../components/CText";
+import CButton from "../../components/CButton";
 /** COMMON */
-import Helpers from '../../helpers';
-import {COLOR, CONFIG, LANG, DEVICE, activeSteps, KEY} from '../../config';
-import Services from '../../services';
+import Helpers from "../../helpers";
+import { COLOR, CONFIG, LANG, DEVICE, activeSteps, KEY } from "../../config";
+import Services from "../../services";
 /** STYLES */
-import styles from './style';
-import CLoading from '../../components/CLoading';
+import styles from "./style";
+import CLoading from "../../components/CLoading";
 
 class AttendanceScreen extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class AttendanceScreen extends React.Component {
     this._allowShutterPersonInfo =
       props.setting.config.value.allowShuttlePersonInfo;
     this._allowShuttleBus = props.setting.config.value.allowShuttleBus;
-    this._currDay = moment().format('YYYY-MM-DD');
+    this._currDay = moment().format("YYYY-MM-DD");
   }
 
   /** FUNCTIONS */
@@ -59,9 +60,9 @@ class AttendanceScreen extends React.Component {
     });
   };
 
-  _loadAttendanceStudents = async day => {
-    let {login} = this.props;
-    let {_classChoose} = this.state;
+  _loadAttendanceStudents = async (day) => {
+    let { login } = this.props;
+    let { _classChoose } = this.state;
     let _tmpDataRender = {};
     _tmpDataRender[day.dateString] = [];
 
@@ -84,7 +85,7 @@ class AttendanceScreen extends React.Component {
         let newFullName = Helpers.capitalizeName(
           std.student.firstName,
           std.student.lastName,
-          CONFIG.settingLocal.softName,
+          CONFIG.settingLocal.softName
         );
         _tmpDataRender[day.dateString].push({
           absent: _absent,
@@ -105,7 +106,7 @@ class AttendanceScreen extends React.Component {
     });
   };
 
-  _loadPickUpStudents = async day => {
+  _loadPickUpStudents = async (day) => {
     let _tmpDataRender = {};
     _tmpDataRender[day.dateString] = [];
 
@@ -121,7 +122,7 @@ class AttendanceScreen extends React.Component {
     if (resPickUp && resPickUp.length > 0) {
       let std = null,
         _absent = false,
-        newFullName = '';
+        newFullName = "";
       for (std of resPickUp) {
         if (
           std.activeStep === activeSteps.CHECK_IN ||
@@ -133,7 +134,7 @@ class AttendanceScreen extends React.Component {
             std.activeStep === activeSteps.ON_BUS_OUT;
           newFullName = Helpers.capitalizeName(
             std.student.firstName,
-            std.student.lastName,
+            std.student.lastName
           );
           CONFIG.settingLocal.softName,
             _tmpDataRender[day.dateString].push({
@@ -156,9 +157,9 @@ class AttendanceScreen extends React.Component {
     });
   };
 
-  _onDateChange = day => {
+  _onDateChange = (day) => {
     this._currDay;
-    let {_pickup, _isSendNotiCheckIn, _isSendNotiCheckOut} = this.state;
+    let { _pickup, _isSendNotiCheckIn, _isSendNotiCheckOut } = this.state;
     if (this._currDay === day.dateString) {
       if (_pickup === activeSteps.CHECK_IN) {
         this._loadAttendanceStudents(day);
@@ -183,7 +184,7 @@ class AttendanceScreen extends React.Component {
     let params = {
       id,
       school: this.props.login.data.school,
-      time: moment().format('HH:mm'),
+      time: moment().format("HH:mm"),
       userId: this.props.login.data.id,
     };
     let resCheckIn = await Services.Attendant.checkIn(params);
@@ -198,14 +199,14 @@ class AttendanceScreen extends React.Component {
       }
     } else {
       onFailed();
-      Helpers.toast('Server Error');
+      Helpers.toast("Server Error");
     }
   };
 
-  _onRefresh = checkSendNoti => {
-    let {_pickup} = this.state,
-      curDate = {dateString: this._currDay};
-    this.setState({_dataRender: null});
+  _onRefresh = (checkSendNoti) => {
+    let { _pickup } = this.state,
+      curDate = { dateString: this._currDay };
+    this.setState({ _dataRender: null });
     if (_pickup === activeSteps.CHECK_IN && checkSendNoti) {
       this.setState({
         _isSendNotiCheckIn: false,
@@ -219,11 +220,11 @@ class AttendanceScreen extends React.Component {
     }
   };
 
-  _getListHistory = async day => {
-    let {login} = this.props;
+  _getListHistory = async (day) => {
+    let { login } = this.props;
     let date = day.dateString,
       classId = this.state._classChoose.id,
-      params = {classId, date, school: login.data.school, type: KEY.TEACHER},
+      params = { classId, date, school: login.data.school, type: KEY.TEACHER },
       resHistory,
       _tmpDataRender = {};
 
@@ -237,7 +238,7 @@ class AttendanceScreen extends React.Component {
           let newFullName = Helpers.capitalizeName(
             std.student.firstName,
             std.student.lastName,
-            CONFIG.settingLocal.softName,
+            CONFIG.settingLocal.softName
           );
           _tmpDataRender[day.dateString].push({
             isAttendance: std.isAttendance,
@@ -269,49 +270,55 @@ class AttendanceScreen extends React.Component {
       <View
         style={[
           DEVICE.gStyle.align_center,
-          {marginTop: (DEVICE.width * 1) / 3},
-        ]}>
-        <Icon
-          name={'search'}
+          { marginTop: (DEVICE.width * 1) / 3 },
+        ]}
+      >
+        {/* <Icon
+          name={"search"}
           size={Helpers.fS(50)}
           color={COLOR.placeholderTextColor}
-          type={'light'}
+          type={"light"}
+        /> */}
+        <FontAwesome5
+          name={"search"}
+          size={Helpers.fS(50)}
+          color={COLOR.placeholderTextColor}
         />
-        <CText style={styles.txt_empty} i18nKey={'txtNoDataAttendance'} />
+        <CText style={styles.txt_empty} i18nKey={"txtNoDataAttendance"} />
       </View>
     );
   };
 
-  _onAlert = actionCancel => {
+  _onAlert = (actionCancel) => {
     let cancel = actionCancel || null;
 
     Alert.alert(
-      '',
-      LANG[CONFIG.lang].sendNotiToParent + this.state._classChoose.title + '?',
+      "",
+      LANG[CONFIG.lang].sendNotiToParent + this.state._classChoose.title + "?",
       [
         {
           text: LANG[CONFIG.lang].cancel,
           onPress: () => {
             // this.setState({ _isSendNoti  : true });
-            if (cancel && typeof cancel === 'function') {
+            if (cancel && typeof cancel === "function") {
               cancel();
             }
           },
-          style: 'cancel',
+          style: "cancel",
         },
         {
           text: LANG[CONFIG.lang].ok,
           onPress: () => this._onPressSendNotification(),
-          style: 'default',
+          style: "default",
         },
         ,
       ],
-      {cancelable: true},
+      { cancelable: true }
     );
   };
 
-  renderHeaderList = item => {
-    const {_pickup, _isCurrDay} = this.state;
+  renderHeaderList = (item) => {
+    const { _pickup, _isCurrDay } = this.state;
 
     return (
       <View style={styles.con_header}>
@@ -323,15 +330,16 @@ class AttendanceScreen extends React.Component {
                 _pickup === activeSteps.CHECK_IN && {
                   backgroundColor: COLOR.primaryApp,
                 },
-                {marginRight: 15},
+                { marginRight: 15 },
               ]}
-              onPress={() => this._onToggleInOut(activeSteps.CHECK_IN)}>
+              onPress={() => this._onToggleInOut(activeSteps.CHECK_IN)}
+            >
               <CText
                 style={[
                   styles.txtTextHeader,
-                  _pickup === activeSteps.CHECK_IN && {color: '#ffffff'},
+                  _pickup === activeSteps.CHECK_IN && { color: "#ffffff" },
                 ]}
-                i18nKey={'in'}
+                i18nKey={"in"}
               />
             </TouchableOpacity>
 
@@ -342,24 +350,25 @@ class AttendanceScreen extends React.Component {
                   backgroundColor: COLOR.primaryApp,
                 },
               ]}
-              onPress={() => this._onToggleInOut(activeSteps.CHECK_OUT)}>
+              onPress={() => this._onToggleInOut(activeSteps.CHECK_OUT)}
+            >
               <CText
                 style={[
                   styles.txtTextHeader,
-                  _pickup === activeSteps.CHECK_OUT && {color: '#ffffff'},
+                  _pickup === activeSteps.CHECK_OUT && { color: "#ffffff" },
                 ]}
-                i18nKey={'out'}
+                i18nKey={"out"}
               />
             </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.btnArea}>
             <View style={[styles.btnHeader, styles.mr_15]}>
-              <CText style={styles.txtTextHeaderNotCurr} i18nKey={'in'} />
+              <CText style={styles.txtTextHeaderNotCurr} i18nKey={"in"} />
             </View>
 
             <View style={[styles.btnHeader]}>
-              <CText style={styles.txtTextHeaderNotCurr} i18nKey={'out'} />
+              <CText style={styles.txtTextHeaderNotCurr} i18nKey={"out"} />
             </View>
           </View>
         )}
@@ -367,8 +376,8 @@ class AttendanceScreen extends React.Component {
     );
   };
 
-  _onHistory = item => {
-    this.props.navigation.navigate('HistoryAttendance', {
+  _onHistory = (item) => {
+    this.props.navigation.navigate("HistoryAttendance", {
       studentId: item.student.id,
       dataClass: this.state._classChoose,
       date: item.date,
@@ -399,14 +408,16 @@ class AttendanceScreen extends React.Component {
                   ? 0.5
                   : 1,
             },
-          ]}>
+          ]}
+        >
           <CButton
             style={styles.submit_group_submit}
             onPress={this._onAlert}
             disabled={
               (_pickup === activeSteps.CHECK_IN && _isSendNotiCheckIn) ||
               (_pickup === activeSteps.CHECK_OUT && _isSendNotiCheckOut)
-            }>
+            }
+          >
             {LANG[CONFIG.lang].send_notification}
           </CButton>
         </View>
@@ -417,7 +428,7 @@ class AttendanceScreen extends React.Component {
   };
 
   /** HANDLE FUNCTIONS */
-  _onToggleInOut = type => {
+  _onToggleInOut = (type) => {
     let {
       _pickup,
       _isCurrDay,
@@ -427,7 +438,7 @@ class AttendanceScreen extends React.Component {
     } = this.state;
     if (type !== _pickup) {
       if (type === activeSteps.CHECK_IN) {
-        this.setState({_pickup: type, _dataRender: null});
+        this.setState({ _pickup: type, _dataRender: null });
       } else if (
         type === activeSteps.CHECK_OUT ||
         type === activeSteps.ON_BUS_OUT
@@ -438,25 +449,25 @@ class AttendanceScreen extends React.Component {
             (_pickup === activeSteps.CHECK_OUT && !_isSendNotiCheckOut))
         ) {
           let onPressCancel = async () => {
-            this.setState({_pickup: type, _dataRender: null});
+            this.setState({ _pickup: type, _dataRender: null });
           };
           this._onAlert(onPressCancel);
         } else {
-          this.setState({_pickup: type, _dataRender: null});
+          this.setState({ _pickup: type, _dataRender: null });
         }
       }
     }
   };
 
   _onPressToggleAbsent = (data, valueToggle, onFailed) => {
-    let {_pickup, _classChoose} = this.state;
+    let { _pickup, _classChoose } = this.state;
     let allowShutter = this._allowShutterPersonInfo;
 
     if (_pickup === activeSteps.CHECK_IN) {
       if (!allowShutter) {
         this._checkIn(data.id, onFailed);
       } else if (valueToggle && allowShutter) {
-        this.props.navigation.navigate('PickUpDetailScreenTmp', {
+        this.props.navigation.navigate("PickUpDetailScreenTmp", {
           idAttendance: data.id,
           dataClass: _classChoose,
           pickupType: _pickup,
@@ -466,7 +477,7 @@ class AttendanceScreen extends React.Component {
       }
     } else if (_pickup === activeSteps.CHECK_OUT) {
       if (valueToggle) {
-        this.props.navigation.navigate('PickUpDetailScreenTmp', {
+        this.props.navigation.navigate("PickUpDetailScreenTmp", {
           idAttendance: data.id,
           dataClass: _classChoose,
           pickupType: _pickup,
@@ -477,11 +488,11 @@ class AttendanceScreen extends React.Component {
     }
   };
 
-  _onPressChooseClass = async classObj => {
+  _onPressChooseClass = async (classObj) => {
     if (classObj.id !== this.state._classChoose.id) {
-      let {_pickup, _isSendNoti, _isCurrDay, _isSendNotiCheckIn} = this.state;
+      let { _pickup, _isSendNoti, _isCurrDay, _isSendNotiCheckIn } = this.state;
       Helpers.setAsyStrClassChoosed(JSON.stringify(classObj));
-      this.setState({_dataRender: null, _classChoose: classObj});
+      this.setState({ _dataRender: null, _classChoose: classObj });
       if (
         _isCurrDay &&
         !_isSendNotiCheckIn &&
@@ -493,7 +504,7 @@ class AttendanceScreen extends React.Component {
   };
 
   _onBack = () => {
-    let {_isCurrDay, _pickup, _isSendNotiCheckIn} = this.state;
+    let { _isCurrDay, _pickup, _isSendNotiCheckIn } = this.state;
     if (_isCurrDay && !_isSendNotiCheckIn && _pickup === activeSteps.CHECK_IN) {
       let onPressBack = () => {
         this.props.navigation.goBack();
@@ -504,7 +515,7 @@ class AttendanceScreen extends React.Component {
     }
   };
 
-  _onPressSendNotification = async actionCancel => {
+  _onPressSendNotification = async (actionCancel) => {
     let _dateChoose = Object.keys(this.state._dataRender)[0];
     let params = {
       classId: this.state._classChoose.id,
@@ -513,11 +524,11 @@ class AttendanceScreen extends React.Component {
       type: KEY.TEACHER,
     };
     let res = await Services.Attendant.pushNotification(params);
-    if (res && res.message === 'ok') {
+    if (res && res.message === "ok") {
       if (this.state._pickup === activeSteps.CHECK_IN) {
-        this.setState({_isSendNotiCheckIn: true});
+        this.setState({ _isSendNotiCheckIn: true });
       } else if (this.state._pickup === activeSteps.CHECK_OUT) {
-        this.setState({_isSendNotiCheckOut: true});
+        this.setState({ _isSendNotiCheckOut: true });
       }
       Helpers.toast(LANG[this.props.language].sendNotiSuccess);
     } else {
@@ -546,7 +557,7 @@ class AttendanceScreen extends React.Component {
       <View style={styles.con}>
         {/* HEADER */}
         <HeaderBar
-          title={'txtHomeAttendance'}
+          title={"txtHomeAttendance"}
           hasBack
           onBack={this._onBack}
           hasCustomHeaderRight={true}
@@ -560,17 +571,17 @@ class AttendanceScreen extends React.Component {
           <CCalendar
             theme={{
               backgroundColor: COLOR.backgroundMain,
-              textMonthFontWeight: 'bold',
+              textMonthFontWeight: "bold",
               textDayFontFamily: DEVICE.fontRegular,
               textMonthFontFamily: DEVICE.fontBold,
               textDayHeaderFontFamily: DEVICE.fontMedium,
             }}
-            minDate={'2018-01-01'}
-            maxDate={moment().format('YYYY-MM-DD')}
-            monthFormat={'MMMM - yyyy'}
+            minDate={"2018-01-01"}
+            maxDate={moment().format("YYYY-MM-DD")}
+            monthFormat={"MMMM - yyyy"}
             items={_dataRender}
-            loadItemsForMonth={day => this._onDateChange(day)}
-            renderItem={item => (
+            loadItemsForMonth={(day) => this._onDateChange(day)}
+            renderItem={(item) => (
               <RenderListStudent
                 item={item}
                 isCurrDay={_isCurrDay}
@@ -587,13 +598,13 @@ class AttendanceScreen extends React.Component {
             renderKnobOpen={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'openCalendar'}
+                i18nKey={"openCalendar"}
               />
             )}
             renderKnobClose={() => (
               <CText
                 style={styles.txt_open_calendar}
-                i18nKey={'closeCalendar'}
+                i18nKey={"closeCalendar"}
               />
             )}
             renderFooterContent={() => this._renderFooter()}
@@ -624,18 +635,18 @@ class RenderListStudent extends React.Component {
   /** FUNCTIONS */
   _onValueChange = (data, valueToggle) => {
     this.props.onPressToggleAbsent(data, valueToggle, this._onCheckInFailed);
-    this.setState({_absent: valueToggle});
+    this.setState({ _absent: valueToggle });
   };
 
   _onCheckInFailed = () => {
-    this.setState({_absent: false});
+    this.setState({ _absent: false });
   };
 
   /** RENDER */
   render() {
-    let {item, isCurrDay} = this.props;
-    let {_absent, _avatar} = this.state;
-    let gender = CONFIG.students.find(f => f.id === item.student.gender);
+    let { item, isCurrDay } = this.props;
+    let { _absent, _avatar } = this.state;
+    let gender = CONFIG.students.find((f) => f.id === item.student.gender);
 
     if (gender) {
       gender = gender.path;
@@ -647,13 +658,14 @@ class RenderListStudent extends React.Component {
       <TouchableOpacity
         style={styles.rowItemClass}
         activeOpacity={isCurrDay ? 1 : 0}
-        onPress={!isCurrDay ? () => this.props.onHistory(item) : () => {}}>
+        onPress={!isCurrDay ? () => this.props.onHistory(item) : () => {}}
+      >
         <CImage
           style={styles.img_item}
-          resizeMode={'contain'}
+          resizeMode={"contain"}
           src={
-            _avatar != '' && _avatar != null
-              ? {uri: CONFIG.host + _avatar}
+            _avatar != "" && _avatar != null
+              ? { uri: CONFIG.host + _avatar }
               : gender
           }
         />
@@ -664,27 +676,39 @@ class RenderListStudent extends React.Component {
             <Switch
               disabled={_absent && !this._allowShutterPersonInfo}
               ios_backgroundColor={COLOR.backgroundColorNote}
-              thumbColor={'#ffffff'}
-              trackColor={{false: COLOR.borderColor, true: COLOR.primaryApp}}
+              thumbColor={"#ffffff"}
+              trackColor={{ false: COLOR.borderColor, true: COLOR.primaryApp }}
               value={_absent}
-              onValueChange={value => this._onValueChange(item, value)}
+              onValueChange={(value) => this._onValueChange(item, value)}
             />
           ) : (
             <View style={styles.con_history_btn_row}>
               <View style={[styles.con_history_btn, styles.mr_15]}>
-                <Icon
-                  name={item.isAttendance ? 'check-circle' : 'times-circle'}
+                {/* <Icon
+                  name={item.isAttendance ? "check-circle" : "times-circle"}
                   size={Helpers.fS(20)}
                   color={COLOR.cor_xam}
-                  type={item.isAttendance ? 'solid' : 'light'}
+                  type={item.isAttendance ? "solid" : "light"}
+                /> */}
+                <FontAwesome5
+                  name={item.isAttendance ? "check-circle" : "times-circle"}
+                  size={Helpers.fS(20)}
+                  color={COLOR.cor_xam}
+                  // type={item.isAttendance ? "solid" : "light"}
                 />
               </View>
               <View style={[styles.con_history_btn]}>
-                <Icon
-                  name={item.isPickUp ? 'check-circle' : 'times-circle'}
+                {/* <Icon
+                  name={item.isPickUp ? "check-circle" : "times-circle"}
                   size={Helpers.fS(20)}
                   color={COLOR.cor_xam}
-                  type={item.isPickUp ? 'solid' : 'light'}
+                  type={item.isPickUp ? "solid" : "light"}
+                /> */}
+                <FontAwesome5
+                  name={item.isPickUp ? "check-circle" : "times-circle"}
+                  size={Helpers.fS(20)}
+                  color={COLOR.cor_xam}
+                  // type={item.isPickUp ? "solid" : "light"}
                 />
               </View>
             </View>
@@ -695,7 +719,7 @@ class RenderListStudent extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     language: state.language.language,

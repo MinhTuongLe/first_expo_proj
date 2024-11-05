@@ -4,7 +4,7 @@
  * @Date create: 21/01/2019
  */
 /** LIBRARY */
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -15,45 +15,46 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+} from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /** COMMON **/
-import {COLOR, CONFIG, DEVICE} from '../../config';
-import Helpers from '../../helpers';
+import { COLOR, CONFIG, DEVICE } from "../../config";
+import Helpers from "../../helpers";
 /** COMPONENTS **/
-import HeaderBar from '../partials/header_bar';
-import CConfirm from '../../components/CConfirm';
-import CInput from '../../components/CInput/CInput';
-import CButton from '../../components/CButton';
-import CText from '../../components/CText';
+import HeaderBar from "../partials/header_bar";
+import CConfirm from "../../components/CConfirm";
+import CInput from "../../components/CInput/CInput";
+import CButton from "../../components/CButton";
+import CText from "../../components/CText";
 /** STYLES **/
-import styles from './style';
+import styles from "./style";
 
 class ViewProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatar: {uri: CONFIG.host + props.avatar},
+      avatar: { uri: CONFIG.host + props.avatar },
     };
   }
 
   /** FUNCTIONS */
   _onImageError = () => {
     let gender = CONFIG.users[0].path;
-    if (this.props.dataUser.hasOwnProperty('gender')) {
-      gender = CONFIG.users.find(f => f.id === this.props.dataUser.gender);
+    if (this.props.dataUser.hasOwnProperty("gender")) {
+      gender = CONFIG.users.find((f) => f.id === this.props.dataUser.gender);
       if (gender) {
         gender = gender.path;
       }
     }
-    this.setState({avatar: gender});
+    this.setState({ avatar: gender });
   };
 
   /** LIFE CYCLE */
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.avatar !== this.props.avatar) {
       this.setState({
-        avatar: {uri: CONFIG.host + this.props.avatar},
+        avatar: { uri: CONFIG.host + this.props.avatar },
       });
     }
   }
@@ -87,11 +88,11 @@ class ViewProfile extends React.Component {
       handlerChangePass,
       notificationActions,
     } = this.props;
-    let {avatar} = this.state;
+    let { avatar } = this.state;
     let newFullName = Helpers.capitalizeName(
       dataUser.firstName,
       dataUser.lastName,
-      CONFIG.settingLocal?.softName,
+      CONFIG.settingLocal?.softName
     );
 
     return (
@@ -100,7 +101,7 @@ class ViewProfile extends React.Component {
         <CConfirm
           receive={receiveImage}
           closeModal={closeModal}
-          type={showLogOut ? 'logout' : 'upload'}
+          type={showLogOut ? "logout" : "upload"}
           navigation={navigation}
           dataUser={dataUser}
           loginActions={loginActions}
@@ -110,7 +111,7 @@ class ViewProfile extends React.Component {
 
         {/* Header */}
         <HeaderBar
-          title={'txtProfileTitle'}
+          title={"txtProfileTitle"}
           hasBack
           hasCustomHeaderRight={false}
           onBack={onPressBack}
@@ -128,35 +129,36 @@ class ViewProfile extends React.Component {
                 <View style={styles.avatarBox_left}>
                   <TouchableOpacity
                     style={styles.container_avatar}
-                    onPress={changeAvatar}>
+                    onPress={changeAvatar}
+                  >
                     <Image
                       style={styles.image_avatar}
-                      resizeMode={'cover'}
+                      resizeMode={"cover"}
                       source={avatar}
                       onError={this._onImageError}
                     />
                     <View style={styles.container_icon_edit}>
-                      <Icon
-                        name={'camera'}
+                      <FontAwesome5
+                        name="camera"
                         size={12}
-                        color={'#ffffff'}
-                        type={'solid'}
+                        color={"#ffffff"}
+                        solid
                       />
                     </View>
                   </TouchableOpacity>
                   <Text style={styles.text_name_account}>
-                    {dataUser ? newFullName : '' + ''}
+                    {dataUser ? newFullName : "" + ""}
                   </Text>
                 </View>
 
                 {/* Logout button */}
                 <TouchableOpacity activeOpacity={0.5} onPress={handlerLogout}>
                   <View style={styles.con_btn_logout}>
-                    <Icon
-                      name={'sign-out'}
+                    <FontAwesome5
+                      name="sign-out-alt"
                       size={Helpers.fS(28)}
                       color={COLOR.primaryButton}
-                      type={'solid'}
+                      solid
                     />
                   </View>
                 </TouchableOpacity>
@@ -168,40 +170,43 @@ class ViewProfile extends React.Component {
                   backgroundColor: COLOR.backgroundSec,
                   marginHorizontal: 10,
                   borderRadius: 10,
-                }}>
+                }}
+              >
                 <View style={styles.tabContent}>
                   <TouchableOpacity
                     style={[
                       styles.tabItem,
-                      isActive === 'info' && {
+                      isActive === "info" && {
                         backgroundColor: COLOR.primaryApp,
                       },
                     ]}
-                    onPress={() => onPressItemTab('info')}>
+                    onPress={() => onPressItemTab("info")}
+                  >
                     <CText
                       style={[
                         styles.txtTabItem,
-                        isActive === 'info' && {color: '#ffffff'},
+                        isActive === "info" && { color: "#ffffff" },
                       ]}
-                      i18nKey={'txtMyInfoTitle'}
+                      i18nKey={"txtMyInfoTitle"}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
                       styles.tabItem,
-                      isActive === 'changePassword' && {
+                      isActive === "changePassword" && {
                         backgroundColor: COLOR.primaryApp,
                       },
                     ]}
-                    onPress={() => onPressItemTab('changePassword')}>
+                    onPress={() => onPressItemTab("changePassword")}
+                  >
                     <CText
                       style={[
                         styles.txtTabItem,
-                        isActive === 'changePassword' && {
-                          color: '#ffffff',
+                        isActive === "changePassword" && {
+                          color: "#ffffff",
                         },
                       ]}
-                      i18nKey={'txtChangePassTitle'}
+                      i18nKey={"txtChangePassTitle"}
                     />
                   </TouchableOpacity>
                 </View>
@@ -209,13 +214,14 @@ class ViewProfile extends React.Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <KeyboardAvoidingView style={styles.con_content} behavior={'padding'}>
+          <KeyboardAvoidingView style={styles.con_content} behavior={"padding"}>
             <ScrollView
               style={styles.con_content}
-              contentContainerStyle={{alignContent: 'space-between'}}
-              keyboardShouldPersistTaps={'handled'}>
+              contentContainerStyle={{ alignContent: "space-between" }}
+              keyboardShouldPersistTaps={"handled"}
+            >
               <View>
-                {isActive === 'info' && (
+                {isActive === "info" && (
                   <View style={styles.container_content_info}>
                     {/* <View style={styles.container_content_item}>
                       <View style={styles.container_info_item_1}>
@@ -252,11 +258,10 @@ class ViewProfile extends React.Component {
                       return (
                         <View key={index} style={styles.container_content_item}>
                           <View style={styles.container_info_item_1}>
-                            <Icon
+                            <FontAwesome5
                               name={item.length > 0 ? item[0].icon : item.icon}
                               size={Helpers.fS(23)}
                               color={COLOR.text_2}
-                              type={'regular'}
                             />
                           </View>
 
@@ -330,16 +335,15 @@ class ViewProfile extends React.Component {
 
                     {error && (
                       <View style={styles.container_info_item_note}>
-                        <Icon
-                          name={'times-circle'}
-                          color={COLOR.primaryTextNote}
+                        <FontAwesome5
+                          name={"times-circle"}
                           size={20}
-                          type={'light'}
+                          color={COLOR.primaryTextNote}
                         />
                         <CText
                           style={[
                             styles.message_group_label,
-                            {color: COLOR.txtError},
+                            { color: COLOR.txtError },
                           ]}
                           i18nKey={errorText}
                         />
@@ -348,16 +352,15 @@ class ViewProfile extends React.Component {
 
                     {success && (
                       <View style={styles.container_info_item_note}>
-                        <Icon
-                          name={'check-circle'}
-                          color={COLOR.primaryApp}
+                        <FontAwesome5
+                          name={"check-circle"}
                           size={20}
-                          type={'light'}
+                          color={COLOR.primaryApp}
                         />
                         <CText
                           style={[
                             styles.message_group_label,
-                            {color: COLOR.primaryApp},
+                            { color: COLOR.primaryApp },
                           ]}
                           i18nKey={successText}
                         />
@@ -366,7 +369,7 @@ class ViewProfile extends React.Component {
                   </View>
                 )}
 
-                {isActive === 'changePassword' && (
+                {isActive === "changePassword" && (
                   <View style={styles.container_content_info}>
                     {infoPassword.map((item, index) => {
                       return (
@@ -375,7 +378,7 @@ class ViewProfile extends React.Component {
                             ref={item.ref}
                             style={[
                               styles.input_group_text,
-                              item.invalid ? {color: COLOR.txtError} : {},
+                              item.invalid ? { color: COLOR.txtError } : {},
                             ]}
                             placeholder={item.placeholder}
                             placeholderTextColor={COLOR.placeholderTextColor}
@@ -395,16 +398,15 @@ class ViewProfile extends React.Component {
                     <View>
                       {error && (
                         <View style={styles.container_info_item_note}>
-                          <Icon
-                            name={'times-circle'}
-                            color={COLOR.primaryTextNote}
+                          <FontAwesome5
+                            name={"times-circle"}
                             size={20}
-                            type={'light'}
+                            color={COLOR.primaryTextNote}
                           />
                           <CText
                             style={[
                               styles.message_group_label,
-                              {color: COLOR.txtError},
+                              { color: COLOR.txtError },
                             ]}
                             i18nKey={errorText}
                           />
@@ -412,16 +414,15 @@ class ViewProfile extends React.Component {
                       )}
                       {success && (
                         <View style={styles.container_info_item_note}>
-                          <Icon
-                            name={'check-circle'}
-                            color={COLOR.primaryApp}
+                          <FontAwesome5
+                            name={"check-circle"}
                             size={20}
-                            type={'light'}
+                            color={COLOR.primaryTextNote}
                           />
                           <CText
                             style={[
                               styles.message_group_label,
-                              {color: COLOR.primaryApp},
+                              { color: COLOR.primaryApp },
                             ]}
                             i18nKey={successText}
                           />
@@ -436,14 +437,16 @@ class ViewProfile extends React.Component {
             <View
               style={[
                 styles.ph_10,
-                Helpers.isIphoneX() && {paddingBottom: 20},
-              ]}>
+                Helpers.isIphoneX() && { paddingBottom: 20 },
+              ]}
+            >
               <CButton
                 style={styles.submit_group_submit}
                 onPress={
-                  isActive === 'info' ? handlerChangeInfo : handlerChangePass
-                }>
-                <CText i18nKey={'txtAppect'} />
+                  isActive === "info" ? handlerChangeInfo : handlerChangePass
+                }
+              >
+                <CText i18nKey={"txtAppect"} />
               </CButton>
             </View>
           </KeyboardAvoidingView>
@@ -454,12 +457,12 @@ class ViewProfile extends React.Component {
 }
 
 ViewProfile.defaultProps = {
-  isActive: 'info',
+  isActive: "info",
   isAllowNotification: false,
   error: false,
-  errorText: '',
+  errorText: "",
   success: false,
-  successText: '',
+  successText: "",
   showUploadImage: false,
   showLogOut: false,
   navigation: {},

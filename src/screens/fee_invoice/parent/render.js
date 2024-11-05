@@ -5,43 +5,50 @@
  ** FileDescription:
  **/
 /* LIBRARY */
-import React from 'react';
-import {View, TouchableOpacity, Text, FlatList} from 'react-native';
-import Icon from 'react-native-fontawesome-pro';
+import React from "react";
+import { View, TouchableOpacity, Text, FlatList } from "react-native";
+// import Icon from "react-native-fontawesome-pro";
+import { FontAwesome5 } from "@expo/vector-icons";
 /* COMPONENTS */
-import HeaderBar from '../../partials/header_bar';
-import CImage from '../../../components/CImage';
-import CText from '../../../components/CText';
-import CLoading from '../../../components/CLoading';
+import HeaderBar from "../../partials/header_bar";
+import CImage from "../../../components/CImage";
+import CText from "../../../components/CText";
+import CLoading from "../../../components/CLoading";
 /** COMMON */
-import Helpers from '../../../helpers';
-import {CONFIG, COLOR, DEVICE, ASSETS, LANG} from '../../../config';
+import Helpers from "../../../helpers";
+import { CONFIG, COLOR, DEVICE, ASSETS, LANG } from "../../../config";
 /** STYLES */
-import styles from './styles';
-import {customFormatMoney} from '../../../utils/formatPrice';
-import moment from 'moment';
+import styles from "./styles";
+import { customFormatMoney } from "../../../utils/formatPrice";
+import moment from "moment";
 
 const ViewListEmpty = () => {
   return (
-    <View style={[DEVICE.gStyle.full_center, {paddingBottom: 10}]}>
-      <Icon
-        name={'file-invoice-dollar'}
+    <View style={[DEVICE.gStyle.full_center, { paddingBottom: 10 }]}>
+      {/* <Icon
+        name={"file-invoice-dollar"}
         size={Helpers.fS(50)}
         color={COLOR.placeholderTextColor}
-        type={'light'}
+        type={"light"}
+      /> */}
+      <FontAwesome5
+        name={"file-invoice-dollar"}
+        size={Helpers.fS(50)}
+        color={COLOR.placeholderTextColor}
       />
-      <CText style={styles.txt_empty_student} i18nKey={'txtEmptyFeeInvoice'} />
+      <CText style={styles.txt_empty_student} i18nKey={"txtEmptyFeeInvoice"} />
     </View>
   );
 };
 
-const ViewHeaderList = state => {
+const ViewHeaderList = (state) => {
   return (
     <View
       style={{
         backgroundColor: COLOR.backgroundSec,
         padding: 10,
-      }}>
+      }}
+    >
       <Text style={styles.txt_title_item}>
         {LANG[CONFIG.lang].txtListOfFeeInvoice}
       </Text>
@@ -112,28 +119,28 @@ export const ViewFeeInvoiceList = ({
   // };
 
   const renderItem = (item, index, length) => {
-    const checkStatus = status => {
-      let i18nKey = 'unpaid';
+    const checkStatus = (status) => {
+      let i18nKey = "unpaid";
       let bgColorStatus = COLOR.primaryTextNote;
       switch (status) {
         case CONFIG.FEE_INVOICE.PAID:
-          i18nKey = 'paid';
+          i18nKey = "paid";
           bgColorStatus = COLOR.chartStandard;
           break;
         case CONFIG.FEE_INVOICE.PENDING:
-          i18nKey = 'pending';
+          i18nKey = "pending";
           bgColorStatus = COLOR.inactiveTintColor;
           break;
         case CONFIG.FEE_INVOICE.INVOICE_DRAFT:
-          i18nKey = 'invoceDraft';
+          i18nKey = "invoceDraft";
           bgColorStatus = COLOR.placeholderTextColor;
           break;
         case CONFIG.FEE_INVOICE.IN_PROCESS:
-          i18nKey = 'inProcess';
+          i18nKey = "inProcess";
           bgColorStatus = COLOR.primaryButton;
           break;
         default:
-          i18nKey = 'unpaid';
+          i18nKey = "unpaid";
           bgColorStatus = COLOR.primaryTextNote;
       }
 
@@ -143,9 +150,10 @@ export const ViewFeeInvoiceList = ({
             styles.con_status,
             {
               backgroundColor: bgColorStatus,
-              paddingVertical: i18nKey === 'unpaid' ? 2 : 3,
+              paddingVertical: i18nKey === "unpaid" ? 2 : 3,
             },
-          ]}>
+          ]}
+        >
           <CText style={styles.txt_status} i18nKey={i18nKey} />
         </View>
       );
@@ -157,45 +165,48 @@ export const ViewFeeInvoiceList = ({
           style={{
             marginHorizontal: 10,
             marginTop: index > 0 ? 10 : 0,
-          }}>
-          <View style={{flexDirection: 'row'}}>
+          }}
+        >
+          <View style={{ flexDirection: "row" }}>
             <CImage
               style={{
                 height: 50,
                 width: 50,
               }}
               src={ASSETS.icCoin}
-              resizeMode={'cover'}
+              resizeMode={"cover"}
             />
             <View
               style={{
                 marginLeft: 10,
                 flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
                 borderBottomColor: COLOR.borderColorSec,
                 borderBottomWidth: index < length - 1 ? 1 : 0,
                 paddingBottom: 10,
-              }}>
-              <View style={{gap: 6}}>
+              }}
+            >
+              <View style={{ gap: 6 }}>
                 <Text style={styles.txt_content_item}>{item.title}</Text>
                 <Text style={styles.txt_content_item}>
-                  {LANG[CONFIG.lang].txtDeadline}:{' '}
-                  {moment(item.deadline, 'YYYY-MM-DD').format('DD/MM')}
+                  {LANG[CONFIG.lang].txtDeadline}:{" "}
+                  {moment(item.deadline, "YYYY-MM-DD").format("DD/MM")}
                 </Text>
               </View>
-              <View style={{gap: 6}}>
+              <View style={{ gap: 6 }}>
                 <Text
                   style={[
                     styles.txt_content_item,
                     {
-                      fontWeight: 'bold',
-                      alignSelf: 'flex-end',
+                      fontWeight: "bold",
+                      alignSelf: "flex-end",
                     },
                   ]}
                   ellipsizeMode="tail"
-                  numberOfLines={1}>
+                  numberOfLines={1}
+                >
                   {customFormatMoney(item.totalAmount || 0)}
                 </Text>
                 {checkStatus(item.status)}
@@ -211,7 +222,7 @@ export const ViewFeeInvoiceList = ({
     <View style={styles.con}>
       {/* HEADER */}
       <HeaderBar
-        title={'txtHomeFeeInvoice'}
+        title={"txtHomeFeeInvoice"}
         hasBack
         titleCenter={false}
         onBack={onPressBack}
@@ -226,22 +237,25 @@ export const ViewFeeInvoiceList = ({
             backgroundColor: COLOR.backgroundSec,
             borderRadius: 10,
           },
-        ]}>
+        ]}
+      >
         <Text style={styles.txt_title_item}>
           {LANG[CONFIG.lang].txtTotalPayment}
         </Text>
-        <View style={{flexDirection: 'row', marginTop: 10}}>
+        <View style={{ flexDirection: "row", marginTop: 10 }}>
           <View
             style={{
               flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
               gap: 2,
-            }}>
+            }}
+          >
             <Text
-              style={[styles.txt_price_item, {fontWeight: 'bold'}]}
+              style={[styles.txt_price_item, { fontWeight: "bold" }]}
               ellipsizeMode="tail"
-              numberOfLines={1}>
+              numberOfLines={1}
+            >
               {customFormatMoney(state?._amountFeeInvoice?.totalPaid || 0)}
             </Text>
             <Text style={styles.txt_content_item}>
@@ -251,14 +265,16 @@ export const ViewFeeInvoiceList = ({
           <View
             style={{
               flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
               gap: 2,
-            }}>
+            }}
+          >
             <Text
-              style={[styles.txt_price_item, {fontWeight: 'bold'}]}
+              style={[styles.txt_price_item, { fontWeight: "bold" }]}
               ellipsizeMode="tail"
-              numberOfLines={1}>
+              numberOfLines={1}
+            >
               {customFormatMoney(state?._amountFeeInvoice?.totalUnpaid || 0)}
             </Text>
             <Text style={styles.txt_content_item}>
@@ -276,12 +292,13 @@ export const ViewFeeInvoiceList = ({
             backgroundColor: COLOR.backgroundSec,
             marginTop: 0,
             borderRadius: 10,
-            overflow: 'hidden',
-          }}>
+            overflow: "hidden",
+          }}
+        >
           <FlatList
-            contentContainerStyle={{flexGrow: 1}}
+            contentContainerStyle={{ flexGrow: 1 }}
             data={state._dataFeeInvoice}
-            renderItem={({item, index}) =>
+            renderItem={({ item, index }) =>
               renderItem(item, index, state._dataFeeInvoice?.length)
             }
             onRefresh={onFunction.onRefresh}
@@ -291,7 +308,7 @@ export const ViewFeeInvoiceList = ({
             ListHeaderComponent={ViewHeaderList(state, onFunction)}
             ListEmptyComponent={ViewListEmpty}
             stickyHeaderIndices={[0]}
-            scrollIndicatorInsets={{right: 1}}
+            scrollIndicatorInsets={{ right: 1 }}
           />
         </View>
       )}
