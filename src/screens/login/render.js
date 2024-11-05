@@ -155,7 +155,6 @@ class ViewLogin extends React.PureComponent {
                         name="user-alt"
                         size={Helpers.fS(23)}
                         color={COLOR.txtColor}
-                        solid
                       />
                       <CInput
                         ref={"email"}

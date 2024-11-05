@@ -273,12 +273,6 @@ class AttendanceScreen extends React.Component {
           { marginTop: (DEVICE.width * 1) / 3 },
         ]}
       >
-        {/* <Icon
-          name={"search"}
-          size={Helpers.fS(50)}
-          color={COLOR.placeholderTextColor}
-          type={"light"}
-        /> */}
         <FontAwesome5
           name={"search"}
           size={Helpers.fS(50)}
@@ -684,31 +678,19 @@ class RenderListStudent extends React.Component {
           ) : (
             <View style={styles.con_history_btn_row}>
               <View style={[styles.con_history_btn, styles.mr_15]}>
-                {/* <Icon
-                  name={item.isAttendance ? "check-circle" : "times-circle"}
-                  size={Helpers.fS(20)}
-                  color={COLOR.cor_xam}
-                  type={item.isAttendance ? "solid" : "light"}
-                /> */}
                 <FontAwesome5
                   name={item.isAttendance ? "check-circle" : "times-circle"}
                   size={Helpers.fS(20)}
                   color={COLOR.cor_xam}
-                  // type={item.isAttendance ? "solid" : "light"}
+                  solid={item.isAttendance}
                 />
               </View>
               <View style={[styles.con_history_btn]}>
-                {/* <Icon
-                  name={item.isPickUp ? "check-circle" : "times-circle"}
-                  size={Helpers.fS(20)}
-                  color={COLOR.cor_xam}
-                  type={item.isPickUp ? "solid" : "light"}
-                /> */}
                 <FontAwesome5
                   name={item.isPickUp ? "check-circle" : "times-circle"}
                   size={Helpers.fS(20)}
                   color={COLOR.cor_xam}
-                  // type={item.isPickUp ? "solid" : "light"}
+                  solid={item.isPickUp}
                 />
               </View>
             </View>

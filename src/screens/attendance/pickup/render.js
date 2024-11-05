@@ -42,12 +42,6 @@ import styles from "./style";
 const ViewEmptyList = () => {
   return (
     <View style={DEVICE.gStyle.full_center}>
-      {/* <Icon
-        name={"search"}
-        size={Helpers.fS(50)}
-        color={COLOR.placeholderTextColor}
-        type={"light"}
-      /> */}
       <FontAwesome5
         name={"search"}
         size={Helpers.fS(50)}
@@ -252,21 +246,6 @@ export class ViewParentItem extends React.Component {
                 <Text style={styles.txtNamePickup}>{family}</Text>
               )}
             </View>
-            {/* {parentId === item.id ? (
-              <Icon
-                name={"check-circle"}
-                color={COLOR.txtColor}
-                size={25}
-                type={"light"}
-              />
-            ) : (
-              <Icon
-                name={"circle"}
-                color={COLOR.borderColor}
-                size={25}
-                type={"light"}
-              />
-            )} */}
             {parentId === item.id ? (
               <FontAwesome5
                 name={"check-circle"}

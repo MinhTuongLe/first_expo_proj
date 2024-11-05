@@ -194,7 +194,7 @@ class ContactListScreen extends React.Component {
                 }
               >
                 <FontAwesome5
-                  name={"comment-lines"}
+                  name={"comment"}
                   size={Helpers.fS(20)}
                   color={COLOR.primaryApp}
                 />
@@ -266,7 +266,7 @@ class ContactListScreen extends React.Component {
                 }
               >
                 <FontAwesome5
-                  name={"comment-lines"}
+                  name={"comment"}
                   size={Helpers.fS(20)}
                   color={COLOR.primaryApp}
                 />
@@ -281,13 +281,6 @@ class ContactListScreen extends React.Component {
   _renderEmptyList = () => {
     return (
       <View style={{ marginTop: 100, alignItems: "center" }}>
-        {/* <Icon
-          containerStyle={{ marginTop: 10 }}
-          name={"search"}
-          size={50}
-          color={COLOR.placeholderTextColor}
-          type={"solid"}
-        /> */}
         <FontAwesome5
           containerStyle={{ marginTop: 10 }}
           name={"search"}

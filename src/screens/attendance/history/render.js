@@ -26,12 +26,6 @@ import styles from "./style";
 const ViewNoData = () => {
   return (
     <View style={[styles.con_not_info, { marginTop: (DEVICE.width * 1) / 3 }]}>
-      {/* <Icon
-        name={"search"}
-        size={Helpers.fS(50)}
-        color={COLOR.placeholderTextColor}
-        type={"light"}
-      /> */}
       <FontAwesome5
         name={"search"}
         size={Helpers.fS(50)}
@@ -768,14 +762,8 @@ export const ViewHistoryAttendance = ({
               {attendance.activeStep === activeSteps.CHECK_OUT &&
                 attendance.checkOut !== "" && (
                   <View style={[DEVICE.gStyle.center, styles.con_pick_up_kid]}>
-                    {/* <Icon
-                      name="home-lg"
-                      color={COLOR.primaryButton}
-                      size={Helpers.fS(28)}
-                      type={"solid"}
-                    /> */}
                     <FontAwesome5
-                      name="home-lg"
+                      name="home"
                       color={COLOR.primaryButton}
                       size={Helpers.fS(28)}
                       solid
