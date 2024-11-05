@@ -3,13 +3,13 @@
  * Created by dang.le from 04/09/2018
  */
 /** LIBRARY */
-import {filter, mergeMap} from 'rxjs/operators';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { filter, mergeMap } from "rxjs/operators";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 /** COMMON */
-import Services from '../../services';
-import {CONFIG, KEY} from '../../config';
-import Errors from '../../config/errors';
-import * as actionTypes from '../actions/types';
+import Services from "../../services";
+import { CONFIG, KEY } from "../../config";
+import Errors from "../../config/errors";
+import * as actionTypes from "../actions/types";
 
 /**
  *
@@ -17,10 +17,10 @@ import * as actionTypes from '../actions/types';
  *
  * LOGIN REDUX
  */
-export const loginEpic = action$ =>
+export const loginEpic = (action$) =>
   action$.pipe(
-    filter(action => action.type === actionTypes.FETCH_USER_INFO),
-    mergeMap(async obj => {
+    filter((action) => action.type === actionTypes.FETCH_USER_INFO),
+    mergeMap(async (obj) => {
       let params = {
         username: obj.payload.emailAddress,
         password: obj.payload.password,
@@ -31,6 +31,7 @@ export const loginEpic = action$ =>
       };
 
       let resp = await Services.Login.fetchUserInfo(params);
+      console.log("resp: ", resp);
 
       if (resp) {
         if (resp.code === Errors.USER_ERR_NOT_FOUND.code) {
@@ -39,7 +40,7 @@ export const loginEpic = action$ =>
           return loginFailed(Errors.USER_ERR_PASSWORD_WRONG.message);
         } else if (resp.code === Errors.AUTH_ERR_ACCOUNT_NOTREADY.code) {
           if (obj.payload.type === KEY.DRIVER)
-            return loginFailed('authErrDriverNotReady');
+            return loginFailed("authErrDriverNotReady");
           else return loginFailed(Errors.AUTH_ERR_ACCOUNT_NOTREADY.message);
         } else if (resp.code === Errors.USER_ERR_USER_INPUT_REQUIRED.code) {
           return loginFailed(Errors.AUTH_ERR_PARENT_NOTREADY.message);
@@ -48,7 +49,7 @@ export const loginEpic = action$ =>
         } else {
           /* The first, setting user will get notification */
           if (resp.data.userType) {
-            let find = CONFIG.userType.find(f => f.id === resp.data.userType);
+            let find = CONFIG.userType.find((f) => f.id === resp.data.userType);
             if (find.name !== obj.payload.type) {
               return loginFailed(Errors.USER_ERR_NOT_FOUND.message);
             }
@@ -64,30 +65,30 @@ export const loginEpic = action$ =>
           };
 
           /* Save user info */
-          await AsyncStorage.setItem('userInfo', JSON.stringify(resp.data));
+          await AsyncStorage.setItem("userInfo", JSON.stringify(resp.data));
           await AsyncStorage.setItem(
-            'reLoginWith',
-            JSON.stringify(reLoginWith),
+            "reLoginWith",
+            JSON.stringify(reLoginWith)
           );
-          await AsyncStorage.setItem('JWT', JSON.stringify(resp.token));
+          await AsyncStorage.setItem("JWT", JSON.stringify(resp.token));
 
           /** Done prepare */
           return loginSuccess(resp.data);
         }
       } else {
-        return loginFailed('serverError');
+        return loginFailed("serverError");
       }
-    }),
+    })
   );
 
-const loginFailed = param => {
+const loginFailed = (param) => {
   return {
     type: actionTypes.FETCH_USER_FAILED,
     message: param,
   };
 };
 
-const loginSuccess = param => {
+const loginSuccess = (param) => {
   return {
     type: actionTypes.FETCH_USER_SUCCESS,
     data: param,
@@ -99,13 +100,13 @@ const loginSuccess = param => {
  *
  * CHANGE INFO REDUX
  */
-export const changeInfoEpic = action$ =>
+export const changeInfoEpic = (action$) =>
   action$.pipe(
-    filter(action => action.type === actionTypes.FETCH_CHANGE_INFO),
-    mergeMap(async obj => {
+    filter((action) => action.type === actionTypes.FETCH_CHANGE_INFO),
+    mergeMap(async (obj) => {
       let params = null;
       // console.log('obj', obj);
-      if (obj.payload.typeChange === 'password') {
+      if (obj.payload.typeChange === "password") {
         params = {
           emailAddress: obj.payload.email,
           passwordNow: obj.payload.passwordNow,
@@ -118,17 +119,17 @@ export const changeInfoEpic = action$ =>
         if (resp) {
           if (resp.code === Errors.CHANGE_PASS_ERR_CURRENT_PASS_WRONG.code) {
             return changeFailed(
-              Errors.CHANGE_PASS_ERR_CURRENT_PASS_WRONG.message,
+              Errors.CHANGE_PASS_ERR_CURRENT_PASS_WRONG.message
             );
           } else {
-            let user = await AsyncStorage.getItem('userInfo');
+            let user = await AsyncStorage.getItem("userInfo");
             let userJSON = JSON.parse(user);
             return changeSuccess(userJSON);
           }
         } else {
-          return changeFailed('serverError');
+          return changeFailed("serverError");
         }
-      } else if (obj.payload.typeChange === 'info') {
+      } else if (obj.payload.typeChange === "info") {
         let params;
         if (obj.payload.userType == KEY.PARENT) {
           params = {
@@ -171,13 +172,13 @@ export const changeInfoEpic = action$ =>
           ) {
             return changeFailed(Errors.PARENT_ERR_PHONE_PARENT_EXISTED.message);
           } else {
-            await AsyncStorage.setItem('userInfo', JSON.stringify(resp.data));
+            await AsyncStorage.setItem("userInfo", JSON.stringify(resp.data));
             return changeSuccess(resp.data);
           }
         } else {
-          return changeFailed('serverError');
+          return changeFailed("serverError");
         }
-      } else if (obj.payload.typeChange === 'Avatar') {
+      } else if (obj.payload.typeChange === "Avatar") {
         params = {
           typeChange: obj.payload.typeChange,
           id: obj.payload.idUser,
@@ -192,15 +193,15 @@ export const changeInfoEpic = action$ =>
         }
         if (resp) {
           let data = resp.user;
-          await AsyncStorage.setItem('userInfo', JSON.stringify(data));
+          await AsyncStorage.setItem("userInfo", JSON.stringify(data));
           return changeSuccess(data);
         } else {
-          return changeFailed('serverError');
+          return changeFailed("serverError");
         }
-      } else if (obj.payload.typeChange === 'infoStudent') {
+      } else if (obj.payload.typeChange === "infoStudent") {
         let dataLogin = obj.payload.dataLogin;
         return changeSuccess(dataLogin);
-      } else if (obj.payload.typeChange === 'AvatarStudent') {
+      } else if (obj.payload.typeChange === "AvatarStudent") {
         params = {
           typeChange: obj.payload.typeChange,
           id: obj.payload.idStudent,
@@ -211,26 +212,26 @@ export const changeInfoEpic = action$ =>
         if (resp) {
           let data = resp.student;
           let dataParent = obj.payload.dataParent;
-          let find = dataParent.students.findIndex(f => f.id === data.id);
+          let find = dataParent.students.findIndex((f) => f.id === data.id);
           if (find != -1) dataParent.students[find] = data;
 
-          await AsyncStorage.setItem('userInfo', JSON.stringify(dataParent));
+          await AsyncStorage.setItem("userInfo", JSON.stringify(dataParent));
           return changeSuccess(dataParent);
         } else {
-          return changeFailed('serverError');
+          return changeFailed("serverError");
         }
       }
-    }),
+    })
   );
 
-const changeFailed = param => {
+const changeFailed = (param) => {
   return {
     type: actionTypes.FETCH_CHANGE_FAILED,
     message: param,
   };
 };
 
-const changeSuccess = param => {
+const changeSuccess = (param) => {
   return {
     type: actionTypes.FETCH_CHANGE_SUCCESS,
     data: param,
